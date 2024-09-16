@@ -1,0 +1,64 @@
+#!/bin/bash
+
+if [ -z "$1" ]; then
+	echo "Usage: $0 DIR" >&2
+	exit 1
+fi
+
+LNX=$(pwd)
+dir=$LNX/$1
+bak_dir=$dir/bak
+
+if [ ! -d "$dir" ]; then
+	echo "$dir" is not a directory.
+	exit 1
+fi
+
+
+cal_fileset() {
+	src_dir=$1
+	set_file=$2
+	suffix=$3
+	tmpfile=${set_file}.tmp
+	echo '' >$tmpfile
+	echo '' >$set_file
+	files=$(find $src_dir -maxdepth 1 -name "*$suffix")
+	for file in $files;
+	do
+		len="${#file}"
+		newfile="${file:0:${len}-2}"
+		echo "$newfile" >>$tmpfile
+	done
+	sort $tmpfile > $set_file
+	rm -f $tmpfile
+}
+
+mv_to_bak() {
+	set1=$1
+	set2=$2
+	suffix=$3
+	files=$(comm -13 $set1 $set2)
+	for file in $files;
+	do
+		mv ${file}${suffix} $bak_dir
+	done
+}
+
+
+cfile_set="/tmp/aSet"
+ofile_set="/tmp/bSet"
+hfile_set="/tmp/cSet"
+Sfile_set="/tmp/dSet"
+
+cal_fileset $dir $cfile_set ".c"
+cal_fileset $dir $ofile_set ".o"
+cal_fileset $dir $hfile_set ".h"
+cal_fileset $dir $Sfile_set ".S"
+
+mkdir -p $bak_dir
+mv_to_bak $ofile_set $cfile_set ".c"
+#TODO mv_to_bak $ofile_set $hfile_set ".h"
+mv_to_bak $ofile_set $Sfile_set ".S"
+
+
+

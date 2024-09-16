@@ -1,0 +1,20 @@
+#!/bin/bash
+
+files=$(find . -name "*.c")
+#files=("./net/netfilter/nf_log.c")
+
+dest=/tmp/ddd
+rm -f $dest
+
+#set -x
+for file in $files;
+do
+	obj="${file%.c}.o"
+	efile="${file%.c}"
+	if [[ ! -e "$obj" && ! -e "$efile" ]]; then
+		echo $file
+		#echo $(dirname $file) >> $dest
+	fi
+done
+
+#cat $dest | sort | uniq

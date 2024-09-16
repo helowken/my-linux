@@ -1,0 +1,66 @@
+#!/bin/bash
+
+LNX=$(pwd)
+DIR=$LNX/../cscope
+
+files=cscope.files
+
+set -x
+echo "Finding relevant source files..."
+rm -rf $DIR
+mkdir -p $DIR
+cd $DIR
+find $LNX                                                                \
+    -path "$LNX/arch/*" ! -path "$LNX/arch/x86*" -prune -o               \
+    -path "$LNX/include/asm-*" ! -path "$LNX/include/asm-generic*"       \
+                               ! -path "$LNX/include/asm-x86*" -prune -o \
+    -path "$LNX/include/xen/*" -prune -o       \
+    -path "$LNX/include/sound/*" -prune -o       \
+    -path "$LNX/include/net/*" -prune -o       \
+    -path "$LNX/include/media/*" -prune -o       \
+    -path "$LNX/fs/*" ! -path "$LNX/fs/ext*"	 \
+					  ! -path "$LNX/fs/sysfs*"	 \
+					  ! -path "$LNX/fs/ramfs*"	 \
+					  ! -path "$LNX/fs/debugfs*"	 \
+					  ! -path "$LNX/fs/notify*"	 \
+					  ! -path "$LNX/fs/autofs*"	 \
+					  ! -path "$LNX/fs/fuse*"	 \
+					  ! -path "$LNX/fs/partition*"	 \
+					  ! -path "$LNX/fs/proc*" -prune -o		\
+    -path "$LNX/firmware/*" -prune -o       \
+    -path "$LNX/net/*" ! -path "$LNX/net/core*"        \
+					   ! -path "$LNX/net/netlink*" -prune -o       \
+    -path "$LNX/samples/*" -prune -o       \
+    -path "$LNX/sound/*" -prune -o       \
+    -path "$LNX/security/*" ! -path "$LNX/security/keys*" -prune -o       \
+    -path "$LNX/tools/*" -prune -o       \
+    -path "$LNX/usr/*" -prune -o       \
+    -path "$LNX/drivers/*" ! -path "$LNX/drivers/firmware*" \
+	                       ! -path "$LNX/drivers/video*" \
+	                       ! -path "$LNX/drivers/pci*" \
+	                       ! -path "$LNX/drivers/base*" \
+	                       ! -path "$LNX/drivers/char*" \
+	                       ! -path "$LNX/drivers/clocksource*" \
+	                       ! -path "$LNX/drivers/gpio*" \
+	                       ! -path "$LNX/drivers/acpi*" -prune -o    \
+    -path "$LNX/tmp*" -prune -o                                          \
+    -path "$LNX/Documentation*" -prune -o                                \
+    -path "$LNX/scripts*" -prune -o                                      \
+    -path "$LNX/**/bak/*" -prune -o                                      \
+    -name "*.[chxsS]" -print > $files
+
+find $LNX/fs -maxdepth 1 -name "*.[chxsS]" -print >> $files
+find $LNX/net -maxdepth 1 -name "*.[chxsS]" -print >> $files
+find $LNX/security -maxdepth 1 -name "*.[chxsS]" -print >> $files
+
+
+echo "Building cscope database..."
+time cscope -q -k -b -i cscope.files
+
+
+
+ctags -I __THROW -I __THROWNL -I __attribute_pure__ -I __nonnull -I __attribute__ -I __wur -I __weak_alias --file-scope=yes --langmap=c:+.h,Asm:+.asm --languages=c,c++,Asm --links=yes --c-kinds=+p --c++-kinds=+p --fields=+iaS --extra=+q -R --recurse=no -f linux_tags $LNX/fs/*.c
+
+
+
+cd ..
