@@ -32,12 +32,6 @@
 *.img
 
 #
-# No need
-#
-bak/**/*
-**/bak/*
-
-#
 # Top-level generic files
 #
 tags
