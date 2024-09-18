@@ -2194,14 +2194,22 @@ static int __init timer_irq_works(void)
 {
 	unsigned long t1 = jiffies;
 	unsigned long flags;
+	int count = 0;
 
 	if (no_timer_check)
 		return 1;
 
 	local_save_flags(flags);
 	local_irq_enable();
-	/* Let ten ticks pass... */
-	mdelay((10 * 1000) / HZ);
+
+	/* bug fixed for QEMU */
+	while (count++ < 100) {
+		/* Let ten ticks pass... */
+		mdelay((10 * 1000) / HZ);
+		if (time_after(jiffies, t1 + 4))
+		  break;
+	}
+
 	local_irq_restore(flags);
 
 	/*

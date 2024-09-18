@@ -30,6 +30,7 @@
 *.patch
 *.gcno
 *.img
+*.swp
 
 #
 # Top-level generic files
