@@ -332,13 +332,13 @@ static inline void lock_buffer(struct buffer_head *bh)
 extern int __set_page_dirty_buffers(struct page *page);
 
 #else /* CONFIG_BLOCK */
-
+/*
 static inline void buffer_init(void) {}
 static inline int try_to_free_buffers(struct page *page) { return 1; }
 static inline int inode_has_buffers(struct inode *inode) { return 0; }
 static inline void invalidate_inode_buffers(struct inode *inode) {}
 static inline int remove_inode_buffers(struct inode *inode) { return 1; }
 static inline int sync_mapping_buffers(struct address_space *mapping) { return 0; }
-
+*/
 #endif /* CONFIG_BLOCK */
 #endif /* _LINUX_BUFFER_HEAD_H */

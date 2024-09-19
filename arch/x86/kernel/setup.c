@@ -293,9 +293,9 @@ static void __init init_gbpages(void)
 		direct_gbpages = 0;
 }
 #else
-static inline void init_gbpages(void)
+/*static inline void init_gbpages(void)
 {
-}
+}*/
 #endif
 
 static void __init reserve_brk(void)
@@ -841,7 +841,7 @@ void __init setup_arch(char **cmdline_p)
 	//vmi_activate();
 
 	/* after early param, so could get panic from serial */
-	reserve_early_setup_data();
+	//reserve_early_setup_data();
 
 	/*if (acpi_mps_check()) {
 #ifdef CONFIG_X86_LOCAL_APIC
@@ -855,7 +855,7 @@ void __init setup_arch(char **cmdline_p)
 		//early_dump_pci_devices();
 #endif
 
-	finish_e820_parsing();
+	//finish_e820_parsing();
 
 	//if (efi_enabled)
 		//efi_init();
@@ -899,7 +899,7 @@ void __init setup_arch(char **cmdline_p)
 	max_pfn = e820_end_of_ram_pfn();
 
 	/* preallocate 4k for mptable mpc */
-	early_reserve_e820_mpc_new();
+	//early_reserve_e820_mpc_new();
 	/* update e820 for memory not covered by WB MTRRs */
 	mtrr_bp_init();
 	if (mtrr_trim_uncached_memory(max_pfn))

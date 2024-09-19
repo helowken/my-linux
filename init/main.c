@@ -339,7 +339,7 @@ static int __init rdinit_setup(char *str)
 __setup("rdinit=", rdinit_setup);
 
 #ifndef CONFIG_SMP
-
+/*
 #ifdef CONFIG_X86_LOCAL_APIC
 static void __init smp_init(void)
 {
@@ -351,7 +351,7 @@ static void __init smp_init(void)
 
 static inline void setup_nr_cpu_ids(void) { }
 static inline void smp_prepare_cpus(unsigned int maxcpus) { }
-
+*/
 #else
 
 /* Setup number of possible processor ids */
@@ -502,10 +502,10 @@ static void __init mm_init(void)
 	 * page_cgroup requires countinous pages as memmap
 	 * and it's bigger than MAX_ORDER unless SPARSEMEM.
 	 */
-	page_cgroup_init_flatmem();
+	//page_cgroup_init_flatmem();
 	mem_init();
 	kmem_cache_init();
-	pgtable_cache_init();
+	//pgtable_cache_init();
 	vmalloc_init();
 }
 
@@ -544,7 +544,7 @@ asmlinkage void __init start_kernel(void)
 	//page_address_init();
 	printk(KERN_NOTICE "%s", linux_banner);
 	setup_arch(&command_line);
-	mm_init_owner(&init_mm, &init_task);
+	//mm_init_owner(&init_mm, &init_task);
 	setup_command_line(command_line);
 	setup_nr_cpu_ids();
 	setup_per_cpu_areas();
@@ -554,7 +554,7 @@ asmlinkage void __init start_kernel(void)
 	page_alloc_init();
 
 	printk(KERN_NOTICE "Kernel command line: %s\n", boot_command_line);
-	parse_early_param();
+	//parse_early_param();
 	parse_args("Booting kernel", static_command_line, __start___param,
 		   __stop___param - __start___param,
 		   &unknown_bootoption);
@@ -597,7 +597,7 @@ asmlinkage void __init start_kernel(void)
 	if (!irqs_disabled())
 		printk(KERN_CRIT "start_kernel(): bug: interrupts were "
 				 "enabled early\n");
-	early_boot_irqs_on();
+	//early_boot_irqs_on();
 	local_irq_enable();
 
 	/* Interrupts are enabled now so all GFP allocations are safe. */
@@ -621,7 +621,7 @@ asmlinkage void __init start_kernel(void)
 	 * to self-test [hard/soft]-irqs on/off lock inversion bugs
 	 * too:
 	 */
-	locking_selftest();
+	//locking_selftest();
 
 #ifdef CONFIG_BLK_DEV_INITRD
 	if (initrd_start && !initrd_below_start_ok &&
@@ -633,11 +633,11 @@ asmlinkage void __init start_kernel(void)
 		initrd_start = 0;
 	}
 #endif
-	page_cgroup_init();
-	enable_debug_pagealloc();
-	kmemtrace_init();
-	kmemleak_init();
-	debug_objects_mem_init();
+	//page_cgroup_init();
+	//enable_debug_pagealloc();
+	//kmemtrace_init();
+	//kmemleak_init();
+	//debug_objects_mem_init();
 	idr_init_cache();
 	setup_per_cpu_pageset();
 	numa_policy_init();
@@ -648,16 +648,16 @@ asmlinkage void __init start_kernel(void)
 	pidmap_init();
 	anon_vma_init();
 #ifdef CONFIG_X86
-	if (efi_enabled)
-		efi_enter_virtual_mode();
+	/*if (efi_enabled)
+		efi_enter_virtual_mode();*/
 #endif
-	thread_info_cache_init();
+	//thread_info_cache_init();
 	cred_init();
 	fork_init(totalram_pages);
 	proc_caches_init();
 	buffer_init();
-	key_init();
-	security_init();
+	//key_init();
+	//security_init();
 	vfs_caches_init(totalram_pages);
 	radix_tree_init();
 	signals_init();

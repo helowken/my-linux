@@ -45,9 +45,9 @@ extern void vm_unmap_aliases(void);
 #ifdef CONFIG_MMU
 extern void __init vmalloc_init(void);
 #else
-static inline void vmalloc_init(void)
+/*static inline void vmalloc_init(void)
 {
-}
+}*/
 #endif
 
 extern void *vmalloc(unsigned long size);

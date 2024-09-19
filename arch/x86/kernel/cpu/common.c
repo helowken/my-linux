@@ -1206,7 +1206,7 @@ void __cpuinit cpu_init(void)
 }
 
 #else
-
+/*
 void __cpuinit cpu_init(void)
 {
 	int cpu = smp_processor_id();
@@ -1228,9 +1228,9 @@ void __cpuinit cpu_init(void)
 	load_idt(&idt_descr);
 	switch_to_new_gdt(cpu);
 
-	/*
+	*
 	 * Set up and load the per-CPU TSS and LDT
-	 */
+	 *
 	atomic_inc(&init_mm.mm_count);
 	curr->active_mm = &init_mm;
 	BUG_ON(curr->mm);
@@ -1244,15 +1244,15 @@ void __cpuinit cpu_init(void)
 	t->x86_tss.io_bitmap_base = offsetof(struct tss_struct, io_bitmap);
 
 #ifdef CONFIG_DOUBLEFAULT
-	/* Set up doublefault TSS pointer in the GDT */
+	* Set up doublefault TSS pointer in the GDT *
 	__set_tss_desc(cpu, GDT_ENTRY_DOUBLEFAULT_TSS, &doublefault_tss);
 #endif
 
 	clear_all_debug_regs();
 
-	/*
+	*
 	 * Force FPU initialization:
-	 */
+	 *
 	if (cpu_has_xsave)
 		current_thread_info()->status = TS_XSAVE;
 	else
@@ -1260,12 +1260,12 @@ void __cpuinit cpu_init(void)
 	clear_used_math();
 	mxcsr_feature_mask_init();
 
-	/*
+	*
 	 * Boot processor to setup the FP and extended state context info.
-	 */
+	 *
 	if (smp_processor_id() == boot_cpu_id)
 		init_thread_xstate();
 
 	xsave_init();
-}
+}*/
 #endif

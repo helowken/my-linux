@@ -372,23 +372,23 @@ void __init dmi_scan_machine(void)
 	int rc;
 
 	if (efi_enabled) {
-		if (efi.smbios == EFI_INVALID_TABLE_ADDR)
+		/*if (efi.smbios == EFI_INVALID_TABLE_ADDR)
 			goto error;
 
-		/* This is called as a core_initcall() because it isn't
+		* This is called as a core_initcall() because it isn't
 		 * needed during early boot.  This also means we can
 		 * iounmap the space when we're done with it.
-		 */
+		 *
 		p = dmi_ioremap(efi.smbios, 32);
 		if (p == NULL)
 			goto error;
 
-		rc = dmi_present(p + 0x10); /* offset of _DMI_ string */
+		rc = dmi_present(p + 0x10); * offset of _DMI_ string *
 		dmi_iounmap(p, 32);
 		if (!rc) {
 			dmi_available = 1;
 			goto out;
-		}
+		}*/
 	}
 	else {
 		/*

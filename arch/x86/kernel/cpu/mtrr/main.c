@@ -645,7 +645,7 @@ void __init mtrr_bp_init(void)
 {
 	u32 phys_addr;
 
-	init_ifs();
+	//init_ifs();
 
 	phys_addr = 32;
 
@@ -683,32 +683,32 @@ void __init mtrr_bp_init(void)
 			phys_addr = 32;
 		}
 	} else {
-		switch (boot_cpu_data.x86_vendor) {
+		/*switch (boot_cpu_data.x86_vendor) {
 		case X86_VENDOR_AMD:
 			if (cpu_has_k6_mtrr) {
-				/* Pre-Athlon (K6) AMD CPU MTRRs */
+				* Pre-Athlon (K6) AMD CPU MTRRs *
 				mtrr_if = mtrr_ops[X86_VENDOR_AMD];
-				size_or_mask = 0xfff00000;	/* 32 bits */
+				size_or_mask = 0xfff00000;	* 32 bits *
 				size_and_mask = 0;
 			}
 			break;
 		case X86_VENDOR_CENTAUR:
 			if (cpu_has_centaur_mcr) {
 				mtrr_if = mtrr_ops[X86_VENDOR_CENTAUR];
-				size_or_mask = 0xfff00000;	/* 32 bits */
+				size_or_mask = 0xfff00000;	* 32 bits *
 				size_and_mask = 0;
 			}
 			break;
 		case X86_VENDOR_CYRIX:
 			if (cpu_has_cyrix_arr) {
 				mtrr_if = mtrr_ops[X86_VENDOR_CYRIX];
-				size_or_mask = 0xfff00000;	/* 32 bits */
+				size_or_mask = 0xfff00000;	* 32 bits *
 				size_and_mask = 0;
 			}
 			break;
 		default:
 			break;
-		}
+		}*/
 	}
 
 	if (mtrr_if) {

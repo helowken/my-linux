@@ -20,8 +20,8 @@
 #include <asm/apicdef.h>
 #include <asm/page.h>
 #ifdef CONFIG_X86_32
-#include <linux/threads.h>
-#include <asm/kmap_types.h>
+//#include <linux/threads.h>
+//#include <asm/kmap_types.h>
 #else
 #include <asm/vsyscall.h>
 #endif
@@ -37,11 +37,11 @@
  * Leave one empty page between vmalloc'ed areas and
  * the start of the fixmap.
  */
-extern unsigned long __FIXADDR_TOP;
+/*extern unsigned long __FIXADDR_TOP;
 #define FIXADDR_TOP	((unsigned long)__FIXADDR_TOP)
 
 #define FIXADDR_USER_START     __fix_to_virt(FIX_VDSO)
-#define FIXADDR_USER_END       __fix_to_virt(FIX_VDSO - 1)
+#define FIXADDR_USER_END       __fix_to_virt(FIX_VDSO - 1)*/
 #else
 #define FIXADDR_TOP	(VSYSCALL_END-PAGE_SIZE)
 
@@ -72,8 +72,8 @@ extern unsigned long __FIXADDR_TOP;
  */
 enum fixed_addresses {
 #ifdef CONFIG_X86_32
-	FIX_HOLE,
-	FIX_VDSO,
+	//FIX_HOLE,
+	//FIX_VDSO,
 #else
 	VSYSCALL_LAST_PAGE,
 	VSYSCALL_FIRST_PAGE = VSYSCALL_LAST_PAGE
@@ -93,26 +93,26 @@ enum fixed_addresses {
 	FIX_IO_APIC_BASE_END = FIX_IO_APIC_BASE_0 + MAX_IO_APICS - 1,
 #endif
 #ifdef CONFIG_X86_VISWS_APIC
-	FIX_CO_CPU,	/* Cobalt timer */
-	FIX_CO_APIC,	/* Cobalt APIC Redirection Table */
-	FIX_LI_PCIA,	/* Lithium PCI Bridge A */
-	FIX_LI_PCIB,	/* Lithium PCI Bridge B */
+	//FIX_CO_CPU,	/* Cobalt timer */
+	//FIX_CO_APIC,	/* Cobalt APIC Redirection Table */
+	//FIX_LI_PCIA,	/* Lithium PCI Bridge A */
+	//FIX_LI_PCIB,	/* Lithium PCI Bridge B */
 #endif
 #ifdef CONFIG_X86_F00F_BUG
-	FIX_F00F_IDT,	/* Virtual mapping for IDT */
+	//FIX_F00F_IDT,	/* Virtual mapping for IDT */
 #endif
 #ifdef CONFIG_X86_CYCLONE_TIMER
-	FIX_CYCLONE_TIMER, /*cyclone timer register*/
+	//FIX_CYCLONE_TIMER, /*cyclone timer register*/
 #endif
 #ifdef CONFIG_X86_32
-	FIX_KMAP_BEGIN,	/* reserved pte's for temporary kernel mappings */
-	FIX_KMAP_END = FIX_KMAP_BEGIN+(KM_TYPE_NR*NR_CPUS)-1,
+	//FIX_KMAP_BEGIN,	/* reserved pte's for temporary kernel mappings */
+	//FIX_KMAP_END = FIX_KMAP_BEGIN+(KM_TYPE_NR*NR_CPUS)-1,
 #ifdef CONFIG_PCI_MMCONFIG
-	FIX_PCIE_MCFG,
+	//FIX_PCIE_MCFG,
 #endif
 #endif
 #ifdef CONFIG_PARAVIRT
-	FIX_PARAVIRT_BOOTMAP,
+	//FIX_PARAVIRT_BOOTMAP,
 #endif
 	FIX_TEXT_POKE1,	/* reserve 2 pages for text_poke() */
 	FIX_TEXT_POKE0, /* first page is last, because allocation is backward */
@@ -130,10 +130,10 @@ enum fixed_addresses {
 			(__end_of_permanent_fixed_addresses & 255),
 	FIX_BTMAP_BEGIN = FIX_BTMAP_END + NR_FIX_BTMAPS*FIX_BTMAPS_SLOTS - 1,
 #ifdef CONFIG_X86_32
-	FIX_WP_TEST,
+	//FIX_WP_TEST,
 #endif
 #ifdef CONFIG_INTEL_TXT
-	FIX_TBOOT_BASE,
+	//FIX_TBOOT_BASE,
 #endif
 	__end_of_fixed_addresses
 };

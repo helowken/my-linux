@@ -240,7 +240,7 @@ out_unlock:
 }
 
 #else /* !CONFIG_SPARSE_IRQ */
-
+/*
 struct irq_desc irq_desc[NR_IRQS] __cacheline_aligned_in_smp = {
 	[0 ... NR_IRQS-1] = {
 		.status = IRQ_DISABLED,
@@ -282,7 +282,7 @@ struct irq_desc *irq_to_desc(unsigned int irq)
 struct irq_desc *irq_to_desc_alloc_node(unsigned int irq, int node)
 {
 	return irq_to_desc(irq);
-}
+}*/
 #endif /* !CONFIG_SPARSE_IRQ */
 
 void clear_kstat_irqs(struct irq_desc *desc)

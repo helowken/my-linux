@@ -918,10 +918,10 @@ int __init mtrr_cleanup(unsigned address_bits)
 	return 0;
 }
 #else
-int __init mtrr_cleanup(unsigned address_bits)
+/*int __init mtrr_cleanup(unsigned address_bits)
 {
 	return 0;
-}
+}*/
 #endif
 
 static int disable_mtrr_trim;

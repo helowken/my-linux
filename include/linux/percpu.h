@@ -160,16 +160,16 @@ extern void __init setup_per_cpu_areas(void);
 #endif
 
 #else /* CONFIG_SMP */
-
+/*
 #define per_cpu_ptr(ptr, cpu) ({ (void)(cpu); (ptr); })
 
 static inline void *__alloc_percpu(size_t size, size_t align)
 {
-	/*
+	*
 	 * Can't easily make larger alignment work with kmalloc.  WARN
 	 * on it.  Larger alignment should only be used for module
 	 * percpu sections on SMP for which this path isn't used.
-	 */
+	 *
 	WARN_ON_ONCE(align > SMP_CACHE_BYTES);
 	return kzalloc(size, GFP_KERNEL);
 }
@@ -185,7 +185,7 @@ static inline void *pcpu_lpage_remapped(void *kaddr)
 {
 	return NULL;
 }
-
+*/
 #endif /* CONFIG_SMP */
 
 #define alloc_percpu(type)	(type *)__alloc_percpu(sizeof(type), \

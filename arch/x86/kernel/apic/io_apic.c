@@ -4193,9 +4193,9 @@ void __init ioapic_init_mappings(void)
 #ifdef CONFIG_X86_32
 //fake_ioapic_page:
 #endif
-			ioapic_phys = (unsigned long)
+			/*ioapic_phys = (unsigned long)
 				alloc_bootmem_pages(PAGE_SIZE);
-			ioapic_phys = __pa(ioapic_phys);
+			ioapic_phys = __pa(ioapic_phys);*/
 		}
 		set_fixmap_nocache(idx, ioapic_phys);
 		apic_printk(APIC_VERBOSE,

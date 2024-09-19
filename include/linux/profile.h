@@ -88,7 +88,7 @@ void unregister_timer_hook(int (*hook)(struct pt_regs *));
 struct pt_regs;
 
 #else
-
+/*
 #define prof_on 0
 
 static inline int profile_init(void)
@@ -144,7 +144,7 @@ static inline void unregister_timer_hook(int (*hook)(struct pt_regs *))
 {
 	return;
 }
-
+*/
 #endif /* CONFIG_PROFILING */
 
 #endif /* _LINUX_PROFILE_H */

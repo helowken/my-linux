@@ -109,12 +109,12 @@ static inline void preempt_conditional_cli(struct pt_regs *regs)
 }
 
 #ifdef CONFIG_X86_32
-static inline void
+/*static inline void
 die_if_kernel(const char *str, struct pt_regs *regs, long err)
 {
 	if (!user_mode_vm(regs))
 		die(str, regs, err);
-}
+}*/
 #endif
 
 static void __kprobes
@@ -124,22 +124,22 @@ do_trap(int trapnr, int signr, char *str, struct pt_regs *regs,
 	struct task_struct *tsk = current;
 
 #ifdef CONFIG_X86_32
-	if (regs->flags & X86_VM_MASK) {
-		/*
+	/*if (regs->flags & X86_VM_MASK) {
+		*
 		 * traps 0, 1, 3, 4, and 5 should be forwarded to vm86.
 		 * On nmi (interrupt 2), do_trap should not be called.
-		 */
+		 *
 		if (trapnr < 6)
 			goto vm86_trap;
 		goto trap_signal;
-	}
+	}*/
 #endif
 
 	if (!user_mode(regs))
 		goto kernel_trap;
 
 #ifdef CONFIG_X86_32
-trap_signal:
+//trap_signal:
 #endif
 	/*
 	 * We want error_code and trap_no set for userspace faults and
@@ -180,11 +180,11 @@ kernel_trap:
 	return;
 
 #ifdef CONFIG_X86_32
-vm86_trap:
+/*vm86_trap:
 	if (handle_vm86_trap((struct kernel_vm86_regs *) regs,
 						error_code, trapnr))
 		goto trap_signal;
-	return;
+	return;*/
 #endif
 }
 
@@ -221,7 +221,7 @@ DO_ERROR(9, SIGFPE, "coprocessor segment overrun", coprocessor_segment_overrun)
 DO_ERROR(10, SIGSEGV, "invalid TSS", invalid_TSS)
 DO_ERROR(11, SIGBUS, "segment not present", segment_not_present)
 #ifdef CONFIG_X86_32
-DO_ERROR(12, SIGBUS, "stack segment", stack_segment)
+//DO_ERROR(12, SIGBUS, "stack segment", stack_segment)
 #endif
 DO_ERROR_INFO(17, SIGBUS, "alignment check", alignment_check, BUS_ADRALN, 0)
 
@@ -265,8 +265,8 @@ do_general_protection(struct pt_regs *regs, long error_code)
 	conditional_sti(regs);
 
 #ifdef CONFIG_X86_32
-	if (regs->flags & X86_VM_MASK)
-		goto gp_in_vm86;
+	/*if (regs->flags & X86_VM_MASK)
+		goto gp_in_vm86;*/
 #endif
 
 	tsk = current;
@@ -290,10 +290,10 @@ do_general_protection(struct pt_regs *regs, long error_code)
 	return;
 
 #ifdef CONFIG_X86_32
-gp_in_vm86:
+/*gp_in_vm86:
 	local_irq_enable();
 	handle_vm86_fault((struct kernel_vm86_regs *) regs, error_code);
-	return;
+	return;*/
 #endif
 
 gp_in_kernel:
@@ -428,7 +428,7 @@ static notrace __kprobes void default_do_nmi(struct pt_regs *regs)
 	 * Reassert NMI in case it became active meanwhile
 	 * as it's edge-triggered:
 	 */
-	reassert_nmi();
+	//reassert_nmi();
 #endif
 }
 
@@ -558,8 +558,8 @@ dotraplinkage void __kprobes do_debug(struct pt_regs *regs, long error_code)
 	}
 
 #ifdef CONFIG_X86_32
-	if (regs->flags & X86_VM_MASK)
-		goto debug_vm86;
+	/*if (regs->flags & X86_VM_MASK)
+		goto debug_vm86;*/
 #endif
 
 	/* Save debug status register where ptrace can see it */
@@ -588,12 +588,12 @@ clear_dr7:
 	return;
 
 #ifdef CONFIG_X86_32
-debug_vm86:
-	/* reenable preemption: handle_vm86_trap() might sleep */
+/*debug_vm86:
+	* reenable preemption: handle_vm86_trap() might sleep *
 	dec_preempt_count();
 	handle_vm86_trap((struct kernel_vm86_regs *) regs, error_code, 1);
 	conditional_cli(regs);
-	return;
+	return;*/
 #endif
 
 clear_TF_reenable:
@@ -683,7 +683,7 @@ dotraplinkage void do_coprocessor_error(struct pt_regs *regs, long error_code)
 	conditional_sti(regs);
 
 #ifdef CONFIG_X86_32
-	ignore_fpu_irq = 1;
+	//ignore_fpu_irq = 1;
 #else
 	if (!user_mode(regs) &&
 	    kernel_math_error(regs, "kernel x87 math error", 16))
@@ -902,11 +902,11 @@ void __init trap_init(void)
 	int i;
 
 #ifdef CONFIG_EISA
-	void __iomem *p = early_ioremap(0x0FFFD9, 4);
+	/*void __iomem *p = early_ioremap(0x0FFFD9, 4);
 
 	if (readl(p) == 'E' + ('I'<<8) + ('S'<<16) + ('A'<<24))
 		EISA_bus = 1;
-	early_iounmap(p, 4);
+	early_iounmap(p, 4);*/
 #endif
 
 	set_intr_gate(0, &divide_error);
@@ -920,7 +920,7 @@ void __init trap_init(void)
 	set_intr_gate(6, &invalid_op);
 	set_intr_gate(7, &device_not_available);
 #ifdef CONFIG_X86_32
-	set_task_gate(8, GDT_ENTRY_DOUBLEFAULT_TSS);
+	//set_task_gate(8, GDT_ENTRY_DOUBLEFAULT_TSS);
 #else
 	set_intr_gate_ist(8, &double_fault, DOUBLEFAULT_STACK);
 #endif
@@ -948,7 +948,7 @@ void __init trap_init(void)
 #endif
 
 #ifdef CONFIG_X86_32
-	if (cpu_has_fxsr) {
+	/*if (cpu_has_fxsr) {
 		printk(KERN_INFO "Enabling fast FPU save and restore... ");
 		set_in_cr4(X86_CR4_OSFXSR);
 		printk("done.\n");
@@ -961,7 +961,7 @@ void __init trap_init(void)
 	}
 
 	set_system_trap_gate(SYSCALL_VECTOR, &system_call);
-	set_bit(SYSCALL_VECTOR, used_vectors);
+	set_bit(SYSCALL_VECTOR, used_vectors);*/
 #endif
 
 	/*
@@ -969,5 +969,5 @@ void __init trap_init(void)
 	 */
 	cpu_init();
 
-	x86_init.irqs.trap_init();
+	//x86_init.irqs.trap_init();
 }

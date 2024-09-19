@@ -135,7 +135,7 @@ int is_vsmp_box(void)
 	if (is_vsmp != -1)
 		return is_vsmp;
 	else {
-		WARN_ON_ONCE(1);
+		//TODO WARN_ON_ONCE(1);
 		return 0;
 	}
 }

@@ -249,7 +249,7 @@ unsigned long long cpu_clock(int cpu)
 }
 
 #else /* CONFIG_HAVE_UNSTABLE_SCHED_CLOCK */
-
+/*
 void sched_clock_init(void)
 {
 	sched_clock_running = 1;
@@ -268,7 +268,7 @@ unsigned long long cpu_clock(int cpu)
 {
 	return sched_clock_cpu(cpu);
 }
-
+*/
 #endif /* CONFIG_HAVE_UNSTABLE_SCHED_CLOCK */
 
 EXPORT_SYMBOL_GPL(cpu_clock);

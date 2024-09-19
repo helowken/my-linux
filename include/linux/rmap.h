@@ -128,7 +128,7 @@ void page_unlock_anon_vma(struct anon_vma *anon_vma);
 int page_mapped_in_vma(struct page *page, struct vm_area_struct *vma);
 
 #else	/* !CONFIG_MMU */
-
+/*
 #define anon_vma_init()		do {} while (0)
 #define anon_vma_prepare(vma)	(0)
 #define anon_vma_link(vma)	do {} while (0)
@@ -148,7 +148,7 @@ static inline int page_mkclean(struct page *page)
 	return 0;
 }
 
-
+*/
 #endif	/* CONFIG_MMU */
 
 /*
