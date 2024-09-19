@@ -121,7 +121,7 @@ static inline void delayacct_freepages_end(void)
 }
 
 #else
-static inline void delayacct_set_flag(int flag)
+/*static inline void delayacct_set_flag(int flag)
 {}
 static inline void delayacct_clear_flag(int flag)
 {}
@@ -146,7 +146,7 @@ static inline void delayacct_freepages_start(void)
 {}
 static inline void delayacct_freepages_end(void)
 {}
-
+*/
 #endif /* CONFIG_TASK_DELAY_ACCT */
 
 #endif

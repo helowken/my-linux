@@ -666,15 +666,15 @@ asmlinkage void __init start_kernel(void)
 #ifdef CONFIG_PROC_FS
 	proc_root_init();
 #endif
-	cgroup_init();
-	cpuset_init();
+	//cgroup_init();
+	//cpuset_init();
 	taskstats_init_early();
 	delayacct_init();
 
 	check_bugs();
 
 	acpi_early_init(); /* before LAPIC and SMP init */
-	sfi_init_late();
+	//sfi_init_late();
 
 	ftrace_init();
 
