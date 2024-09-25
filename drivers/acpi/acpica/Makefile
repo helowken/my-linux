@@ -5,7 +5,8 @@
 #TODO remove -O2
 KBUILD_CFLAGS := $(filter-out -O2,$(KBUILD_CFLAGS))
 
-ccflags-y			:= -Os
+#TODO ccflags-y			:= -Os
+ccflags-y			:= 
 ccflags-$(CONFIG_ACPI_DEBUG)	+= -DACPI_DEBUG_OUTPUT
 
 # use acpi.o to put all files here into acpi.o modparam namespace

@@ -69,7 +69,7 @@
 #if ACPI_MACHINE_WIDTH == 64
 #define ACPI_FORMAT_NATIVE_UINT(i)      ACPI_FORMAT_UINT64(i)
 #else
-#define ACPI_FORMAT_NATIVE_UINT(i)      0, (i)
+//#define ACPI_FORMAT_NATIVE_UINT(i)      0, (i)
 #endif
 
 /*
@@ -87,7 +87,7 @@
 			  /* Big Endian      <==        Little Endian */
 			  /*  Hi...Lo                     Lo...Hi     */
 /* 16-bit source, 16/32/64 destination */
-
+/*
 #define ACPI_MOVE_16_TO_16(d, s)        {((  u8 *)(void *)(d))[0] = ((u8 *)(void *)(s))[1];\
 					   ((  u8 *)(void *)(d))[1] = ((u8 *)(void *)(s))[0];}
 
@@ -99,9 +99,9 @@
 									 ((u8 *)(void *)(d))[6] = ((u8 *)(void *)(s))[1];\
 									 ((u8 *)(void *)(d))[7] = ((u8 *)(void *)(s))[0];}
 
-/* 32-bit source, 16/32/64 destination */
+* 32-bit source, 16/32/64 destination *
 
-#define ACPI_MOVE_32_TO_16(d, s)        ACPI_MOVE_16_TO_16(d, s)	/* Truncate to 16 */
+#define ACPI_MOVE_32_TO_16(d, s)        ACPI_MOVE_16_TO_16(d, s)	* Truncate to 16 *
 
 #define ACPI_MOVE_32_TO_32(d, s)        {((  u8 *)(void *)(d))[0] = ((u8 *)(void *)(s))[3];\
 										 ((  u8 *)(void *)(d))[1] = ((u8 *)(void *)(s))[2];\
@@ -114,11 +114,11 @@
 										   ((u8 *)(void *)(d))[6] = ((u8 *)(void *)(s))[1];\
 										   ((u8 *)(void *)(d))[7] = ((u8 *)(void *)(s))[0];}
 
-/* 64-bit source, 16/32/64 destination */
+* 64-bit source, 16/32/64 destination *
 
-#define ACPI_MOVE_64_TO_16(d, s)        ACPI_MOVE_16_TO_16(d, s)	/* Truncate to 16 */
+#define ACPI_MOVE_64_TO_16(d, s)        ACPI_MOVE_16_TO_16(d, s)	* Truncate to 16 *
 
-#define ACPI_MOVE_64_TO_32(d, s)        ACPI_MOVE_32_TO_32(d, s)	/* Truncate to 32 */
+#define ACPI_MOVE_64_TO_32(d, s)        ACPI_MOVE_32_TO_32(d, s)	* Truncate to 32 *
 
 #define ACPI_MOVE_64_TO_64(d, s)        {((  u8 *)(void *)(d))[0] = ((u8 *)(void *)(s))[7];\
 										 ((  u8 *)(void *)(d))[1] = ((u8 *)(void *)(s))[6];\
@@ -127,7 +127,7 @@
 										 ((  u8 *)(void *)(d))[4] = ((u8 *)(void *)(s))[3];\
 										 ((  u8 *)(void *)(d))[5] = ((u8 *)(void *)(s))[2];\
 										 ((  u8 *)(void *)(d))[6] = ((u8 *)(void *)(s))[1];\
-										 ((  u8 *)(void *)(d))[7] = ((u8 *)(void *)(s))[0];}
+										 ((  u8 *)(void *)(d))[7] = ((u8 *)(void *)(s))[0];}*/
 #else
 /*
  * Macros for little-endian machines
@@ -163,16 +163,16 @@
  */
 
 /* 16-bit source, 16/32/64 destination */
-
+/*
 #define ACPI_MOVE_16_TO_16(d, s)        {((  u8 *)(void *)(d))[0] = ((u8 *)(void *)(s))[0];\
 										 ((  u8 *)(void *)(d))[1] = ((u8 *)(void *)(s))[1];}
 
 #define ACPI_MOVE_16_TO_32(d, s)        {(*(u32 *)(void *)(d)) = 0; ACPI_MOVE_16_TO_16(d, s);}
 #define ACPI_MOVE_16_TO_64(d, s)        {(*(u64 *)(void *)(d)) = 0; ACPI_MOVE_16_TO_16(d, s);}
 
-/* 32-bit source, 16/32/64 destination */
+* 32-bit source, 163264 destination *
 
-#define ACPI_MOVE_32_TO_16(d, s)        ACPI_MOVE_16_TO_16(d, s)	/* Truncate to 16 */
+#define ACPI_MOVE_32_TO_16(d, s)        ACPI_MOVE_16_TO_16(d, s)	* Truncate to 16 *
 
 #define ACPI_MOVE_32_TO_32(d, s)        {((  u8 *)(void *)(d))[0] = ((u8 *)(void *)(s))[0];\
 										 ((  u8 *)(void *)(d))[1] = ((u8 *)(void *)(s))[1];\
@@ -181,10 +181,10 @@
 
 #define ACPI_MOVE_32_TO_64(d, s)        {(*(u64 *)(void *)(d)) = 0; ACPI_MOVE_32_TO_32(d, s);}
 
-/* 64-bit source, 16/32/64 destination */
+* 64-bit source, 163264 destination *
 
-#define ACPI_MOVE_64_TO_16(d, s)        ACPI_MOVE_16_TO_16(d, s)	/* Truncate to 16 */
-#define ACPI_MOVE_64_TO_32(d, s)        ACPI_MOVE_32_TO_32(d, s)	/* Truncate to 32 */
+#define ACPI_MOVE_64_TO_16(d, s)        ACPI_MOVE_16_TO_16(d, s)	* Truncate to 16 *
+#define ACPI_MOVE_64_TO_32(d, s)        ACPI_MOVE_32_TO_32(d, s)	* Truncate to 32 *
 #define ACPI_MOVE_64_TO_64(d, s)        {((  u8 *)(void *)(d))[0] = ((u8 *)(void *)(s))[0];\
 										 ((  u8 *)(void *)(d))[1] = ((u8 *)(void *)(s))[1];\
 										 ((  u8 *)(void *)(d))[2] = ((u8 *)(void *)(s))[2];\
@@ -192,14 +192,14 @@
 										 ((  u8 *)(void *)(d))[4] = ((u8 *)(void *)(s))[4];\
 										 ((  u8 *)(void *)(d))[5] = ((u8 *)(void *)(s))[5];\
 										 ((  u8 *)(void *)(d))[6] = ((u8 *)(void *)(s))[6];\
-										 ((  u8 *)(void *)(d))[7] = ((u8 *)(void *)(s))[7];}
+										 ((  u8 *)(void *)(d))[7] = ((u8 *)(void *)(s))[7];}*/
 #endif
 #endif
 
 /* Macros based on machine integer width */
 
 #if ACPI_MACHINE_WIDTH == 32
-#define ACPI_MOVE_SIZE_TO_16(d, s)       ACPI_MOVE_32_TO_16(d, s)
+//#define ACPI_MOVE_SIZE_TO_16(d, s)       ACPI_MOVE_32_TO_16(d, s)
 
 #elif ACPI_MACHINE_WIDTH == 64
 #define ACPI_MOVE_SIZE_TO_16(d, s)       ACPI_MOVE_64_TO_16(d, s)
@@ -296,8 +296,8 @@
  * Macros for the master AML opcode table
  */
 #if defined (ACPI_DISASSEMBLER) || defined (ACPI_DEBUG_OUTPUT)
-#define ACPI_OP(name, Pargs, Iargs, obj_type, class, type, flags) \
-	{name, (u32)(Pargs), (u32)(Iargs), (u32)(flags), obj_type, class, type}
+/*#define ACPI_OP(name, Pargs, Iargs, obj_type, class, type, flags) \
+	{name, (u32)(Pargs), (u32)(Iargs), (u32)(flags), obj_type, class, type}*/
 #else
 #define ACPI_OP(name, Pargs, Iargs, obj_type, class, type, flags) \
 	{(u32)(Pargs), (u32)(Iargs), (u32)(flags), obj_type, class, type}
@@ -346,9 +346,9 @@
 
 /* No error messages */
 
-#define ACPI_ERROR_NAMESPACE(s, e)
+/*#define ACPI_ERROR_NAMESPACE(s, e)
 #define ACPI_ERROR_METHOD(s, n, p, e)
-#define ACPI_WARN_PREDEFINED(plist)
+#define ACPI_WARN_PREDEFINED(plist)*/
 #endif		/* ACPI_NO_ERROR_MESSAGES */
 
 /*
@@ -359,7 +359,7 @@
 /*
  * Function entry tracing
  */
-#ifdef CONFIG_ACPI_DEBUG_FUNC_TRACE
+/*#ifdef CONFIG_ACPI_DEBUG_FUNC_TRACE
 
 #define ACPI_FUNCTION_TRACE(a)          ACPI_FUNCTION_NAME(a) \
 			  acpi_ut_trace(ACPI_DEBUG_PARAMETERS)
@@ -372,7 +372,7 @@
 
 #define ACPI_FUNCTION_ENTRY()           acpi_ut_track_stack_ptr()
 
-/*
+*
  * Function exit tracing.
  * WARNING: These macros include a return statement. This is usually considered
  * bad form, but having a separate exit macro is very ugly and difficult to maintain.
@@ -381,7 +381,7 @@
  *
  * Note: the DO_WHILE0 macro is used to prevent some compilers from complaining
  * about these constructs.
- */
+ *
 #ifdef ACPI_USE_DO_WHILE_0
 #define ACPI_DO_WHILE0(a)               do a while(0)
 #else
@@ -391,7 +391,7 @@
 #define return_VOID                     ACPI_DO_WHILE0 ({ \
 											acpi_ut_exit (ACPI_DEBUG_PARAMETERS); \
 											return;})
-/*
+*
  * There are two versions of most of the return macros. The default version is
  * safer, since it avoids side-effects by guaranteeing that the argument will
  * not be evaluated twice.
@@ -399,7 +399,7 @@
  * A less-safe version of the macros is provided for optional use if the
  * compiler uses excessive CPU stack (for example, this may happen in the
  * debug case if code optimzation is disabled.)
- */
+ *
 #ifndef ACPI_SIMPLE_RETURN_MACROS
 
 #define return_ACPI_STATUS(s)           ACPI_DO_WHILE0 ({ \
@@ -422,7 +422,7 @@
 											register u32 _s = (u32) (s); \
 											acpi_ut_value_exit (ACPI_DEBUG_PARAMETERS, (acpi_integer) _s); \
 											return (_s); })
-#else				/* Use original less-safe macros */
+#else				* Use original less-safe macros *
 
 #define return_ACPI_STATUS(s)           ACPI_DO_WHILE0 ({ \
 											acpi_ut_status_exit (ACPI_DEBUG_PARAMETERS, (s)); \
@@ -436,9 +436,9 @@
 #define return_UINT8(s)                 return_VALUE(s)
 #define return_UINT32(s)                return_VALUE(s)
 
-#endif				/* ACPI_SIMPLE_RETURN_MACROS */
+#endif				* ACPI_SIMPLE_RETURN_MACROS *
 
-#else /* !CONFIG_ACPI_DEBUG_FUNC_TRACE */
+#else * !CONFIG_ACPI_DEBUG_FUNC_TRACE *
 
 #define ACPI_FUNCTION_TRACE(a)
 #define ACPI_FUNCTION_TRACE_PTR(a,b)
@@ -457,9 +457,9 @@
 #define return_UINT32(s)                return(s)
 #define return_PTR(s)                   return(s)
 
-#endif /* CONFIG_ACPI_DEBUG_FUNC_TRACE */
+#endif * CONFIG_ACPI_DEBUG_FUNC_TRACE *
 
-/* Conditional execution */
+* Conditional execution *
 
 #define ACPI_DEBUG_EXEC(a)              a
 #define ACPI_NORMAL_EXEC(a)
@@ -468,7 +468,7 @@
 #define ACPI_DEBUG_ONLY_MEMBERS(a)      a;
 #define _VERBOSE_STRUCTURES
 
-/* Stack and buffer dumping */
+* Stack and buffer dumping *
 
 #define ACPI_DUMP_STACK_ENTRY(a)        acpi_ex_dump_operand((a), 0)
 #define ACPI_DUMP_OPERANDS(a, b, c)	acpi_ex_dump_operands(a, b, c)
@@ -477,7 +477,7 @@
 #define ACPI_DUMP_PATHNAME(a, b, c, d)  acpi_ns_dump_pathname(a, b, c, d)
 #define ACPI_DUMP_RESOURCE_LIST(a)      acpi_rs_dump_resource_list(a)
 #define ACPI_DUMP_BUFFER(a, b)          acpi_ut_dump_buffer((u8 *) a, b, DB_BYTE_DISPLAY, _COMPONENT)
-
+*/
 #else
 /*
  * This is the non-debug case -- make everything go away,
@@ -519,7 +519,7 @@
  * DEBUG_PRINT stuff (set by ACPI_DEBUG_OUTPUT) is on, or not.
  */
 #ifdef ACPI_DEBUGGER
-#define ACPI_DEBUGGER_EXEC(a)           a
+//#define ACPI_DEBUGGER_EXEC(a)           a
 #else
 #define ACPI_DEBUGGER_EXEC(a)
 #endif
@@ -529,8 +529,8 @@
  * 1) Set name to blanks
  * 2) Copy the object name
  */
-#define ACPI_ADD_OBJECT_NAME(a,b)       ACPI_MEMSET (a->common.name, ' ', sizeof (a->common.name));\
-										ACPI_STRNCPY (a->common.name, acpi_gbl_ns_type_names[b], sizeof (a->common.name))
+/*#define ACPI_ADD_OBJECT_NAME(a,b)       ACPI_MEMSET (a->common.name, ' ', sizeof (a->common.name));\
+										ACPI_STRNCPY (a->common.name, acpi_gbl_ns_type_names[b], sizeof (a->common.name))*/
 #else
 
 #define ACPI_ADD_OBJECT_NAME(a,b)
@@ -559,12 +559,12 @@
 #else
 
 /* Memory allocation */
-
+/*
 #define ACPI_ALLOCATE(a)            acpi_ut_allocate_and_track((acpi_size)(a), ACPI_MEM_PARAMETERS)
 #define ACPI_ALLOCATE_ZEROED(a)     acpi_ut_allocate_zeroed_and_track((acpi_size)(a), ACPI_MEM_PARAMETERS)
 #define ACPI_FREE(a)                acpi_ut_free_and_track(a, ACPI_MEM_PARAMETERS)
 #define ACPI_MEM_TRACKING(a)        a
-
+*/
 #endif				/* ACPI_DBG_TRACK_ALLOCATIONS */
 
 /* Preemption point */

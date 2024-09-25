@@ -65,37 +65,37 @@
  * Note: The non-debug version of the acpi_library does not contain any
  * debug support, for minimal size. The debug version uses ACPI_FULL_DEBUG
  */
-#define ACPI_USE_LOCAL_CACHE
+//#define ACPI_USE_LOCAL_CACHE
 #endif
 
 #ifdef ACPI_ASL_COMPILER
-#define ACPI_DEBUG_OUTPUT
+/*#define ACPI_DEBUG_OUTPUT
 #define ACPI_APPLICATION
 #define ACPI_DISASSEMBLER
 #define ACPI_CONSTANT_EVAL_ONLY
 #define ACPI_LARGE_NAMESPACE_NODE
-#define ACPI_DATA_TABLE_DISASSEMBLY
+#define ACPI_DATA_TABLE_DISASSEMBLY*/
 #endif
 
 #ifdef ACPI_EXEC_APP
-#undef DEBUGGER_THREADING
+/*#undef DEBUGGER_THREADING
 #define DEBUGGER_THREADING      DEBUGGER_SINGLE_THREADED
 #define ACPI_FULL_DEBUG
 #define ACPI_APPLICATION
 #define ACPI_DEBUGGER
 #define ACPI_MUTEX_DEBUG
-#define ACPI_DBG_TRACK_ALLOCATIONS
+#define ACPI_DBG_TRACK_ALLOCATIONS*/
 #endif
 
 #ifdef ACPI_APPLICATION
-#define ACPI_USE_SYSTEM_CLIBRARY
-#define ACPI_USE_LOCAL_CACHE
+//#define ACPI_USE_SYSTEM_CLIBRARY
+//#define ACPI_USE_LOCAL_CACHE
 #endif
 
 #ifdef ACPI_FULL_DEBUG
-#define ACPI_DEBUGGER
+/*#define ACPI_DEBUGGER
 #define ACPI_DEBUG_OUTPUT
-#define ACPI_DISASSEMBLER
+#define ACPI_DISASSEMBLER*/
 #endif
 
 /*
@@ -141,41 +141,41 @@
 #include "aclinux.h"
 
 #elif defined(_AED_EFI)
-#include "acefi.h"
+//#include "acefi.h"
 
 #elif defined(WIN32)
-#include "acwin.h"
+//#include "acwin.h"
 
 #elif defined(WIN64)
-#include "acwin64.h"
+//#include "acwin64.h"
 
 #elif defined(MSDOS)		/* Must appear after WIN32 and WIN64 check */
-#include "acdos16.h"
+//#include "acdos16.h"
 
 #elif defined(__FreeBSD__) || defined(__FreeBSD_kernel__)
-#include "acfreebsd.h"
+//#include "acfreebsd.h"
 
 #elif defined(__NetBSD__)
-#include "acnetbsd.h"
+//#include "acnetbsd.h"
 
 #elif defined(MODESTO)
-#include "acmodesto.h"
+//#include "acmodesto.h"
 
 #elif defined(NETWARE)
-#include "acnetware.h"
+//#include "acnetware.h"
 
 #elif defined(__sun)
-#include "acsolaris.h"
+//#include "acsolaris.h"
 
 #else
 
 /* All other environments */
-
+/*
 #define ACPI_USE_STANDARD_HEADERS
 
 #define COMPILER_DEPENDENT_INT64   long long
 #define COMPILER_DEPENDENT_UINT64  unsigned long long
-
+*/
 #endif
 
 /*! [End] no source code translation !*/

@@ -783,9 +783,9 @@ void __init setup_arch(char **cmdline_p)
 	//x86_init.oem.arch_setup();
 
 	setup_memory_map();
-	parse_setup_data();
+	//parse_setup_data();
 	/* update the e820_saved too */
-	e820_reserve_setup_data();
+	//e820_reserve_setup_data();
 
 	//copy_edd();
 

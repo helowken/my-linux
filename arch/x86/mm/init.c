@@ -51,7 +51,7 @@ static void __init find_early_table_space(unsigned long end, int use_pse,
 
 		extra = end - ((end>>PMD_SHIFT) << PMD_SHIFT);
 #ifdef CONFIG_X86_32
-		extra += PMD_SIZE;
+		//extra += PMD_SIZE;
 #endif
 		ptes = (extra + PAGE_SIZE - 1) >> PAGE_SHIFT;
 	} else
@@ -61,7 +61,7 @@ static void __init find_early_table_space(unsigned long end, int use_pse,
 
 #ifdef CONFIG_X86_32
 	/* for fixmap */
-	tables += roundup(__end_of_fixed_addresses * sizeof(pte_t), PAGE_SIZE);
+	//tables += roundup(__end_of_fixed_addresses * sizeof(pte_t), PAGE_SIZE);
 #endif
 
 	/*
@@ -70,7 +70,7 @@ static void __init find_early_table_space(unsigned long end, int use_pse,
 	 * need roughly 0.5KB per GB.
 	 */
 #ifdef CONFIG_X86_32
-	start = 0x7000;
+	//start = 0x7000;
 #else
 	start = 0x8000;
 #endif
@@ -94,7 +94,7 @@ struct map_range {
 };
 
 #ifdef CONFIG_X86_32
-#define NR_RANGE_MR 3
+//#define NR_RANGE_MR 3
 #else /* CONFIG_X86_64 */
 #define NR_RANGE_MR 5
 #endif
