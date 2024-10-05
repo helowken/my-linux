@@ -137,14 +137,14 @@ static unsigned long __meminitdata dma_reserve;
    */
   #ifdef CONFIG_MAX_ACTIVE_REGIONS
     /* Allow an architecture to set MAX_ACTIVE_REGIONS to save memory */
-    #define MAX_ACTIVE_REGIONS CONFIG_MAX_ACTIVE_REGIONS
+    //#define MAX_ACTIVE_REGIONS CONFIG_MAX_ACTIVE_REGIONS
   #else
     #if MAX_NUMNODES >= 32
       /* If there can be many nodes, allow up to 50 holes per node */
       #define MAX_ACTIVE_REGIONS (MAX_NUMNODES*50)
     #else
       /* By default, allow up to 256 distinct regions */
-      #define MAX_ACTIVE_REGIONS 256
+      //#define MAX_ACTIVE_REGIONS 256
     #endif
   #endif
 
@@ -3868,8 +3868,8 @@ static void __paginginit free_area_init_core(struct pglist_data *pgdat,
 		if (!size)
 			continue;
 
-		set_pageblock_order(pageblock_default_order());
-		setup_usemap(pgdat, zone, size);
+		//set_pageblock_order(pageblock_default_order());
+		//setup_usemap(pgdat, zone, size);
 		ret = init_currently_empty_zone(zone, zone_start_pfn,
 						size, MEMMAP_EARLY);
 		BUG_ON(ret);
@@ -3928,7 +3928,7 @@ void __paginginit free_area_init_node(int nid, unsigned long *zones_size,
 	pgdat->node_start_pfn = node_start_pfn;
 	calculate_node_totalpages(pgdat, zones_size, zholes_size);
 
-	alloc_node_mem_map(pgdat);
+	//alloc_node_mem_map(pgdat);
 #ifdef CONFIG_FLAT_NODE_MEM_MAP
 	printk(KERN_DEBUG "free_area_init_node: node %d, pgdat %08lx, node_mem_map %08lx\n",
 		nid, (unsigned long)pgdat,

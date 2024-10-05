@@ -22,7 +22,7 @@ typedef struct cpumask { DECLARE_BITMAP(bits, NR_CPUS); } cpumask_t;
 #define cpumask_bits(maskp) ((maskp)->bits)
 
 #if NR_CPUS == 1
-#define nr_cpu_ids		1
+//#define nr_cpu_ids		1
 #else
 extern int nr_cpu_ids;
 #endif
@@ -32,7 +32,7 @@ extern int nr_cpu_ids;
  * not all bits may be allocated. */
 #define nr_cpumask_bits	nr_cpu_ids
 #else
-#define nr_cpumask_bits	NR_CPUS
+//#define nr_cpumask_bits	NR_CPUS
 #endif
 
 /*
@@ -90,14 +90,14 @@ extern const struct cpumask *const cpu_active_mask;
 #define cpu_present(cpu)	cpumask_test_cpu((cpu), cpu_present_mask)
 #define cpu_active(cpu)		cpumask_test_cpu((cpu), cpu_active_mask)
 #else
-#define num_online_cpus()	1
+/*#define num_online_cpus()	1
 #define num_possible_cpus()	1
 #define num_present_cpus()	1
 #define num_active_cpus()	1
 #define cpu_online(cpu)		((cpu) == 0)
 #define cpu_possible(cpu)	((cpu) == 0)
 #define cpu_present(cpu)	((cpu) == 0)
-#define cpu_active(cpu)		((cpu) == 0)
+#define cpu_active(cpu)		((cpu) == 0)*/
 #endif
 
 /* verify cpu argument to cpumask_* operators */
@@ -111,12 +111,12 @@ static inline unsigned int cpumask_check(unsigned int cpu)
 
 #if NR_CPUS == 1
 /* Uniprocessor.  Assume all masks are "1". */
-static inline unsigned int cpumask_first(const struct cpumask *srcp)
+/*static inline unsigned int cpumask_first(const struct cpumask *srcp)
 {
 	return 0;
 }
 
-/* Valid inputs for n are -1 and 0. */
+* Valid inputs for n are -1 and 0. *
 static inline unsigned int cpumask_next(int n, const struct cpumask *srcp)
 {
 	return n+1;
@@ -134,7 +134,7 @@ static inline unsigned int cpumask_next_and(int n,
 	return n+1;
 }
 
-/* cpu must be a valid cpu, ie 0, so there's no other choice. */
+* cpu must be a valid cpu, ie 0, so there's no other choice. *
 static inline unsigned int cpumask_any_but(const struct cpumask *mask,
 					   unsigned int cpu)
 {
@@ -144,7 +144,7 @@ static inline unsigned int cpumask_any_but(const struct cpumask *mask,
 #define for_each_cpu(cpu, mask)			\
 	for ((cpu) = 0; (cpu) < 1; (cpu)++, (void)mask)
 #define for_each_cpu_and(cpu, mask, and)	\
-	for ((cpu) = 0; (cpu) < 1; (cpu)++, (void)mask, (void)and)
+	for ((cpu) = 0; (cpu) < 1; (cpu)++, (void)mask, (void)and)*/
 #else
 /**
  * cpumask_first - get the first cpu in a cpumask
@@ -601,7 +601,7 @@ void free_cpumask_var(cpumask_var_t mask);
 void free_bootmem_cpumask_var(cpumask_var_t mask);
 
 #else
-typedef struct cpumask cpumask_var_t[1];
+/*typedef struct cpumask cpumask_var_t[1];
 
 static inline bool alloc_cpumask_var(cpumask_var_t *mask, gfp_t flags)
 {
@@ -637,7 +637,7 @@ static inline void free_cpumask_var(cpumask_var_t mask)
 
 static inline void free_bootmem_cpumask_var(cpumask_var_t mask)
 {
-}
+}*/
 #endif /* CONFIG_CPUMASK_OFFSTACK */
 
 /* It's common to want to use cpu_all_mask in struct member initializers,
@@ -700,10 +700,10 @@ static inline const struct cpumask *get_cpu_mask(unsigned int cpu)
 #define cpu_is_offline(cpu)	unlikely(!cpu_online(cpu))
 
 #if NR_CPUS <= BITS_PER_LONG
-#define CPU_BITS_ALL						\
+/*#define CPU_BITS_ALL						\
 {								\
 	[BITS_TO_LONGS(NR_CPUS)-1] = CPU_MASK_LAST_WORD	\
-}
+}*/
 
 #else /* NR_CPUS > BITS_PER_LONG */
 
@@ -731,12 +731,12 @@ static inline const struct cpumask *get_cpu_mask(unsigned int cpu)
 #define CPU_MASK_LAST_WORD BITMAP_LAST_WORD_MASK(NR_CPUS)
 
 #if NR_CPUS <= BITS_PER_LONG
-
+/*
 #define CPU_MASK_ALL							\
 (cpumask_t) { {								\
 	[BITS_TO_LONGS(NR_CPUS)-1] = CPU_MASK_LAST_WORD			\
 } }
-
+*/
 #else
 
 #define CPU_MASK_ALL							\
@@ -758,11 +758,11 @@ static inline const struct cpumask *get_cpu_mask(unsigned int cpu)
 } }
 
 #if NR_CPUS == 1
-#define first_cpu(src)		({ (void)(src); 0; })
+/*#define first_cpu(src)		({ (void)(src); 0; })
 #define next_cpu(n, src)	({ (void)(src); 1; })
 #define any_online_cpu(mask)	0
 #define for_each_cpu_mask(cpu, mask)	\
-	for ((cpu) = 0; (cpu) < 1; (cpu)++, (void)mask)
+	for ((cpu) = 0; (cpu) < 1; (cpu)++, (void)mask)*/
 #else /* NR_CPUS > 1 */
 int __first_cpu(const cpumask_t *srcp);
 int __next_cpu(int n, const cpumask_t *srcp);
@@ -779,7 +779,7 @@ int __any_online_cpu(const cpumask_t *mask);
 
 #if NR_CPUS <= 64
 
-#define for_each_cpu_mask_nr(cpu, mask)	for_each_cpu_mask(cpu, mask)
+//#define for_each_cpu_mask_nr(cpu, mask)	for_each_cpu_mask(cpu, mask)
 
 #else /* NR_CPUS > 64 */
 

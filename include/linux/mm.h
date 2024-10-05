@@ -480,11 +480,11 @@ static inline void set_compound_order(struct page *page, unsigned long order)
  * there.  This includes the case where there is no node, so it is implicit.
  */
 #if !(NODES_WIDTH > 0 || NODES_SHIFT == 0)
-#define NODE_NOT_IN_PAGE_FLAGS
+//#define NODE_NOT_IN_PAGE_FLAGS
 #endif
 
 #ifndef PFN_SECTION_SHIFT
-#define PFN_SECTION_SHIFT 0
+//#define PFN_SECTION_SHIFT 0
 #endif
 
 /*

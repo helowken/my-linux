@@ -13,7 +13,7 @@
 #include <linux/delay.h>
 
 #ifdef HAVE_REALLY_SLOW_DMA_CONTROLLER
-#define dma_outb	outb_p
+//#define dma_outb	outb_p
 #else
 #define dma_outb	outb
 #endif
@@ -73,7 +73,7 @@
 #ifdef CONFIG_X86_32
 
 /* The maximum address that we can perform a DMA transfer to on this platform */
-#define MAX_DMA_ADDRESS      (PAGE_OFFSET + 0x1000000)
+//#define MAX_DMA_ADDRESS      (PAGE_OFFSET + 0x1000000)
 
 #else
 
@@ -312,7 +312,7 @@ extern void free_dma(unsigned int dmanr);
 #ifdef CONFIG_PCI
 extern int isa_dma_bridge_buggy;
 #else
-#define isa_dma_bridge_buggy	(0)
+//#define isa_dma_bridge_buggy	(0)
 #endif
 
 #endif /* _ASM_X86_DMA_H */

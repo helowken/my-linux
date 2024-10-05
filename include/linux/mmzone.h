@@ -23,7 +23,7 @@
 #ifndef CONFIG_FORCE_MAX_ZONEORDER
 #define MAX_ORDER 11
 #else
-#define MAX_ORDER CONFIG_FORCE_MAX_ZONEORDER
+//#define MAX_ORDER CONFIG_FORCE_MAX_ZONEORDER
 #endif
 #define MAX_ORDER_NR_PAGES (1 << (MAX_ORDER - 1))
 
@@ -73,7 +73,7 @@ struct zone_padding {
 } ____cacheline_internodealigned_in_smp;
 #define ZONE_PADDING(name)	struct zone_padding name;
 #else
-#define ZONE_PADDING(name)
+//#define ZONE_PADDING(name)
 #endif
 
 enum zone_stat_item {
@@ -189,7 +189,7 @@ struct per_cpu_pageset {
 #ifdef CONFIG_NUMA
 #define zone_pcp(__z, __cpu) ((__z)->pageset[(__cpu)])
 #else
-#define zone_pcp(__z, __cpu) (&(__z)->pageset[(__cpu)])
+//#define zone_pcp(__z, __cpu) (&(__z)->pageset[(__cpu)])
 #endif
 
 #endif /* !__GENERATING_BOUNDS.H */
@@ -239,7 +239,7 @@ enum zone_type {
 	 * table entries on i386) for each page that the kernel needs to
 	 * access.
 	 */
-	ZONE_HIGHMEM,
+	//ZONE_HIGHMEM,
 #endif
 	ZONE_MOVABLE,
 	__MAX_NR_ZONES
@@ -256,9 +256,9 @@ enum zone_type {
  */
 
 #if MAX_NR_ZONES < 2
-#define ZONES_SHIFT 0
+//#define ZONES_SHIFT 0
 #elif MAX_NR_ZONES <= 2
-#define ZONES_SHIFT 1
+//#define ZONES_SHIFT 1
 #elif MAX_NR_ZONES <= 4
 #define ZONES_SHIFT 2
 #else
@@ -315,7 +315,7 @@ struct zone {
 	unsigned long		min_slab_pages;
 	struct per_cpu_pageset	*pageset[NR_CPUS];
 #else
-	struct per_cpu_pageset	pageset[NR_CPUS];
+	//struct per_cpu_pageset	pageset[NR_CPUS];
 #endif
 	/*
 	 * free areas of different sizes
@@ -470,7 +470,7 @@ static inline int zone_is_oom_locked(const struct zone *zone)
 #ifdef CONFIG_SMP
 unsigned long zone_nr_free_pages(struct zone *zone);
 #else
-#define zone_nr_free_pages(zone) zone_page_state(zone, NR_FREE_PAGES)
+//#define zone_nr_free_pages(zone) zone_page_state(zone, NR_FREE_PAGES)
 #endif /* CONFIG_SMP */
 
 /*
@@ -560,8 +560,8 @@ struct zonelist_cache {
 	unsigned long last_full_zap;		/* when last zap'd (jiffies) */
 };
 #else
-#define MAX_ZONELISTS 1
-struct zonelist_cache;
+//#define MAX_ZONELISTS 1
+//struct zonelist_cache;
 #endif
 
 /*
@@ -657,7 +657,7 @@ typedef struct pglist_data {
 #define node_present_pages(nid)	(NODE_DATA(nid)->node_present_pages)
 #define node_spanned_pages(nid)	(NODE_DATA(nid)->node_spanned_pages)
 #ifdef CONFIG_FLAT_NODE_MEM_MAP
-#define pgdat_page_nr(pgdat, pagenr)	((pgdat)->node_mem_map + (pagenr))
+//#define pgdat_page_nr(pgdat, pagenr)	((pgdat)->node_mem_map + (pagenr))
 #else
 #define pgdat_page_nr(pgdat, pagenr)	pfn_to_page((pgdat)->node_start_pfn + (pagenr))
 #endif
@@ -682,7 +682,7 @@ extern int init_currently_empty_zone(struct zone *zone, unsigned long start_pfn,
 #ifdef CONFIG_HAVE_MEMORY_PRESENT
 void memory_present(int nid, unsigned long start, unsigned long end);
 #else
-static inline void memory_present(int nid, unsigned long start, unsigned long end) {}
+//static inline void memory_present(int nid, unsigned long start, unsigned long end) {}
 #endif
 
 #ifdef CONFIG_NEED_NODE_MEMMAP_SIZE
@@ -704,7 +704,7 @@ extern int movable_zone;
 static inline int zone_movable_is_highmem(void)
 {
 #if defined(CONFIG_HIGHMEM) && defined(CONFIG_ARCH_POPULATES_NODE_MAP)
-	return movable_zone == ZONE_HIGHMEM;
+	//return movable_zone == ZONE_HIGHMEM;
 #else
 	return 0;
 #endif
@@ -734,10 +734,10 @@ static inline int is_normal_idx(enum zone_type idx)
 static inline int is_highmem(struct zone *zone)
 {
 #ifdef CONFIG_HIGHMEM
-	int zone_off = (char *)zone - (char *)zone->zone_pgdat->node_zones;
+	/*int zone_off = (char *)zone - (char *)zone->zone_pgdat->node_zones;
 	return zone_off == ZONE_HIGHMEM * sizeof(*zone) ||
 	       (zone_off == ZONE_MOVABLE * sizeof(*zone) &&
-		zone_movable_is_highmem());
+		zone_movable_is_highmem());*/
 #else
 	return 0;
 #endif
@@ -753,7 +753,7 @@ static inline int is_dma32(struct zone *zone)
 #ifdef CONFIG_ZONE_DMA32
 	return zone == zone->zone_pgdat->node_zones + ZONE_DMA32;
 #else
-	return 0;
+	//return 0;
 #endif
 }
 
@@ -762,7 +762,7 @@ static inline int is_dma(struct zone *zone)
 #ifdef CONFIG_ZONE_DMA
 	return zone == zone->zone_pgdat->node_zones + ZONE_DMA;
 #else
-	return 0;
+	//return 0;
 #endif
 }
 
@@ -786,11 +786,11 @@ extern char numa_zonelist_order[];
 #define NUMA_ZONELIST_ORDER_LEN 16	/* string buffer size */
 
 #ifndef CONFIG_NEED_MULTIPLE_NODES
-
+/*
 extern struct pglist_data contig_page_data;
 #define NODE_DATA(nid)		(&contig_page_data)
 #define NODE_MEM_MAP(nid)	mem_map
-
+*/
 #else /* CONFIG_NEED_MULTIPLE_NODES */
 
 #include <asm/mmzone.h>
@@ -845,7 +845,7 @@ static inline int zonelist_node_idx(struct zoneref *zoneref)
 	/* zone_to_nid not available in this context */
 	return zoneref->zone->node;
 #else
-	return 0;
+	//return 0;
 #endif /* CONFIG_NUMA */
 }
 
@@ -922,10 +922,10 @@ static inline struct zoneref *first_zones_zonelist(struct zonelist *zonelist,
 
 #if !defined(CONFIG_HAVE_ARCH_EARLY_PFN_TO_NID) && \
 	!defined(CONFIG_ARCH_POPULATES_NODE_MAP)
-static inline unsigned long early_pfn_to_nid(unsigned long pfn)
+/*static inline unsigned long early_pfn_to_nid(unsigned long pfn)
 {
 	return 0;
-}
+}*/
 #endif
 
 #ifdef CONFIG_FLATMEM
@@ -992,7 +992,7 @@ struct mem_section {
 #ifdef CONFIG_SPARSEMEM_EXTREME
 #define SECTIONS_PER_ROOT       (PAGE_SIZE / sizeof (struct mem_section))
 #else
-#define SECTIONS_PER_ROOT	1
+//#define SECTIONS_PER_ROOT	1
 #endif
 
 #define SECTION_NR_TO_ROOT(sec)	((sec) / SECTIONS_PER_ROOT)
@@ -1002,7 +1002,7 @@ struct mem_section {
 #ifdef CONFIG_SPARSEMEM_EXTREME
 extern struct mem_section *mem_section[NR_SECTION_ROOTS];
 #else
-extern struct mem_section mem_section[NR_SECTION_ROOTS][SECTIONS_PER_ROOT];
+//extern struct mem_section mem_section[NR_SECTION_ROOTS][SECTIONS_PER_ROOT];
 #endif
 
 static inline struct mem_section *__nr_to_section(unsigned long nr)
@@ -1083,24 +1083,24 @@ static inline int pfn_present(unsigned long pfn)
 	page_to_nid(pfn_to_page(__pfn_to_nid_pfn));			\
 })
 #else
-#define pfn_to_nid(pfn)		(0)
+//#define pfn_to_nid(pfn)		(0)
 #endif
 
 #define early_pfn_valid(pfn)	pfn_valid(pfn)
 void sparse_init(void);
 #else
-#define sparse_init()	do {} while (0)
-#define sparse_index_init(_sec, _nid)  do {} while (0)
+//#define sparse_init()	do {} while (0)
+//#define sparse_index_init(_sec, _nid)  do {} while (0)
 #endif /* CONFIG_SPARSEMEM */
 
 #ifdef CONFIG_NODES_SPAN_OTHER_NODES
 bool early_pfn_in_nid(unsigned long pfn, int nid);
 #else
-#define early_pfn_in_nid(pfn, nid)	(1)
+//#define early_pfn_in_nid(pfn, nid)	(1)
 #endif
 
 #ifndef early_pfn_valid
-#define early_pfn_valid(pfn)	(1)
+//#define early_pfn_valid(pfn)	(1)
 #endif
 
 void memory_present(int nid, unsigned long start, unsigned long end);
@@ -1113,7 +1113,7 @@ unsigned long __init node_memmap_size_bytes(int, unsigned long, unsigned long);
  * when we have no holes within a MAX_ORDER_NR_PAGES block.
  */
 #ifdef CONFIG_HOLES_IN_ZONE
-#define pfn_valid_within(pfn) pfn_valid(pfn)
+//#define pfn_valid_within(pfn) pfn_valid(pfn)
 #else
 #define pfn_valid_within(pfn) (1)
 #endif
@@ -1134,8 +1134,8 @@ unsigned long __init node_memmap_size_bytes(int, unsigned long, unsigned long);
  * the zone and PFN linkages are still valid. This is expensive, but walkers
  * of the full memmap are extremely rare.
  */
-int memmap_valid_within(unsigned long pfn,
-					struct page *page, struct zone *zone);
+/*int memmap_valid_within(unsigned long pfn,
+					struct page *page, struct zone *zone);*/
 #else
 static inline int memmap_valid_within(unsigned long pfn,
 					struct page *page, struct zone *zone)

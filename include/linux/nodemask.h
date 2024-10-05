@@ -267,12 +267,12 @@ static inline int __first_unset_node(const nodemask_t *maskp)
 #define NODE_MASK_LAST_WORD BITMAP_LAST_WORD_MASK(MAX_NUMNODES)
 
 #if MAX_NUMNODES <= BITS_PER_LONG
-
+/*
 #define NODE_MASK_ALL							\
 ((nodemask_t) { {							\
 	[BITS_TO_LONGS(MAX_NUMNODES)-1] = NODE_MASK_LAST_WORD		\
 } })
-
+*/
 #else
 
 #define NODE_MASK_ALL							\
@@ -358,9 +358,9 @@ static inline void __nodes_fold(nodemask_t *dstp, const nodemask_t *origp,
 		(node) < MAX_NUMNODES;			\
 		(node) = next_node((node), (mask)))
 #else /* MAX_NUMNODES == 1 */
-#define for_each_node_mask(node, mask)			\
+/*#define for_each_node_mask(node, mask)			\
 	if (!nodes_empty(mask))				\
-		for ((node) = 0; (node) < 1; (node)++)
+		for ((node) = 0; (node) < 1; (node)++)*/
 #endif /* MAX_NUMNODES */
 
 /*
@@ -371,7 +371,7 @@ enum node_states {
 	N_ONLINE,		/* The node is online */
 	N_NORMAL_MEMORY,	/* The node has regular memory */
 #ifdef CONFIG_HIGHMEM
-	N_HIGH_MEMORY,		/* The node has regular or high memory */
+	//N_HIGH_MEMORY,		/* The node has regular or high memory */
 #else
 	N_HIGH_MEMORY = N_NORMAL_MEMORY,
 #endif
@@ -428,7 +428,7 @@ static inline void node_set_offline(int nid)
 	nr_online_nodes = num_node_state(N_ONLINE);
 }
 #else
-
+/*
 static inline int node_state(int node, enum node_states state)
 {
 	return node == 0;
@@ -456,7 +456,7 @@ static inline int num_node_state(enum node_states state)
 #define nr_online_nodes		1
 
 #define node_set_online(node)	   node_set_state((node), N_ONLINE)
-#define node_set_offline(node)	   node_clear_state((node), N_ONLINE)
+#define node_set_offline(node)	   node_clear_state((node), N_ONLINE)*/
 #endif
 
 #define node_online_map 	node_states[N_ONLINE]
@@ -487,8 +487,8 @@ static inline int num_node_state(enum node_states state)
 #define NODEMASK_ALLOC(x, m) struct x *m = kmalloc(sizeof(*m), GFP_KERNEL)
 #define NODEMASK_FREE(m) kfree(m)
 #else
-#define NODEMASK_ALLOC(x, m) struct x _m, *m = &_m
-#define NODEMASK_FREE(m)
+//#define NODEMASK_ALLOC(x, m) struct x _m, *m = &_m
+//#define NODEMASK_FREE(m)
 #endif
 
 /* A example struture for using NODEMASK_ALLOC, used in mempolicy. */

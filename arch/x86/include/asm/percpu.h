@@ -5,8 +5,8 @@
 #define __percpu_seg		gs
 #define __percpu_mov_op		movq
 #else
-#define __percpu_seg		fs
-#define __percpu_mov_op		movl
+//#define __percpu_seg		fs
+//#define __percpu_mov_op		movl
 #endif
 
 #ifdef __ASSEMBLY__
@@ -29,15 +29,15 @@
 	lea per_cpu__##var(reg), reg
 #define PER_CPU_VAR(var)	%__percpu_seg:per_cpu__##var
 #else /* ! SMP */
-#define PER_CPU(var, reg)						\
+/*#define PER_CPU(var, reg)						\
 	__percpu_mov_op $per_cpu__##var, reg
-#define PER_CPU_VAR(var)	per_cpu__##var
+#define PER_CPU_VAR(var)	per_cpu__##var*/
 #endif	/* SMP */
 
 #ifdef CONFIG_X86_64_SMP
 #define INIT_PER_CPU_VAR(var)  init_per_cpu__##var
 #else
-#define INIT_PER_CPU_VAR(var)  per_cpu__##var
+//#define INIT_PER_CPU_VAR(var)  per_cpu__##var
 #endif
 
 #else /* ...!ASSEMBLY */
@@ -49,7 +49,7 @@
 #define __percpu_arg(x)		"%%"__stringify(__percpu_seg)":%P" #x
 #define __my_cpu_offset		percpu_read(this_cpu_off)
 #else
-#define __percpu_arg(x)		"%P" #x
+//#define __percpu_arg(x)		"%P" #x
 #endif
 
 /*
@@ -65,7 +65,7 @@
 #ifdef CONFIG_X86_64_SMP
 #define init_per_cpu_var(var)  init_per_cpu__##var
 #else
-#define init_per_cpu_var(var)  per_cpu_var(var)
+//#define init_per_cpu_var(var)  per_cpu_var(var)
 #endif
 
 /* For arch-specific code, we can use direct single-insn ops (they
@@ -200,7 +200,7 @@ DECLARE_PER_CPU(unsigned long, this_cpu_off);
 		&per_cpu(_name, _cpu))
 
 #else	/* !CONFIG_SMP */
-#define	DEFINE_EARLY_PER_CPU(_type, _name, _initvalue)		\
+/*#define	DEFINE_EARLY_PER_CPU(_type, _name, _initvalue)		\
 	DEFINE_PER_CPU(_type, _name) = _initvalue
 
 #define EXPORT_EARLY_PER_CPU_SYMBOL(_name)			\
@@ -210,7 +210,7 @@ DECLARE_PER_CPU(unsigned long, this_cpu_off);
 	DECLARE_PER_CPU(_type, _name)
 
 #define	early_per_cpu(_name, _cpu) per_cpu(_name, _cpu)
-#define	early_per_cpu_ptr(_name) NULL
+#define	early_per_cpu_ptr(_name) NULL*/
 /* no early_per_cpu_map() */
 
 #endif	/* !CONFIG_SMP */

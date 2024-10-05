@@ -20,7 +20,7 @@
 #include <asm/stackprotector.h>
 
 #ifdef CONFIG_DEBUG_PER_CPU_MAPS
-# define DBG(x...) printk(KERN_DEBUG x)
+//# define DBG(x...) printk(KERN_DEBUG x)
 #else
 # define DBG(x...)
 #endif
@@ -31,7 +31,7 @@ EXPORT_PER_CPU_SYMBOL(cpu_number);
 #ifdef CONFIG_X86_64
 #define BOOT_PERCPU_OFFSET ((unsigned long)__per_cpu_load)
 #else
-#define BOOT_PERCPU_OFFSET 0
+//#define BOOT_PERCPU_OFFSET 0
 #endif
 
 DEFINE_PER_CPU(unsigned long, this_cpu_off) = BOOT_PERCPU_OFFSET;
@@ -52,7 +52,7 @@ EXPORT_SYMBOL(__per_cpu_offset);
 #ifdef CONFIG_X86_64
 #define PERCPU_FIRST_CHUNK_RESERVE	PERCPU_MODULE_RESERVE
 #else
-#define PERCPU_FIRST_CHUNK_RESERVE	0
+//#define PERCPU_FIRST_CHUNK_RESERVE	0
 #endif
 
 #ifdef CONFIG_X86_32
@@ -66,7 +66,7 @@ EXPORT_SYMBOL(__per_cpu_offset);
  * RETURNS:
  * true if NUMA should be considered; otherwise, false.
  */
-static bool __init pcpu_need_numa(void)
+/*static bool __init pcpu_need_numa(void)
 {
 #ifdef CONFIG_NEED_MULTIPLE_NODES
 	pg_data_t *last = NULL;
@@ -83,7 +83,7 @@ static bool __init pcpu_need_numa(void)
 	}
 #endif
 	return false;
-}
+}*/
 #endif
 
 /**
@@ -121,7 +121,7 @@ static void * __init pcpu_alloc_bootmem(unsigned int cpu, unsigned long size,
 	}
 	return ptr;
 #else
-	return __alloc_bootmem_nopanic(size, align, goal);
+	//return __alloc_bootmem_nopanic(size, align, goal);
 #endif
 }
 
@@ -146,7 +146,7 @@ static int __init pcpu_cpu_distance(unsigned int from, unsigned int to)
 	else
 		return REMOTE_DISTANCE;
 #else
-	return LOCAL_DISTANCE;
+	//return LOCAL_DISTANCE;
 #endif
 }
 
@@ -158,13 +158,13 @@ static void __init pcpup_populate_pte(unsigned long addr)
 static inline void setup_percpu_segment(int cpu)
 {
 #ifdef CONFIG_X86_32
-	struct desc_struct gdt;
+	/*struct desc_struct gdt;
 
 	pack_descriptor(&gdt, per_cpu_offset(cpu), 0xFFFFF,
 			0x2 | DESCTYPE_S, 0x8);
 	gdt.s = 1;
 	write_gdt_entry(get_cpu_gdt_table(cpu),
-			GDT_ENTRY_PERCPU, &gdt, DESCTYPE_S);
+			GDT_ENTRY_PERCPU, &gdt, DESCTYPE_S);*/
 #endif
 }
 
@@ -184,8 +184,8 @@ void __init setup_per_cpu_areas(void)
 	 * on 32bit.  Use page in that case.
 	 */
 #ifdef CONFIG_X86_32
-	if (pcpu_chosen_fc == PCPU_FC_AUTO && pcpu_need_numa())
-		pcpu_chosen_fc = PCPU_FC_PAGE;
+	/*if (pcpu_chosen_fc == PCPU_FC_AUTO && pcpu_need_numa())
+		pcpu_chosen_fc = PCPU_FC_PAGE;*/
 #endif
 	rc = -EINVAL;
 	if (pcpu_chosen_fc != PCPU_FC_PAGE) {

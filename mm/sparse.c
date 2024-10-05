@@ -22,8 +22,8 @@
 struct mem_section *mem_section[NR_SECTION_ROOTS]
 	____cacheline_internodealigned_in_smp;
 #else
-struct mem_section mem_section[NR_SECTION_ROOTS][SECTIONS_PER_ROOT]
-	____cacheline_internodealigned_in_smp;
+/*struct mem_section mem_section[NR_SECTION_ROOTS][SECTIONS_PER_ROOT]
+	____cacheline_internodealigned_in_smp;*/
 #endif
 EXPORT_SYMBOL(mem_section);
 
@@ -33,7 +33,7 @@ EXPORT_SYMBOL(mem_section);
  * do a lookup in the section_to_node_table in order to find which
  * node the page belongs to.
  */
-#if MAX_NUMNODES <= 256
+/*#if MAX_NUMNODES <= 256
 static u8 section_to_node_table[NR_MEM_SECTIONS] __cacheline_aligned;
 #else
 static u16 section_to_node_table[NR_MEM_SECTIONS] __cacheline_aligned;
@@ -48,7 +48,7 @@ EXPORT_SYMBOL(page_to_nid);
 static void set_section_nid(unsigned long section_nr, int nid)
 {
 	section_to_node_table[section_nr] = nid;
-}
+}*/
 #else /* !NODE_NOT_IN_PAGE_FLAGS */
 static inline void set_section_nid(unsigned long section_nr, int nid)
 {
@@ -106,10 +106,10 @@ out:
 	return ret;
 }
 #else /* !SPARSEMEM_EXTREME */
-static inline int sparse_index_init(unsigned long section_nr, int nid)
+/*static inline int sparse_index_init(unsigned long section_nr, int nid)
 {
 	return 0;
-}
+}*/
 #endif
 
 /*
@@ -270,12 +270,12 @@ static unsigned long *__kmalloc_section_usemap(void)
 #endif /* CONFIG_MEMORY_HOTPLUG */
 
 #ifdef CONFIG_MEMORY_HOTREMOVE
-static unsigned long * __init
+/*static unsigned long * __init
 sparse_early_usemap_alloc_pgdat_section(struct pglist_data *pgdat)
 {
 	unsigned long section_nr;
 
-	/*
+	*
 	 * A page may contain usemaps for other sections preventing the
 	 * page being freed and making a section unremovable while
 	 * other sections referencing the usemap retmain active. Similarly,
@@ -284,7 +284,7 @@ sparse_early_usemap_alloc_pgdat_section(struct pglist_data *pgdat)
 	 * sections become inter-dependent. This allocates usemaps
 	 * from the same section as the pgdat where possible to avoid
 	 * this problem.
-	 */
+	 *
 	section_nr = pfn_to_section_nr(__pa(pgdat) >> PAGE_SHIFT);
 	return alloc_bootmem_section(usemap_size(), section_nr);
 }
@@ -303,7 +303,7 @@ static void __init check_usemap_section_nr(int nid, unsigned long *usemap)
 		return;
 
 	if (old_usemap_snr == usemap_snr && old_pgdat_snr == pgdat_snr)
-		/* skip redundant message */
+		* skip redundant message *
 		return;
 
 	old_usemap_snr = usemap_snr;
@@ -316,17 +316,17 @@ static void __init check_usemap_section_nr(int nid, unsigned long *usemap)
 		       nid, usemap_snr);
 		return;
 	}
-	/*
+	*
 	 * There is a circular dependency.
 	 * Some platforms allow un-removable section because they will just
 	 * gather other removable sections for dynamic partitioning.
 	 * Just notify un-removable section's number here.
-	 */
+	 *
 	printk(KERN_INFO "Section %ld and %ld (node %d)", usemap_snr,
 	       pgdat_snr, nid);
 	printk(KERN_CONT
 	       " have a circular dependency on usemap and pgdat allocations\n");
-}
+}*/
 #else
 static unsigned long * __init
 sparse_early_usemap_alloc_pgdat_section(struct pglist_data *pgdat)
@@ -363,7 +363,7 @@ static unsigned long *__init sparse_early_usemap_alloc(unsigned long pnum)
 }
 
 #ifndef CONFIG_SPARSEMEM_VMEMMAP
-struct page __init *sparse_mem_map_populate(unsigned long pnum, int nid)
+/*struct page __init *sparse_mem_map_populate(unsigned long pnum, int nid)
 {
 	struct page *map;
 
@@ -374,7 +374,7 @@ struct page __init *sparse_mem_map_populate(unsigned long pnum, int nid)
 	map = alloc_bootmem_pages_node(NODE_DATA(nid),
 		       PAGE_ALIGN(sizeof(struct page) * PAGES_PER_SECTION));
 	return map;
-}
+}*/
 #endif /* !CONFIG_SPARSEMEM_VMEMMAP */
 
 static struct page __init *sparse_early_mem_map_alloc(unsigned long pnum)
@@ -467,7 +467,7 @@ static void free_map_bootmem(struct page *page, unsigned long nr_pages)
 {
 }
 #else
-static struct page *__kmalloc_section_memmap(unsigned long nr_pages)
+/*static struct page *__kmalloc_section_memmap(unsigned long nr_pages)
 {
 	struct page *page, *ret;
 	unsigned long memmap_size = sizeof(struct page) * nr_pages;
@@ -517,18 +517,18 @@ static void free_map_bootmem(struct page *page, unsigned long nr_pages)
 		maps_section_nr = pfn_to_section_nr(page_to_pfn(page));
 		removing_section_nr = page->private;
 
-		/*
+		*
 		 * When this function is called, the removing section is
 		 * logical offlined state. This means all pages are isolated
 		 * from page allocator. If removing section's memmap is placed
 		 * on the same section, it must not be freed.
 		 * If it is freed, page allocator may allocate it which will
 		 * be removed physically soon.
-		 */
+		 *
 		if (maps_section_nr != removing_section_nr)
 			put_page_bootmem(page);
 	}
-}
+}*/
 #endif /* CONFIG_SPARSEMEM_VMEMMAP */
 
 static void free_section_usemap(struct page *memmap, unsigned long *usemap)

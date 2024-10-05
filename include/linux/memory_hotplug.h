@@ -80,10 +80,10 @@ extern int __remove_pages(struct zone *zone, unsigned long start_pfn,
 #ifdef CONFIG_NUMA
 extern int memory_add_physaddr_to_nid(u64 start);
 #else
-static inline int memory_add_physaddr_to_nid(u64 start)
+/*static inline int memory_add_physaddr_to_nid(u64 start)
 {
 	return 0;
-}
+}*/
 #endif
 
 #ifdef CONFIG_HAVE_ARCH_NODEDATA_EXTENSION
@@ -97,10 +97,10 @@ static inline int memory_add_physaddr_to_nid(u64 start)
  * Now, arch_free_nodedata() is just defined for error path of node_hot_add.
  *
  */
-extern pg_data_t *arch_alloc_nodedata(int nid);
+/*extern pg_data_t *arch_alloc_nodedata(int nid);
 extern void arch_free_nodedata(pg_data_t *pgdat);
 extern void arch_refresh_nodedata(int nid, pg_data_t *pgdat);
-
+*/
 #else /* CONFIG_HAVE_ARCH_NODEDATA_EXTENSION */
 
 #define arch_alloc_nodedata(nid)	generic_alloc_nodedata(nid)
@@ -132,7 +132,7 @@ static inline void arch_refresh_nodedata(int nid, pg_data_t *pgdat)
 #else /* !CONFIG_NUMA */
 
 /* never called */
-static inline pg_data_t *generic_alloc_nodedata(int nid)
+/*static inline pg_data_t *generic_alloc_nodedata(int nid)
 {
 	BUG();
 	return NULL;
@@ -142,7 +142,7 @@ static inline void generic_free_nodedata(pg_data_t *pgdat)
 }
 static inline void arch_refresh_nodedata(int nid, pg_data_t *pgdat)
 {
-}
+}*/
 #endif /* CONFIG_NUMA */
 #endif /* CONFIG_HAVE_ARCH_NODEDATA_EXTENSION */
 
@@ -154,15 +154,15 @@ static inline void put_page_bootmem(struct page *page)
 {
 }
 #else
-extern void register_page_bootmem_info_node(struct pglist_data *pgdat);
-extern void put_page_bootmem(struct page *page);
+//extern void register_page_bootmem_info_node(struct pglist_data *pgdat);
+//extern void put_page_bootmem(struct page *page);
 #endif
 
 #else /* ! CONFIG_MEMORY_HOTPLUG */
 /*
  * Stub functions for when hotplug is off
  */
-static inline void pgdat_resize_lock(struct pglist_data *p, unsigned long *f) {}
+/*static inline void pgdat_resize_lock(struct pglist_data *p, unsigned long *f) {}
 static inline void pgdat_resize_unlock(struct pglist_data *p, unsigned long *f) {}
 static inline void pgdat_resize_init(struct pglist_data *pgdat) {}
 
@@ -188,12 +188,12 @@ static inline int mhp_notimplemented(const char *func)
 static inline void register_page_bootmem_info_node(struct pglist_data *pgdat)
 {
 }
-
+*/
 #endif /* ! CONFIG_MEMORY_HOTPLUG */
 
 #ifdef CONFIG_MEMORY_HOTREMOVE
 
-extern int is_mem_section_removable(unsigned long pfn, unsigned long nr_pages);
+//extern int is_mem_section_removable(unsigned long pfn, unsigned long nr_pages);
 
 #else
 static inline int is_mem_section_removable(unsigned long pfn,

@@ -26,9 +26,9 @@
 #define _ASM_X86_TOPOLOGY_H
 
 #ifdef CONFIG_X86_32
-# ifdef CONFIG_X86_HT
+/*# ifdef CONFIG_X86_HT
 #  define ENABLE_TOPO_DEFINES
-# endif
+# endif*/
 #else
 # ifdef CONFIG_SMP
 #  define ENABLE_TOPO_DEFINES
@@ -43,17 +43,17 @@
 #include <asm/mpspec.h>
 
 #ifdef CONFIG_X86_32
-
-/* Mappings between logical cpu number and node number */
+/*
+* Mappings between logical cpu number and node number *
 extern int cpu_to_node_map[];
 
-/* Returns the number of the node containing CPU 'cpu' */
+* Returns the number of the node containing CPU 'cpu' *
 static inline int cpu_to_node(int cpu)
 {
 	return cpu_to_node_map[cpu];
 }
 #define early_cpu_to_node(cpu)	cpu_to_node(cpu)
-
+*/
 #else /* CONFIG_X86_64 */
 
 /* Mappings between logical cpu number and node number */
@@ -64,8 +64,8 @@ DECLARE_PER_CPU(int, node_number);
 #define numa_node_id()		percpu_read(node_number)
 
 #ifdef CONFIG_DEBUG_PER_CPU_MAPS
-extern int cpu_to_node(int cpu);
-extern int early_cpu_to_node(int cpu);
+//extern int cpu_to_node(int cpu);
+//extern int early_cpu_to_node(int cpu);
 
 #else	/* !CONFIG_DEBUG_PER_CPU_MAPS */
 
@@ -89,7 +89,7 @@ static inline int early_cpu_to_node(int cpu)
 extern cpumask_var_t node_to_cpumask_map[MAX_NUMNODES];
 
 #ifdef CONFIG_DEBUG_PER_CPU_MAPS
-extern const struct cpumask *cpumask_of_node(int node);
+//extern const struct cpumask *cpumask_of_node(int node);
 #else
 /* Returns a pointer to the cpumask of CPUs on Node 'node'. */
 static inline const struct cpumask *cpumask_of_node(int node)
@@ -109,14 +109,14 @@ extern void setup_node_to_cpumask_map(void);
 #define pcibus_to_node(bus) __pcibus_to_node(bus)
 
 #ifdef CONFIG_X86_32
-extern unsigned long node_start_pfn[];
+/*extern unsigned long node_start_pfn[];
 extern unsigned long node_end_pfn[];
 extern unsigned long node_remap_size[];
 #define node_has_online_mem(nid) (node_start_pfn[nid] != node_end_pfn[nid])
 
 # define SD_CACHE_NICE_TRIES	1
 # define SD_IDLE_IDX		1
-
+*/
 #else
 
 # define SD_CACHE_NICE_TRIES	2
@@ -160,7 +160,7 @@ extern int __node_distance(int, int);
 #endif
 
 #else /* !CONFIG_NUMA */
-
+/*
 static inline int numa_node_id(void)
 {
 	return 0;
@@ -172,7 +172,7 @@ static inline int early_cpu_to_node(int cpu)
 }
 
 static inline void setup_node_to_cpumask_map(void) { }
-
+*/
 #endif
 
 #include <asm-generic/topology.h>
@@ -206,13 +206,13 @@ void x86_pci_root_bus_res_quirks(struct pci_bus *b);
 extern int get_mp_bus_to_node(int busnum);
 extern void set_mp_bus_to_node(int busnum, int node);
 #else
-static inline int get_mp_bus_to_node(int busnum)
+/*static inline int get_mp_bus_to_node(int busnum)
 {
 	return 0;
 }
 static inline void set_mp_bus_to_node(int busnum, int node)
 {
-}
+}*/
 #endif
 
 #endif /* _ASM_X86_TOPOLOGY_H */

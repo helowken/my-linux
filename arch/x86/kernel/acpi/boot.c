@@ -180,8 +180,8 @@ acpi_parse_x2apic(struct acpi_subtable_header *header, const unsigned long end)
 	 * to not preallocating memory for all NR_CPUS
 	 * when we use CPU hotplug.
 	 */
-	acpi_register_lapic(processor->local_apic_id,	/* APIC ID */
-			    processor->lapic_flags & ACPI_MADT_ENABLED);
+	//acpi_register_lapic(processor->local_apic_id,	/* APIC ID */
+	//		    processor->lapic_flags & ACPI_MADT_ENABLED);
 #else
 	printk(KERN_WARNING PREFIX "x2apic entry ignored\n");
 #endif
@@ -699,7 +699,7 @@ static __init int hpet_insert_resource(void)
 late_initcall(hpet_insert_resource);
 
 #else
-#define	acpi_parse_hpet	NULL
+//#define	acpi_parse_hpet	NULL
 #endif
 
 static int __init acpi_parse_fadt(struct acpi_table_header *table)
@@ -837,7 +837,7 @@ static int __init acpi_parse_madt_lapic_entries(void)
 #define MP_ISA_BUS		0
 
 #ifdef CONFIG_X86_ES7000
-extern int es7000_plat;
+//extern int es7000_plat;
 #endif
 
 int __init acpi_probe_gsi(void)
@@ -933,7 +933,7 @@ void __init mp_config_acpi_legacy_irqs(void)
 	/*
 	 * Fabricate the legacy ISA bus (bus #31).
 	 */
-	mp_bus_id_to_type[MP_ISA_BUS] = MP_BUS_ISA;
+	//mp_bus_id_to_type[MP_ISA_BUS] = MP_BUS_ISA;
 #endif
 	set_bit(MP_ISA_BUS, mp_bus_not_pci);
 	pr_debug("Bus #%d is ISA\n", MP_ISA_BUS);
@@ -942,8 +942,8 @@ void __init mp_config_acpi_legacy_irqs(void)
 	/*
 	 * Older generations of ES7000 have no legacy identity mappings
 	 */
-	if (es7000_plat == 1)
-		return;
+	/*if (es7000_plat == 1)
+		return;*/
 #endif
 
 	/*
@@ -1050,8 +1050,8 @@ int mp_register_gsi(struct device *dev, u32 gsi, int trigger, int polarity)
 	ioapic_pin = mp_find_ioapic_pin(ioapic, gsi);
 
 #ifdef CONFIG_X86_32
-	if (ioapic_renumber_irq)
-		gsi = ioapic_renumber_irq(ioapic, gsi);
+	/*if (ioapic_renumber_irq)
+		gsi = ioapic_renumber_irq(ioapic, gsi);*/
 #endif
 
 	if (ioapic_pin > MP_MAX_IOAPIC_PIN) {
@@ -1144,10 +1144,10 @@ static int __init acpi_parse_madt_ioapic_entries(void)
 	return 0;
 }
 #else
-static inline int acpi_parse_madt_ioapic_entries(void)
+/*static inline int acpi_parse_madt_ioapic_entries(void)
 {
 	return -1;
-}
+}*/
 #endif	/* !CONFIG_X86_IO_APIC */
 
 static void __init early_acpi_process_madt(void)

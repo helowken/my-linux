@@ -1033,8 +1033,8 @@ void __init setup_arch(char **cmdline_p)
 	/*
 	 * get boot-time SMP configuration:
 	 */
-	if (smp_found_config)
-		get_smp_config();
+	/*if (smp_found_config)
+		get_smp_config();*/
 
 	prefill_possible_map();
 
@@ -1051,7 +1051,7 @@ void __init setup_arch(char **cmdline_p)
 	//kvm_guest_init();
 
 	e820_reserve_resources();
-	e820_mark_nosave_regions(max_low_pfn);
+	//e820_mark_nosave_regions(max_low_pfn);
 
 	x86_init.resources.reserve_resources();
 

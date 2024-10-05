@@ -34,8 +34,8 @@
 #define FIRST_EXTERNAL_VECTOR		0x20
 
 #ifdef CONFIG_X86_32
-# define SYSCALL_VECTOR			0x80
-# define IA32_SYSCALL_VECTOR		0x80
+//# define SYSCALL_VECTOR			0x80
+//# define IA32_SYSCALL_VECTOR		0x80
 #else
 # define IA32_SYSCALL_VECTOR		0x80
 #endif
@@ -164,14 +164,14 @@ static inline int invalid_vm86_irq(int irq)
 		(NR_VECTORS + CPU_VECTOR_LIMIT)  :	\
 		(NR_VECTORS + IO_APIC_VECTOR_LIMIT))
 # else
-#  if NR_CPUS < MAX_IO_APICS
+/*#  if NR_CPUS < MAX_IO_APICS
 #   define NR_IRQS 			(NR_VECTORS + 4*CPU_VECTOR_LIMIT)
 #  else
 #   define NR_IRQS			(NR_VECTORS + IO_APIC_VECTOR_LIMIT)
-#  endif
+#  endif*/
 # endif
 #else /* !CONFIG_X86_IO_APIC: */
-# define NR_IRQS			NR_IRQS_LEGACY
+//# define NR_IRQS			NR_IRQS_LEGACY
 #endif
 
 #endif /* _ASM_X86_IRQ_VECTORS_H */

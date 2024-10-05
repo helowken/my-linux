@@ -568,9 +568,9 @@ static void * __init ___alloc_bootmem_nopanic(unsigned long size,
 	void *region;
 
 restart:
-	region = alloc_arch_preferred_bootmem(NULL, size, align, goal, limit);
+	/*region = alloc_arch_preferred_bootmem(NULL, size, align, goal, limit);
 	if (region)
-		return region;
+		return region;*/
 
 	list_for_each_entry(bdata, &bdata_list, list) {
 		if (goal && bdata->node_low_pfn <= PFN_DOWN(goal))
