@@ -30,7 +30,7 @@ extern unsigned long __per_cpu_offset[NR_CPUS];
 #define __my_cpu_offset per_cpu_offset(raw_smp_processor_id())
 #endif
 #ifdef CONFIG_DEBUG_PREEMPT
-#define my_cpu_offset per_cpu_offset(smp_processor_id())
+//#define my_cpu_offset per_cpu_offset(smp_processor_id())
 #else
 #define my_cpu_offset __my_cpu_offset
 #endif
@@ -62,11 +62,11 @@ extern void setup_per_cpu_areas(void);
 #endif
 
 #else /* ! SMP */
-
+/*
 #define per_cpu(var, cpu)			(*((void)(cpu), &per_cpu_var(var)))
 #define __get_cpu_var(var)			per_cpu_var(var)
 #define __raw_get_cpu_var(var)			per_cpu_var(var)
-
+*/
 #endif	/* SMP */
 
 #ifndef PER_CPU_BASE_SECTION
@@ -89,11 +89,11 @@ extern void setup_per_cpu_areas(void);
 #define PER_CPU_FIRST_SECTION ".first"
 
 #else
-
+/*
 #define PER_CPU_SHARED_ALIGNED_SECTION ""
 #define PER_CPU_ALIGNED_SECTION ".shared_aligned"
 #define PER_CPU_FIRST_SECTION ""
-
+*/
 #endif
 
 #ifndef PER_CPU_ATTRIBUTES

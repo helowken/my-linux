@@ -4,7 +4,7 @@
 #include <linux/bootmem.h>
 
 #ifdef CONFIG_DEBUG_PER_CPU_MAPS
-# define DBG(x...) printk(KERN_DEBUG x)
+//# define DBG(x...) printk(KERN_DEBUG x)
 #else
 # define DBG(x...)
 #endif
@@ -45,7 +45,7 @@ void __init setup_node_to_cpumask_map(void)
 /*
  * Returns a pointer to the bitmask of CPUs on Node 'node'.
  */
-const struct cpumask *cpumask_of_node(int node)
+/*const struct cpumask *cpumask_of_node(int node)
 {
 	if (node >= nr_node_ids) {
 		printk(KERN_WARNING
@@ -63,5 +63,5 @@ const struct cpumask *cpumask_of_node(int node)
 	}
 	return node_to_cpumask_map[node];
 }
-EXPORT_SYMBOL(cpumask_of_node);
+EXPORT_SYMBOL(cpumask_of_node);*/
 #endif

@@ -15,8 +15,8 @@
 #include <linux/mm.h>
 
 #ifdef CONFIG_CPUSETS
-
-extern int number_of_cpusets;	/* How many cpusets are defined in system? */
+/*
+extern int number_of_cpusets;	* How many cpusets are defined in system? *
 
 extern int cpuset_init(void);
 extern void cpuset_init_smp(void);
@@ -90,7 +90,7 @@ static inline void set_mems_allowed(nodemask_t nodemask)
 {
 	current->mems_allowed = nodemask;
 }
-
+*/
 #else /* !CONFIG_CPUSETS */
 
 static inline int cpuset_init(void) { return 0; }

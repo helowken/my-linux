@@ -177,7 +177,7 @@ acpi_numa_processor_affinity_init(struct acpi_srat_cpu_affinity *pa)
 #ifdef CONFIG_MEMORY_HOTPLUG_SPARSE
 static inline int save_add_info(void) {return 1;}
 #else
-static inline int save_add_info(void) {return 0;}
+//static inline int save_add_info(void) {return 0;}
 #endif
 /*
  * Update nodes_add[]
@@ -391,7 +391,7 @@ int __init acpi_scan_nodes(unsigned long start, unsigned long end)
 }
 
 #ifdef CONFIG_NUMA_EMU
-static int fake_node_to_pxm_map[MAX_NUMNODES] __initdata = {
+/*static int fake_node_to_pxm_map[MAX_NUMNODES] __initdata = {
 	[0 ... MAX_NUMNODES-1] = PXM_INVAL
 };
 static s16 fake_apicid_to_node[MAX_LOCAL_APIC] __initdata = {
@@ -403,11 +403,11 @@ static int __init find_node_by_addr(unsigned long addr)
 	int i;
 
 	for_each_node_mask(i, nodes_parsed) {
-		/*
+		*
 		 * Find the real node that this emulated node appears on.  For
 		 * the sake of simplicity, we only use a real node's starting
 		 * address to determine which emulated node it appears on.
-		 */
+		 *
 		if (addr >= nodes[i].start && addr < nodes[i].end) {
 			ret = i;
 			break;
@@ -416,14 +416,14 @@ static int __init find_node_by_addr(unsigned long addr)
 	return ret;
 }
 
-/*
+*
  * In NUMA emulation, we need to setup proximity domain (_PXM) to node ID
  * mappings that respect the real ACPI topology but reflect our emulated
  * environment.  For each emulated node, we find which real node it appears on
  * and create PXM to NID mappings for those fake nodes which mirror that
  * locality.  SLIT will now represent the correct distances between emulated
  * nodes as a result of the real topology.
- */
+ *
 void __init acpi_fake_nodes(const struct bootnode *fake_nodes, int num_nodes)
 {
 	int i, j;
@@ -440,10 +440,10 @@ void __init acpi_fake_nodes(const struct bootnode *fake_nodes, int num_nodes)
 		if (pxm == PXM_INVAL)
 			continue;
 		fake_node_to_pxm_map[i] = pxm;
-		/*
+		*
 		 * For each apicid_to_node mapping that exists for this real
 		 * node, it must now point to the fake node ID.
-		 */
+		 *
 		for (j = 0; j < MAX_LOCAL_APIC; j++)
 			if (apicid_to_node[j] == nid)
 				fake_apicid_to_node[j] = i;
@@ -462,7 +462,7 @@ void __init acpi_fake_nodes(const struct bootnode *fake_nodes, int num_nodes)
 static int null_slit_node_compare(int a, int b)
 {
 	return node_to_pxm(a) == node_to_pxm(b);
-}
+}*/
 #else
 static int null_slit_node_compare(int a, int b)
 {

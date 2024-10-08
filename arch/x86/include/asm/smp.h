@@ -155,12 +155,12 @@ static inline int num_booting_cpus(void)
 	return cpumask_weight(cpu_callout_mask);
 }
 #else /* !CONFIG_SMP */
-#define wbinvd_on_cpu(cpu)     wbinvd()
+/*#define wbinvd_on_cpu(cpu)     wbinvd()
 static inline int wbinvd_on_all_cpus(void)
 {
 	wbinvd();
 	return 0;
-}
+}*/
 #endif /* CONFIG_SMP */
 
 extern unsigned disabled_cpus __cpuinitdata;
@@ -171,9 +171,9 @@ extern unsigned disabled_cpus __cpuinitdata;
  * from the initial startup. We map APIC_BASE very early in page_setup(),
  * so this is correct in the x86 case.
  */
-#define raw_smp_processor_id() (percpu_read(cpu_number))
+/*#define raw_smp_processor_id() (percpu_read(cpu_number))
 extern int safe_smp_processor_id(void);
-
+*/
 #elif defined(CONFIG_X86_64_SMP)
 #define raw_smp_processor_id() (percpu_read(cpu_number))
 
@@ -190,22 +190,22 @@ extern int safe_smp_processor_id(void);
 #ifdef CONFIG_X86_LOCAL_APIC
 
 #ifndef CONFIG_X86_64
-static inline int logical_smp_processor_id(void)
+/*static inline int logical_smp_processor_id(void)
 {
-	/* we don't want to mark this access volatile - bad code generation */
+	* we don't want to mark this access volatile - bad code generation *
 	return GET_APIC_LOGICAL_ID(apic_read(APIC_LDR));
 }
-
+*/
 #endif
 
 extern int hard_smp_processor_id(void);
 
 #else /* CONFIG_X86_LOCAL_APIC */
-
+/*
 # ifndef CONFIG_SMP
 #  define hard_smp_processor_id()	0
 # endif
-
+*/
 #endif /* CONFIG_X86_LOCAL_APIC */
 
 #endif /* __ASSEMBLY__ */

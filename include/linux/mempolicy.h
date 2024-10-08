@@ -240,7 +240,7 @@ static inline int vma_migratable(struct vm_area_struct *vma)
 }
 
 #else
-
+/*
 struct mempolicy {};
 
 static inline int mpol_equal(struct mempolicy *a, struct mempolicy *b)
@@ -343,7 +343,7 @@ static inline void check_highest_zone(int k)
 static inline int mpol_parse_str(char *str, struct mempolicy **mpol,
 				int no_context)
 {
-	return 1;	/* error */
+	return 1;	* error *
 }
 
 static inline int mpol_to_str(char *buffer, int maxlen, struct mempolicy *pol,
@@ -352,7 +352,7 @@ static inline int mpol_to_str(char *buffer, int maxlen, struct mempolicy *pol,
 	return 0;
 }
 #endif
-
+*/
 #endif /* CONFIG_NUMA */
 #endif /* __KERNEL__ */
 
