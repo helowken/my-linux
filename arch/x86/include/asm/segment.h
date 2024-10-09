@@ -66,7 +66,7 @@
  *  30 - unused
  *  31 - TSS for double fault handler
  */
-#define GDT_ENTRY_TLS_MIN	6
+/*#define GDT_ENTRY_TLS_MIN	6
 #define GDT_ENTRY_TLS_MAX 	(GDT_ENTRY_TLS_MIN + GDT_ENTRY_TLS_ENTRIES - 1)
 
 #define GDT_ENTRY_DEFAULT_USER_CS	14
@@ -104,44 +104,44 @@
 
 #define GDT_ENTRY_DOUBLEFAULT_TSS	31
 
-/*
+*
  * The GDT has 32 entries
- */
+ *
 #define GDT_ENTRIES 32
 
-/* The PnP BIOS entries in the GDT */
+* The PnP BIOS entries in the GDT *
 #define GDT_ENTRY_PNPBIOS_CS32		(GDT_ENTRY_PNPBIOS_BASE + 0)
 #define GDT_ENTRY_PNPBIOS_CS16		(GDT_ENTRY_PNPBIOS_BASE + 1)
 #define GDT_ENTRY_PNPBIOS_DS		(GDT_ENTRY_PNPBIOS_BASE + 2)
 #define GDT_ENTRY_PNPBIOS_TS1		(GDT_ENTRY_PNPBIOS_BASE + 3)
 #define GDT_ENTRY_PNPBIOS_TS2		(GDT_ENTRY_PNPBIOS_BASE + 4)
 
-/* The PnP BIOS selectors */
-#define PNP_CS32   (GDT_ENTRY_PNPBIOS_CS32 * 8)	/* segment for calling fn */
-#define PNP_CS16   (GDT_ENTRY_PNPBIOS_CS16 * 8)	/* code segment for BIOS */
-#define PNP_DS     (GDT_ENTRY_PNPBIOS_DS * 8)	/* data segment for BIOS */
-#define PNP_TS1    (GDT_ENTRY_PNPBIOS_TS1 * 8)	/* transfer data segment */
-#define PNP_TS2    (GDT_ENTRY_PNPBIOS_TS2 * 8)	/* another data segment */
+* The PnP BIOS selectors *
+#define PNP_CS32   (GDT_ENTRY_PNPBIOS_CS32 * 8)	* segment for calling fn *
+#define PNP_CS16   (GDT_ENTRY_PNPBIOS_CS16 * 8)	* code segment for BIOS *
+#define PNP_DS     (GDT_ENTRY_PNPBIOS_DS * 8)	* data segment for BIOS *
+#define PNP_TS1    (GDT_ENTRY_PNPBIOS_TS1 * 8)	* transfer data segment *
+#define PNP_TS2    (GDT_ENTRY_PNPBIOS_TS2 * 8)	* another data segment *
 
-/* Bottom two bits of selector give the ring privilege level */
+* Bottom two bits of selector give the ring privilege level *
 #define SEGMENT_RPL_MASK	0x3
-/* Bit 2 is table indicator (LDT/GDT) */
+* Bit 2 is table indicator (LDTGDT) *
 #define SEGMENT_TI_MASK		0x4
 
-/* User mode is privilege level 3 */
+* User mode is privilege level 3 *
 #define USER_RPL		0x3
-/* LDT segment has TI set, GDT has it cleared */
+* LDT segment has TI set, GDT has it cleared *
 #define SEGMENT_LDT		0x4
 #define SEGMENT_GDT		0x0
 
-/*
+*
  * Matching rules for certain types of segments.
- */
+ *
 
-/* Matches PNP_CS32 and PNP_CS16 (they must be consecutive) */
+* Matches PNP_CS32 and PNP_CS16 (they must be consecutive) *
 #define SEGMENT_IS_PNP_CODE(x)   (((x) & 0xf4) == GDT_ENTRY_PNPBIOS_BASE * 8)
 
-
+*/
 #else
 #include <asm/cache.h>
 

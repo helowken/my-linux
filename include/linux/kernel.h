@@ -59,8 +59,8 @@ extern const char linux_proc_banner[];
 #define _THIS_IP_  ({ __label__ __here; __here: (unsigned long)&&__here; })
 
 #ifdef CONFIG_LBDAF
-# include <asm/div64.h>
-# define sector_div(a, b) do_div(a, b)
+//# include <asm/div64.h>
+//# define sector_div(a, b) do_div(a, b)
 #else
 # define sector_div(n, b)( \
 { \
@@ -121,12 +121,12 @@ struct user;
 extern int _cond_resched(void);
 # define might_resched() _cond_resched()
 #else
-# define might_resched() do { } while (0)
+//# define might_resched() do { } while (0)
 #endif
 
 #ifdef CONFIG_DEBUG_SPINLOCK_SLEEP
-  void __might_sleep(char *file, int line, int preempt_offset);
-/**
+  /*void __might_sleep(char *file, int line, int preempt_offset);
+**
  * might_sleep - annotation for functions that can sleep
  *
  * this macro will print a stack trace if it is executed in an atomic
@@ -135,9 +135,9 @@ extern int _cond_resched(void);
  * This is a useful debugging help to be able to catch problems early and not
  * be bitten later when the calling function happens to sleep when it is not
  * supposed to.
- */
+ *
 # define might_sleep() \
-	do { __might_sleep(__FILE__, __LINE__, 0); might_resched(); } while (0)
+	do { __might_sleep(__FILE__, __LINE__, 0); might_resched(); } while (0)*/
 #else
   static inline void __might_sleep(char *file, int line, int preempt_offset) { }
 # define might_sleep() do { might_resched(); } while (0)
@@ -151,7 +151,7 @@ extern int _cond_resched(void);
 	})
 
 #ifdef CONFIG_PROVE_LOCKING
-void might_fault(void);
+//void might_fault(void);
 #else
 static inline void might_fault(void)
 {
@@ -262,7 +262,7 @@ extern int printk_delay_msec;
 
 void log_buf_kexec_setup(void);
 #else
-static inline int vprintk(const char *s, va_list args)
+/*static inline int vprintk(const char *s, va_list args)
 	__attribute__ ((format (printf, 1, 0)));
 static inline int vprintk(const char *s, va_list args) { return 0; }
 static inline int printk(const char *s, ...)
@@ -273,12 +273,12 @@ static inline bool printk_timed_ratelimit(unsigned long *caller_jiffies, \
 					  unsigned int interval_msec)	\
 		{ return false; }
 
-/* No effect, but we still get type checking even in the !PRINTK case: */
+* No effect, but we still get type checking even in the !PRINTK case: *
 #define printk_once(x...) printk(x)
 
 static inline void log_buf_kexec_setup(void)
 {
-}
+}*/
 #endif
 
 extern int printk_needs_cpu(int cpu);
@@ -432,10 +432,10 @@ void tracing_off(void);
 void tracing_off_permanent(void);
 int tracing_is_on(void);
 #else
-static inline void tracing_on(void) { }
+/*static inline void tracing_on(void) { }
 static inline void tracing_off(void) { }
 static inline void tracing_off_permanent(void) { }
-static inline int tracing_is_on(void) { return 0; }
+static inline int tracing_is_on(void) { return 0; }*/
 #endif
 #ifdef CONFIG_TRACING
 extern void tracing_start(void);
@@ -518,7 +518,7 @@ __ftrace_vprintk(unsigned long ip, const char *fmt, va_list ap);
 
 extern void ftrace_dump(void);
 #else
-static inline void
+/*static inline void
 ftrace_special(unsigned long arg1, unsigned long arg2, unsigned long arg3) { }
 static inline int
 trace_printk(const char *fmt, ...) __attribute__ ((format (printf, 1, 2)));
@@ -536,7 +536,7 @@ ftrace_vprintk(const char *fmt, va_list ap)
 {
 	return 0;
 }
-static inline void ftrace_dump(void) { }
+static inline void ftrace_dump(void) { }*/
 #endif /* CONFIG_TRACING */
 
 /*
@@ -703,7 +703,7 @@ struct sysinfo {
 #ifdef CONFIG_NUMA
 #define NUMA_BUILD 1
 #else
-#define NUMA_BUILD 0
+//#define NUMA_BUILD 0
 #endif
 
 /* Rebuild everything on CONFIG_FTRACE_MCOUNT_RECORD */

@@ -69,7 +69,7 @@
 #include <asm/smpboot_hooks.h>
 
 #ifdef CONFIG_X86_32
-u8 apicid_2_node[MAX_APICID];
+//u8 apicid_2_node[MAX_APICID];
 #endif
 
 /* State of each CPU */
@@ -107,9 +107,9 @@ void cpu_hotplug_driver_unlock()
 ssize_t arch_cpu_probe(const char *buf, size_t count) { return -1; }
 ssize_t arch_cpu_release(const char *buf, size_t count) { return -1; }
 #else
-static struct task_struct *idle_thread_array[NR_CPUS] __cpuinitdata ;
+/*static struct task_struct *idle_thread_array[NR_CPUS] __cpuinitdata ;
 #define get_idle_for_cpu(x)      (idle_thread_array[(x)])
-#define set_idle_for_cpu(x, p)   (idle_thread_array[(x)] = (p))
+#define set_idle_for_cpu(x, p)   (idle_thread_array[(x)] = (p))*/
 #endif
 
 /* Number of siblings per CPU package */
@@ -135,10 +135,10 @@ atomic_t init_deasserted;
 
 #if defined(CONFIG_NUMA) && defined(CONFIG_X86_32)
 /* which node each logical CPU is on */
-int cpu_to_node_map[NR_CPUS] __read_mostly = { [0 ... NR_CPUS-1] = 0 };
+/*int cpu_to_node_map[NR_CPUS] __read_mostly = { [0 ... NR_CPUS-1] = 0 };
 EXPORT_SYMBOL(cpu_to_node_map);
 
-/* set up a mapping between cpu and node. */
+* set up a mapping between cpu and node. *
 static void map_cpu_to_node(int cpu, int node)
 {
 	printk(KERN_INFO "Mapping cpu %d to node %d\n", cpu, node);
@@ -146,7 +146,7 @@ static void map_cpu_to_node(int cpu, int node)
 	cpu_to_node_map[cpu] = node;
 }
 
-/* undo a mapping between cpu and node. */
+* undo a mapping between cpu and node. *
 static void unmap_cpu_to_node(int cpu)
 {
 	int node;
@@ -155,14 +155,14 @@ static void unmap_cpu_to_node(int cpu)
 	for (node = 0; node < MAX_NUMNODES; node++)
 		cpumask_clear_cpu(cpu, node_to_cpumask_map[node]);
 	cpu_to_node_map[cpu] = 0;
-}
+}*/
 #else /* !(CONFIG_NUMA && CONFIG_X86_32) */
 #define map_cpu_to_node(cpu, node)	({})
 #define unmap_cpu_to_node(cpu)	({})
 #endif
 
 #ifdef CONFIG_X86_32
-static int boot_cpu_logical_apicid;
+/*static int boot_cpu_logical_apicid;
 
 u8 cpu_2_logical_apicid[NR_CPUS] __read_mostly =
 					{ [0 ... NR_CPUS-1] = BAD_APICID };
@@ -184,7 +184,7 @@ void numa_remove_cpu(int cpu)
 {
 	cpu_2_logical_apicid[cpu] = BAD_APICID;
 	unmap_cpu_to_node(cpu);
-}
+}*/
 #else
 #define map_cpu_to_logical_apicid()  do {} while (0)
 #endif
@@ -299,8 +299,8 @@ notrace static void __cpuinit start_secondary(void *unused)
 	 * Do this before cpu_init() because it needs to access per-cpu
 	 * data which may not be mapped in the trampoline page-table.
 	 */
-	load_cr3(swapper_pg_dir);
-	__flush_tlb_all();
+	//load_cr3(swapper_pg_dir);
+	//__flush_tlb_all();
 #endif
 
 	vmi_bringup();
@@ -364,11 +364,11 @@ static inline void copy_cpuinfo_x86(struct cpuinfo_x86 *dst,
 	dst->llc_shared_map = llc;
 }
 #else
-static inline void copy_cpuinfo_x86(struct cpuinfo_x86 *dst,
+/*static inline void copy_cpuinfo_x86(struct cpuinfo_x86 *dst,
 				    const struct cpuinfo_x86 *src)
 {
 	*dst = *src;
-}
+}*/
 #endif /* CONFIG_CPUMASK_OFFSTACK */
 
 /*
@@ -745,8 +745,8 @@ do_rest:
 	per_cpu(current_task, cpu) = c_idle.idle;
 #ifdef CONFIG_X86_32
 	/* Stack for startup_32 can be just as for start_secondary onwards */
-	irq_ctx_init(cpu);
-	initial_page_table = __pa(&trampoline_pg_dir);
+	//irq_ctx_init(cpu);
+	//initial_page_table = __pa(&trampoline_pg_dir);
 #else
 	clear_tsk_thread_flag(c_idle.idle, TIF_FORK);
 	initial_gs = per_cpu_offset(cpu);
@@ -1068,7 +1068,7 @@ void __init native_smp_prepare_cpus(unsigned int max_cpus)
 	 */
 	smp_store_cpu_info(0); /* Final full version of the data */
 #ifdef CONFIG_X86_32
-	boot_cpu_logical_apicid = logical_smp_processor_id();
+	//boot_cpu_logical_apicid = logical_smp_processor_id();
 #endif
 	current_thread_info()->cpu = 0;  /* needed? */
 	for_each_possible_cpu(i) {
@@ -1346,14 +1346,14 @@ void native_play_dead(void)
 }
 
 #else /* ... !CONFIG_HOTPLUG_CPU */
-int native_cpu_disable(void)
+/*int native_cpu_disable(void)
 {
 	return -ENOSYS;
 }
 
 void native_cpu_die(unsigned int cpu)
 {
-	/* We said "no" in __cpu_disable */
+	* We said "no" in __cpu_disable *
 	BUG();
 }
 
@@ -1361,5 +1361,5 @@ void native_play_dead(void)
 {
 	BUG();
 }
-
+*/
 #endif

@@ -146,14 +146,14 @@ static inline void mlock_migrate_page(struct page *newpage, struct page *page)
 }
 
 #else /* CONFIG_HAVE_MLOCKED_PAGE_BIT */
-static inline int is_mlocked_vma(struct vm_area_struct *v, struct page *p)
+/*static inline int is_mlocked_vma(struct vm_area_struct *v, struct page *p)
 {
 	return 0;
 }
 static inline void clear_page_mlock(struct page *page) { }
 static inline void mlock_vma_page(struct page *page) { }
 static inline void mlock_migrate_page(struct page *new, struct page *old) { }
-
+*/
 #endif /* CONFIG_HAVE_MLOCKED_PAGE_BIT */
 
 /*
@@ -193,7 +193,7 @@ static inline struct page *mem_map_next(struct page *iter,
 #ifdef CONFIG_SPARSEMEM
 #define __paginginit __meminit
 #else
-#define __paginginit __init
+//#define __paginginit __init
 #endif
 
 /* Memory initialisation debug and verification */
@@ -221,7 +221,7 @@ extern void mminit_verify_page_links(struct page *page,
 extern void mminit_verify_zonelist(void);
 
 #else
-
+/*
 static inline void mminit_dprintk(enum mminit_level level,
 				const char *prefix, const char *fmt, ...)
 {
@@ -238,7 +238,7 @@ static inline void mminit_verify_page_links(struct page *page,
 
 static inline void mminit_verify_zonelist(void)
 {
-}
+}*/
 #endif /* CONFIG_DEBUG_MEMORY_INIT */
 
 /* mminit_validate_memmodel_limits is independent of CONFIG_DEBUG_MEMORY_INIT */
@@ -246,10 +246,10 @@ static inline void mminit_verify_zonelist(void)
 extern void mminit_validate_memmodel_limits(unsigned long *start_pfn,
 				unsigned long *end_pfn);
 #else
-static inline void mminit_validate_memmodel_limits(unsigned long *start_pfn,
+/*static inline void mminit_validate_memmodel_limits(unsigned long *start_pfn,
 				unsigned long *end_pfn)
 {
-}
+}*/
 #endif /* CONFIG_SPARSEMEM */
 
 int __get_user_pages(struct task_struct *tsk, struct mm_struct *mm,
