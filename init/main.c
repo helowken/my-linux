@@ -563,7 +563,7 @@ asmlinkage void __init start_kernel(void)
 	 * kmem_cache_init()
 	 */
 	pidhash_init();
-	vfs_caches_init_early();
+	//vfs_caches_init_early();
 	sort_main_extable();
 	trap_init();
 	mm_init();

@@ -48,20 +48,20 @@ struct notifier_block;
 
 #ifdef CONFIG_SMP
 /* Need to know about CPUs going up/down? */
-#if defined(CONFIG_HOTPLUG_CPU) || !defined(MODULE)
+  #if defined(CONFIG_HOTPLUG_CPU) || !defined(MODULE)
 #define cpu_notifier(fn, pri) {					\
 	static struct notifier_block fn##_nb __cpuinitdata =	\
 		{ .notifier_call = fn, .priority = pri };	\
 	register_cpu_notifier(&fn##_nb);			\
 }
-#else /* #if defined(CONFIG_HOTPLUG_CPU) || !defined(MODULE) */
-#define cpu_notifier(fn, pri)	do { (void)(fn); } while (0)
-#endif /* #else #if defined(CONFIG_HOTPLUG_CPU) || !defined(MODULE) */
-#ifdef CONFIG_HOTPLUG_CPU
+  #else /* #if defined(CONFIG_HOTPLUG_CPU) || !defined(MODULE) */
+//#define cpu_notifier(fn, pri)	do { (void)(fn); } while (0)
+  #endif /* #else #if defined(CONFIG_HOTPLUG_CPU) || !defined(MODULE) */
+  #ifdef CONFIG_HOTPLUG_CPU
 extern int register_cpu_notifier(struct notifier_block *nb);
 extern void unregister_cpu_notifier(struct notifier_block *nb);
-#else
-
+  #else
+/*
 #ifndef MODULE
 extern int register_cpu_notifier(struct notifier_block *nb);
 #else
@@ -73,8 +73,8 @@ static inline int register_cpu_notifier(struct notifier_block *nb)
 
 static inline void unregister_cpu_notifier(struct notifier_block *nb)
 {
-}
-#endif
+}*/
+  #endif
 
 int cpu_up(unsigned int cpu);
 void notify_cpu_starting(unsigned int cpu);
@@ -82,7 +82,7 @@ extern void cpu_maps_update_begin(void);
 extern void cpu_maps_update_done(void);
 
 #else	/* CONFIG_SMP */
-
+/*
 #define cpu_notifier(fn, pri)	do { (void)(fn); } while (0)
 
 static inline int register_cpu_notifier(struct notifier_block *nb)
@@ -101,7 +101,7 @@ static inline void cpu_maps_update_begin(void)
 static inline void cpu_maps_update_done(void)
 {
 }
-
+*/
 #endif /* CONFIG_SMP */
 extern struct sysdev_class cpu_sysdev_class;
 
@@ -116,13 +116,13 @@ extern void put_online_cpus(void);
 int cpu_down(unsigned int cpu);
 
 #else		/* CONFIG_HOTPLUG_CPU */
-
+/*
 #define get_online_cpus()	do { } while (0)
 #define put_online_cpus()	do { } while (0)
 #define hotcpu_notifier(fn, pri)	do { (void)(fn); } while (0)
-/* These aren't inline functions due to a GCC bug. */
+* These aren't inline functions due to a GCC bug. *
 #define register_hotcpu_notifier(nb)	({ (void)(nb); 0; })
-#define unregister_hotcpu_notifier(nb)	({ (void)(nb); })
+#define unregister_hotcpu_notifier(nb)	({ (void)(nb); })*/
 #endif		/* CONFIG_HOTPLUG_CPU */
 
 #ifdef CONFIG_PM_SLEEP_SMP
@@ -131,10 +131,10 @@ extern int suspend_cpu_hotplug;
 extern int disable_nonboot_cpus(void);
 extern void enable_nonboot_cpus(void);
 #else /* !CONFIG_PM_SLEEP_SMP */
-#define suspend_cpu_hotplug	0
+/*#define suspend_cpu_hotplug	0
 
 static inline int disable_nonboot_cpus(void) { return 0; }
-static inline void enable_nonboot_cpus(void) {}
+static inline void enable_nonboot_cpus(void) {}*/
 #endif /* !CONFIG_PM_SLEEP_SMP */
 
 #endif /* _LINUX_CPU_H_ */

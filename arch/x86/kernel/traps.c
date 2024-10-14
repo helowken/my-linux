@@ -62,19 +62,19 @@
 #include <asm/pgalloc.h>
 #include <asm/proto.h>
 #else
-#include <asm/processor-flags.h>
+/*#include <asm/processor-flags.h>
 #include <asm/setup.h>
 
 asmlinkage int system_call(void);
 
-/* Do we ignore FPU interrupts ? */
+* Do we ignore FPU interrupts ? *
 char ignore_fpu_irq;
 
-/*
+*
  * The IDT has to be page-aligned to simplify the Pentium
  * F0 0F bug workaround.
- */
-gate_desc idt_table[NR_VECTORS] __page_aligned_data = { { { { 0, 0 } } }, };
+ *
+gate_desc idt_table[NR_VECTORS] __page_aligned_data = { { { { 0, 0 } } }, };*/
 #endif
 
 DECLARE_BITMAP(used_vectors, NR_VECTORS);
@@ -319,10 +319,10 @@ mem_parity_error(unsigned char reason, struct pt_regs *regs)
 		"You have some hardware problem, likely on the PCI bus.\n");
 
 #if defined(CONFIG_EDAC)
-	if (edac_handler_set()) {
+	/*if (edac_handler_set()) {
 		edac_atomic_assert_error();
 		return;
-	}
+	}*/
 #endif
 
 	if (panic_on_unrecovered_nmi)
@@ -410,7 +410,7 @@ static notrace __kprobes void default_do_nmi(struct pt_regs *regs)
 		if (!do_nmi_callback(regs, cpu))
 			unknown_nmi_error(reason, regs);
 #else
-		unknown_nmi_error(reason, regs);
+		//unknown_nmi_error(reason, regs);
 #endif
 
 		return;
@@ -465,9 +465,9 @@ dotraplinkage void __kprobes do_int3(struct pt_regs *regs, long error_code)
 			== NOTIFY_STOP)
 		return;
 #else
-	if (notify_die(DIE_TRAP, "int3", regs, error_code, 3, SIGTRAP)
+	/*if (notify_die(DIE_TRAP, "int3", regs, error_code, 3, SIGTRAP)
 			== NOTIFY_STOP)
-		return;
+		return;*/
 #endif
 
 	preempt_conditional_sti(regs);
@@ -747,16 +747,16 @@ do_simd_coprocessor_error(struct pt_regs *regs, long error_code)
 	conditional_sti(regs);
 
 #ifdef CONFIG_X86_32
-	if (cpu_has_xmm) {
-		/* Handle SIMD FPU exceptions on PIII+ processors. */
+	/*if (cpu_has_xmm) {
+		* Handle SIMD FPU exceptions on PIII+ processors. *
 		ignore_fpu_irq = 1;
 		simd_math_error((void __user *)regs->ip);
 		return;
 	}
-	/*
+	*
 	 * Handle strange cache flush from user space exception
 	 * in all other cases.  This is undocumented behaviour.
-	 */
+	 *
 	if (regs->flags & X86_VM_MASK) {
 		handle_vm86_fault((struct kernel_vm86_regs *)regs, error_code);
 		return;
@@ -764,7 +764,7 @@ do_simd_coprocessor_error(struct pt_regs *regs, long error_code)
 	current->thread.trap_no = 19;
 	current->thread.error_code = error_code;
 	die_if_kernel("cache flush denied", regs, error_code);
-	force_sig(SIGSEGV, current);
+	force_sig(SIGSEGV, current);*/
 #else
 	if (!user_mode(regs) &&
 			kernel_math_error(regs, "kernel simd math error", 19))
@@ -864,7 +864,7 @@ dotraplinkage void __kprobes
 do_device_not_available(struct pt_regs *regs, long error_code)
 {
 #ifdef CONFIG_X86_32
-	if (read_cr0() & X86_CR0_EM) {
+	/*if (read_cr0() & X86_CR0_EM) {
 		struct math_emu_info info = { };
 
 		conditional_sti(regs);
@@ -872,16 +872,16 @@ do_device_not_available(struct pt_regs *regs, long error_code)
 		info.regs = regs;
 		math_emulate(&info);
 	} else {
-		math_state_restore(); /* interrupts still off */
+		math_state_restore(); * interrupts still off *
 		conditional_sti(regs);
-	}
+	}*/
 #else
 	math_state_restore();
 #endif
 }
 
 #ifdef CONFIG_X86_32
-dotraplinkage void do_iret_error(struct pt_regs *regs, long error_code)
+/*dotraplinkage void do_iret_error(struct pt_regs *regs, long error_code)
 {
 	siginfo_t info;
 	local_irq_enable();
@@ -894,7 +894,7 @@ dotraplinkage void do_iret_error(struct pt_regs *regs, long error_code)
 			regs, error_code, 32, SIGILL) == NOTIFY_STOP)
 		return;
 	do_trap(32, SIGILL, "iret exception", regs, error_code, &info);
-}
+}*/
 #endif
 
 void __init trap_init(void)

@@ -48,7 +48,7 @@
 #include <asm/bios_ebda.h>
 
 #ifdef CONFIG_CALGARY_IOMMU_ENABLED_BY_DEFAULT
-int use_calgary __read_mostly = 1;
+//int use_calgary __read_mostly = 1;
 #else
 int use_calgary __read_mostly = 0;
 #endif /* CONFIG_CALGARY_DEFAULT_ENABLED */

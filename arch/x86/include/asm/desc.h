@@ -61,7 +61,7 @@ static inline void pack_gate(gate_desc *gate, unsigned type, unsigned long func,
 }
 
 #else
-static inline void pack_gate(gate_desc *gate, unsigned char type,
+/*static inline void pack_gate(gate_desc *gate, unsigned char type,
 			     unsigned long base, unsigned dpl, unsigned flags,
 			     unsigned short seg)
 {
@@ -69,7 +69,7 @@ static inline void pack_gate(gate_desc *gate, unsigned char type,
 	gate->b = (base & 0xffff0000) |
 		  (((0x80 | type | (dpl << 5)) & 0xff) << 8);
 }
-
+*/
 #endif
 
 static inline int desc_empty(const void *ptr)
@@ -79,7 +79,7 @@ static inline int desc_empty(const void *ptr)
 }
 
 #ifdef CONFIG_PARAVIRT
-#include <asm/paravirt.h>
+//#include <asm/paravirt.h>
 #else
 #define load_TR_desc() native_load_tr_desc()
 #define load_gdt(dtr) native_load_gdt(dtr)
@@ -169,7 +169,7 @@ static inline void set_tssldt_descriptor(void *d, unsigned long addr,
 	desc->base2 = (PTR_MIDDLE(addr) >> 8) & 0xFF;
 	desc->base3 = PTR_HIGH(addr);
 #else
-	pack_descriptor((struct desc_struct *)d, addr, size, 0x80 | type, 0);
+	//pack_descriptor((struct desc_struct *)d, addr, size, 0x80 | type, 0);
 #endif
 }
 
@@ -263,7 +263,7 @@ static inline void native_load_tls(struct thread_struct *t, unsigned int cpu)
 #ifdef CONFIG_X86_64
 #define LDT_empty(info) (_LDT_empty(info) && ((info)->lm == 0))
 #else
-#define LDT_empty(info) (_LDT_empty(info))
+//#define LDT_empty(info) (_LDT_empty(info))
 #endif
 
 static inline void clear_LDT(void)

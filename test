@@ -1,7 +1,0 @@
-#!/bin/bash
-
-find $1 -type d | while read dir; do
-  if ! find "$dir" -maxdepth 1 -name "*.o" | grep -q .; then
-    echo "$dir"
-  fi
-done

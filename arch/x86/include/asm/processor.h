@@ -44,8 +44,8 @@ static inline void *current_text_addr(void)
 }
 
 #ifdef CONFIG_X86_VSMP
-# define ARCH_MIN_TASKALIGN		(1 << INTERNODE_CACHE_SHIFT)
-# define ARCH_MIN_MMSTRUCT_ALIGN	(1 << INTERNODE_CACHE_SHIFT)
+/*# define ARCH_MIN_TASKALIGN		(1 << INTERNODE_CACHE_SHIFT)
+# define ARCH_MIN_MMSTRUCT_ALIGN	(1 << INTERNODE_CACHE_SHIFT)*/
 #else
 # define ARCH_MIN_TASKALIGN		16
 # define ARCH_MIN_MMSTRUCT_ALIGN	0
@@ -63,16 +63,16 @@ struct cpuinfo_x86 {
 	__u8			x86_model;
 	__u8			x86_mask;
 #ifdef CONFIG_X86_32
-	char			wp_works_ok;	/* It doesn't on 386's */
+	/*char			wp_works_ok;	* It doesn't on 386's *
 
-	/* Problems on some 486Dx4's and old 386's: */
+	* Problems on some 486Dx4's and old 386's: *
 	char			hlt_works_ok;
 	char			hard_math;
 	char			rfu;
 	char			fdiv_bug;
 	char			f00f_bug;
 	char			coma_bug;
-	char			pad0;
+	char			pad0;*/
 #else
 	/* Number of 4K pages in DTLB/ITLB combined(in pages): */
 	int			x86_tlbsize;
@@ -144,8 +144,8 @@ DECLARE_PER_CPU_SHARED_ALIGNED(struct cpuinfo_x86, cpu_info);
 #define cpu_data(cpu)		per_cpu(cpu_info, cpu)
 #define current_cpu_data	__get_cpu_var(cpu_info)
 #else
-#define cpu_data(cpu)		boot_cpu_data
-#define current_cpu_data	boot_cpu_data
+/*#define cpu_data(cpu)		boot_cpu_data
+#define current_cpu_data	boot_cpu_data*/
 #endif
 
 extern const struct seq_operations cpuinfo_op;
@@ -153,7 +153,7 @@ extern const struct seq_operations cpuinfo_op;
 static inline int hlt_works(int cpu)
 {
 #ifdef CONFIG_X86_32
-	return cpu_data(cpu).hlt_works_ok;
+	//return cpu_data(cpu).hlt_works_ok;
 #else
 	return 1;
 #endif
@@ -195,12 +195,12 @@ static inline void load_cr3(pgd_t *pgdir)
 
 #ifdef CONFIG_X86_32
 /* This is the TSS defined by the hardware. */
-struct x86_hw_tss {
+/*struct x86_hw_tss {
 	unsigned short		back_link, __blh;
 	unsigned long		sp0;
 	unsigned short		ss0, __ss0h;
 	unsigned long		sp1;
-	/* ss1 caches MSR_IA32_SYSENTER_CS: */
+	* ss1 caches MSR_IA32_SYSENTER_CS: *
 	unsigned short		ss1, __ss1h;
 	unsigned long		sp2;
 	unsigned short		ss2, __ss2h;
@@ -225,7 +225,7 @@ struct x86_hw_tss {
 	unsigned short		trace;
 	unsigned short		io_bitmap_base;
 
-} __attribute__((packed));
+} __attribute__((packed));*/
 #else
 struct x86_hw_tss {
 	u32			reserved1;
@@ -403,19 +403,19 @@ DECLARE_PER_CPU(unsigned int, irq_count);
 extern unsigned long kernel_eflags;
 extern asmlinkage void ignore_sysret(void);
 #else	/* X86_64 */
-#ifdef CONFIG_CC_STACKPROTECTOR
-/*
+/*#ifdef CONFIG_CC_STACKPROTECTOR
+*
  * Make sure stack canary segment base is cached-aligned:
  *   "For Intel Atom processors, avoid non zero segment base address
  *    that is not aligned to cache line boundary at all cost."
  * (Optim Ref Manual Assembly/Compiler Coding Rule 15.)
- */
+ *
 struct stack_canary {
-	char __pad[20];		/* canary at %gs:20 */
+	char __pad[20];		* canary at %gs:20 *
 	unsigned long canary;
 };
 DECLARE_PER_CPU_ALIGNED(struct stack_canary, stack_canary);
-#endif
+#endif*/
 #endif	/* X86_64 */
 
 extern unsigned int xstate_size;
@@ -428,7 +428,7 @@ struct thread_struct {
 	unsigned long		sp0;
 	unsigned long		sp;
 #ifdef CONFIG_X86_32
-	unsigned long		sysenter_cs;
+	//unsigned long		sysenter_cs;
 #else
 	unsigned long		usersp;	/* Copy from PDA */
 	unsigned short		es;
@@ -437,7 +437,7 @@ struct thread_struct {
 	unsigned short		gsindex;
 #endif
 #ifdef CONFIG_X86_32
-	unsigned long		ip;
+	//unsigned long		ip;
 #endif
 #ifdef CONFIG_X86_64
 	unsigned long		fs;
@@ -458,13 +458,13 @@ struct thread_struct {
 	union thread_xstate	*xstate;
 #ifdef CONFIG_X86_32
 	/* Virtual 86 mode info */
-	struct vm86_struct __user *vm86_info;
+	/*struct vm86_struct __user *vm86_info;
 	unsigned long		screen_bitmap;
 	unsigned long		v86flags;
 	unsigned long		v86mask;
 	unsigned long		saved_sp0;
 	unsigned int		saved_fs;
-	unsigned int		saved_gs;
+	unsigned int		saved_gs;*/
 #endif
 	/* IO permissions: */
 	unsigned long		*io_bitmap_ptr;
@@ -538,7 +538,7 @@ static inline void native_set_debugreg(int regno, unsigned long value)
 static inline void native_set_iopl_mask(unsigned mask)
 {
 #ifdef CONFIG_X86_32
-	unsigned int reg;
+	/*unsigned int reg;
 
 	asm volatile ("pushfl;"
 		      "popl %0;"
@@ -547,7 +547,7 @@ static inline void native_set_iopl_mask(unsigned mask)
 		      "pushl %0;"
 		      "popfl"
 		      : "=&r" (reg)
-		      : "i" (~X86_EFLAGS_IOPL), "r" (mask));
+		      : "i" (~X86_EFLAGS_IOPL), "r" (mask));*/
 #endif
 }
 
@@ -557,10 +557,10 @@ native_load_sp0(struct tss_struct *tss, struct thread_struct *thread)
 	tss->x86_tss.sp0 = thread->sp0;
 #ifdef CONFIG_X86_32
 	/* Only happens when SEP is enabled, no need to test "SEP"arately: */
-	if (unlikely(tss->x86_tss.ss1 != thread->sysenter_cs)) {
+	/*if (unlikely(tss->x86_tss.ss1 != thread->sysenter_cs)) {
 		tss->x86_tss.ss1 = thread->sysenter_cs;
 		wrmsr(MSR_IA32_SYSENTER_CS, thread->sysenter_cs, 0);
-	}
+	}*/
 #endif
 }
 
@@ -720,11 +720,11 @@ static inline void sync_core(void)
 	int tmp;
 
 #if defined(CONFIG_M386) || defined(CONFIG_M486)
-	if (boot_cpu_data.x86 < 5)
-		/* There is no speculative execution.
-		 * jmp is a barrier to prefetching. */
+	/*if (boot_cpu_data.x86 < 5)
+		* There is no speculative execution.
+		 * jmp is a barrier to prefetching. *
 		asm volatile("jmp 1f\n1:\n" ::: "memory");
-	else
+	else*/
 #endif
 		/* cpuid is a barrier to speculative execution.
 		 * Prefetched instructions are automatically
@@ -804,8 +804,8 @@ static inline unsigned long get_debugctlmsr(void)
     unsigned long debugctlmsr = 0;
 
 #ifndef CONFIG_X86_DEBUGCTLMSR
-	if (boot_cpu_data.x86 < 6)
-		return 0;
+	/*if (boot_cpu_data.x86 < 6)
+		return 0;*/
 #endif
 	rdmsrl(MSR_IA32_DEBUGCTLMSR, debugctlmsr);
 
@@ -818,8 +818,8 @@ static inline unsigned long get_debugctlmsr_on_cpu(int cpu)
 	u32 val1, val2;
 
 #ifndef CONFIG_X86_DEBUGCTLMSR
-	if (boot_cpu_data.x86 < 6)
-		return 0;
+	/*if (boot_cpu_data.x86 < 6)
+		return 0;*/
 #endif
 	rdmsr_on_cpu(cpu, MSR_IA32_DEBUGCTLMSR, &val1, &val2);
 	debugctlmsr = val1 | ((u64)val2 << 32);
@@ -830,8 +830,8 @@ static inline unsigned long get_debugctlmsr_on_cpu(int cpu)
 static inline void update_debugctlmsr(unsigned long debugctlmsr)
 {
 #ifndef CONFIG_X86_DEBUGCTLMSR
-	if (boot_cpu_data.x86 < 6)
-		return;
+	/*if (boot_cpu_data.x86 < 6)
+		return;*/
 #endif
 	wrmsrl(MSR_IA32_DEBUGCTLMSR, debugctlmsr);
 }
@@ -840,8 +840,8 @@ static inline void update_debugctlmsr_on_cpu(int cpu,
 					     unsigned long debugctlmsr)
 {
 #ifndef CONFIG_X86_DEBUGCTLMSR
-	if (boot_cpu_data.x86 < 6)
-		return;
+	/*if (boot_cpu_data.x86 < 6)
+		return;*/
 #endif
 	wrmsr_on_cpu(cpu, MSR_IA32_DEBUGCTLMSR,
 		     (u32)((u64)debugctlmsr),
@@ -867,8 +867,8 @@ extern char			ignore_fpu_irq;
 #define ARCH_HAS_SPINLOCK_PREFETCH
 
 #ifdef CONFIG_X86_32
-# define BASE_PREFETCH		ASM_NOP4
-# define ARCH_HAS_PREFETCH
+/*# define BASE_PREFETCH		ASM_NOP4
+# define ARCH_HAS_PREFETCH*/
 #else
 # define BASE_PREFETCH		"prefetcht0 (%1)"
 #endif
@@ -909,7 +909,7 @@ static inline void spin_lock_prefetch(const void *x)
 /*
  * User space process size: 3GB (default).
  */
-#define TASK_SIZE		PAGE_OFFSET
+/*#define TASK_SIZE		PAGE_OFFSET
 #define TASK_SIZE_MAX		TASK_SIZE
 #define STACK_TOP		TASK_SIZE
 #define STACK_TOP_MAX		STACK_TOP
@@ -921,12 +921,12 @@ static inline void spin_lock_prefetch(const void *x)
 	.io_bitmap_ptr		= NULL,					  \
 }
 
-/*
+*
  * Note that the .io_bitmap member must be extra-big. This is because
  * the CPU will access an additional byte beyond the end of the IO
  * permission bitmap. The extra byte must be all 1 bits, and must
  * be within the limit.
- */
+ *
 #define INIT_TSS  {							  \
 	.x86_tss = {							  \
 		.sp0		= sizeof(init_stack) + (long)&init_stack, \
@@ -939,23 +939,23 @@ static inline void spin_lock_prefetch(const void *x)
 
 extern unsigned long thread_saved_pc(struct task_struct *tsk);
 
-#define THREAD_SIZE_LONGS      (THREAD_SIZE/sizeof(unsigned long))
+#define THREAD_SIZE_LONGS      (THREAD_SIZEsizeof(unsigned long))
 #define KSTK_TOP(info)                                                 \
 ({                                                                     \
        unsigned long *__ptr = (unsigned long *)(info);                 \
        (unsigned long)(&__ptr[THREAD_SIZE_LONGS]);                     \
 })
 
-/*
+*
  * The below -8 is to reserve 8 bytes on top of the ring0 stack.
  * This is necessary to guarantee that the entire "struct pt_regs"
- * is accessable even if the CPU haven't stored the SS/ESP registers
+ * is accessable even if the CPU haven't stored the SSESP registers
  * on the stack (interrupt gate does not save these registers
  * when switching to the same priv ring).
- * Therefore beware: accessing the ss/esp fields of the
+ * Therefore beware: accessing the ssesp fields of the
  * "struct pt_regs" is possible, but they may contain the
  * completely wrong values.
- */
+ *
 #define task_pt_regs(task)                                             \
 ({                                                                     \
        struct pt_regs *__regs__;                                       \
@@ -964,7 +964,7 @@ extern unsigned long thread_saved_pc(struct task_struct *tsk);
 })
 
 #define KSTK_ESP(task)		(task_pt_regs(task)->sp)
-
+*/
 #else
 /*
  * User space process size. 47bits minus one guard page.

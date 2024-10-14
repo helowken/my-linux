@@ -28,14 +28,14 @@
 
 struct intel_iommu;
 #if defined(CONFIG_DMAR) || defined(CONFIG_INTR_REMAP)
-struct dmar_drhd_unit {
-	struct list_head list;		/* list of drhd units	*/
-	struct  acpi_dmar_header *hdr;	/* ACPI header		*/
-	u64	reg_base_addr;		/* register base address*/
-	struct	pci_dev **devices; 	/* target device array	*/
-	int	devices_cnt;		/* target device count	*/
-	u16	segment;		/* PCI domain		*/
-	u8	ignored:1; 		/* ignore drhd		*/
+/*struct dmar_drhd_unit {
+	struct list_head list;		* list of drhd units	*
+	struct  acpi_dmar_header *hdr;	* ACPI header		*
+	u64	reg_base_addr;		* register base address*
+	struct	pci_dev **devices; 	* target device array	*
+	int	devices_cnt;		* target device count	*
+	u16	segment;		* PCI domain		*
+	u8	ignored:1; 		* ignore drhd		*
 	u8	include_all:1;
 	struct intel_iommu *iommu;
 };
@@ -56,12 +56,12 @@ extern struct list_head dmar_drhd_units;
 extern int dmar_table_init(void);
 extern int dmar_dev_scope_init(void);
 
-/* Intel IOMMU detection */
+* Intel IOMMU detection *
 extern void detect_intel_iommu(void);
 extern int enable_drhd_fault_handling(void);
 
 extern int parse_ioapics_under_ir(void);
-extern int alloc_iommu(struct dmar_drhd_unit *);
+extern int alloc_iommu(struct dmar_drhd_unit *);*/
 #else
 static inline void detect_intel_iommu(void)
 {
@@ -107,7 +107,7 @@ struct irte {
 	};
 };
 #ifdef CONFIG_INTR_REMAP
-extern int intr_remapping_enabled;
+/*extern int intr_remapping_enabled;
 extern int intr_remapping_supported(void);
 extern int enable_intr_remapping(int);
 extern void disable_intr_remapping(void);
@@ -127,7 +127,7 @@ extern int irq_remapped(int irq);
 extern struct intel_iommu *map_dev_to_ir(struct pci_dev *dev);
 extern struct intel_iommu *map_ioapic_to_ir(int apic);
 extern int set_ioapic_sid(struct irte *irte, int apic);
-extern int set_msi_sid(struct irte *irte, struct pci_dev *dev);
+extern int set_msi_sid(struct irte *irte, struct pci_dev *dev);*/
 #else
 static inline int alloc_irte(struct intel_iommu *iommu, int irq, u16 count)
 {
@@ -186,35 +186,35 @@ extern irqreturn_t dmar_fault(int irq, void *dev_id);
 extern int arch_setup_dmar_msi(unsigned int irq);
 
 #ifdef CONFIG_DMAR
-extern int iommu_detected, no_iommu;
+/*extern int iommu_detected, no_iommu;
 extern struct list_head dmar_rmrr_units;
 struct dmar_rmrr_unit {
-	struct list_head list;		/* list of rmrr units	*/
-	struct acpi_dmar_header *hdr;	/* ACPI header		*/
-	u64	base_address;		/* reserved base address*/
-	u64	end_address;		/* reserved end address */
-	struct pci_dev **devices;	/* target devices */
-	int	devices_cnt;		/* target device count */
+	struct list_head list;		* list of rmrr units	*
+	struct acpi_dmar_header *hdr;	* ACPI header		*
+	u64	base_address;		* reserved base address*
+	u64	end_address;		* reserved end address *
+	struct pci_dev **devices;	* target devices *
+	int	devices_cnt;		* target device count *
 };
 
 #define for_each_rmrr_units(rmrr) \
 	list_for_each_entry(rmrr, &dmar_rmrr_units, list)
 
 struct dmar_atsr_unit {
-	struct list_head list;		/* list of ATSR units */
-	struct acpi_dmar_header *hdr;	/* ACPI header */
-	struct pci_dev **devices;	/* target devices */
-	int devices_cnt;		/* target device count */
-	u8 include_all:1;		/* include all ports */
+	struct list_head list;		* list of ATSR units *
+	struct acpi_dmar_header *hdr;	* ACPI header *
+	struct pci_dev **devices;	* target devices *
+	int devices_cnt;		* target device count *
+	u8 include_all:1;		* include all ports *
 };
 
-/* Intel DMAR  initialization functions */
-extern int intel_iommu_init(void);
+* Intel DMAR  initialization functions *
+extern int intel_iommu_init(void);*/
 #else
 static inline int intel_iommu_init(void)
 {
 #ifdef CONFIG_INTR_REMAP
-	return dmar_dev_scope_init();
+	//return dmar_dev_scope_init();
 #else
 	return -ENODEV;
 #endif

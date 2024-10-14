@@ -20,8 +20,8 @@ EXPORT_SYMBOL(dma_ops);
 static int iommu_sac_force __read_mostly;
 
 #ifdef CONFIG_IOMMU_DEBUG
-int panic_on_overflow __read_mostly = 1;
-int force_iommu __read_mostly = 1;
+/*int panic_on_overflow __read_mostly = 1;
+int force_iommu __read_mostly = 1;*/
 #else
 int panic_on_overflow __read_mostly = 0;
 int force_iommu __read_mostly = 0;

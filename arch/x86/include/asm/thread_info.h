@@ -35,10 +35,10 @@ struct thread_info {
 	struct restart_block    restart_block;
 	void __user		*sysenter_return;
 #ifdef CONFIG_X86_32
-	unsigned long           previous_esp;   /* ESP of the previous stack in
+	/*unsigned long           previous_esp;   * ESP of the previous stack in
 						   case of nested (IRQ) stacks
-						*/
-	__u8			supervisor_stack[0];
+						*
+	__u8			supervisor_stack[0];*/
 #endif
 	int			uaccess_err;
 };
@@ -153,7 +153,7 @@ struct thread_info {
 
 /* thread information allocation */
 #ifdef CONFIG_DEBUG_STACK_USAGE
-#define THREAD_FLAGS (GFP_KERNEL | __GFP_NOTRACK | __GFP_ZERO)
+//#define THREAD_FLAGS (GFP_KERNEL | __GFP_NOTRACK | __GFP_ZERO)
 #else
 #define THREAD_FLAGS (GFP_KERNEL | __GFP_NOTRACK)
 #endif
@@ -164,39 +164,39 @@ struct thread_info {
 	((struct thread_info *)__get_free_pages(THREAD_FLAGS, THREAD_ORDER))
 
 #ifdef CONFIG_X86_32
-
-#define STACK_WARN	(THREAD_SIZE/8)
 /*
- * macros/functions for gaining access to the thread information structure
+#define STACK_WARN	(THREAD_SIZE/8)
+*
+ * macrosfunctions for gaining access to the thread information structure
  *
  * preempt_count needs to be 1 initially, until the scheduler is functional.
- */
-#ifndef __ASSEMBLY__
+ *
+  #ifndef __ASSEMBLY__
 
 
-/* how to get the current stack pointer from C */
+* how to get the current stack pointer from C *
 register unsigned long current_stack_pointer asm("esp") __used;
 
-/* how to get the thread information struct from C */
+* how to get the thread information struct from C *
 static inline struct thread_info *current_thread_info(void)
 {
 	return (struct thread_info *)
 		(current_stack_pointer & ~(THREAD_SIZE - 1));
 }
 
-#else /* !__ASSEMBLY__ */
+  #else * !__ASSEMBLY__ *
 
-/* how to get the thread information struct from ASM */
+* how to get the thread information struct from ASM *
 #define GET_THREAD_INFO(reg)	 \
 	movl $-THREAD_SIZE, reg; \
 	andl %esp, reg
 
-/* use this one if reg already contains %esp */
+* use this one if reg already contains %esp *
 #define GET_THREAD_INFO_WITH_ESP(reg) \
 	andl $-THREAD_SIZE, reg
 
-#endif
-
+  #endif
+*/
 #else /* X86_32 */
 
 #include <asm/percpu.h>
