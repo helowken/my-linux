@@ -10,17 +10,17 @@
 #ifdef CONFIG_ZONE_DMA
 #define DMA_ZONE(xx) xx##_DMA,
 #else
-#define DMA_ZONE(xx)
+//#define DMA_ZONE(xx)
 #endif
 
 #ifdef CONFIG_ZONE_DMA32
 #define DMA32_ZONE(xx) xx##_DMA32,
 #else
-#define DMA32_ZONE(xx)
+//#define DMA32_ZONE(xx)
 #endif
 
 #ifdef CONFIG_HIGHMEM
-#define HIGHMEM_ZONE(xx) , xx##_HIGH
+//#define HIGHMEM_ZONE(xx) , xx##_HIGH
 #else
 #define HIGHMEM_ZONE(xx)
 #endif
@@ -100,15 +100,15 @@ extern void all_vm_events(unsigned long *);
 #ifdef CONFIG_HOTPLUG
 extern void vm_events_fold_cpu(int cpu);
 #else
-static inline void vm_events_fold_cpu(int cpu)
+/*static inline void vm_events_fold_cpu(int cpu)
 {
-}
+}*/
 #endif
 
 #else
 
 /* Disable counters */
-static inline void count_vm_event(enum vm_event_item item)
+/*static inline void count_vm_event(enum vm_event_item item)
 {
 }
 static inline void count_vm_events(enum vm_event_item item, long delta)
@@ -126,7 +126,7 @@ static inline void all_vm_events(unsigned long *ret)
 static inline void vm_events_fold_cpu(int cpu)
 {
 }
-
+*/
 #endif /* CONFIG_VM_EVENT_COUNTERS */
 
 #define __count_zone_vm_events(item, zone, delta) \
@@ -210,7 +210,7 @@ static inline unsigned long node_page_state(int node,
 		zone_page_state(&zones[ZONE_DMA32], item) +
 #endif
 #ifdef CONFIG_HIGHMEM
-		zone_page_state(&zones[ZONE_HIGHMEM], item) +
+		//zone_page_state(&zones[ZONE_HIGHMEM], item) +
 #endif
 		zone_page_state(&zones[ZONE_NORMAL], item) +
 		zone_page_state(&zones[ZONE_MOVABLE], item);
@@ -219,10 +219,10 @@ static inline unsigned long node_page_state(int node,
 extern void zone_statistics(struct zone *, struct zone *);
 
 #else
-
+/*
 #define node_page_state(node, item) global_page_state(item)
 #define zone_statistics(_zl,_z) do { } while (0)
-
+*/
 #endif /* CONFIG_NUMA */
 
 #define add_zone_page_state(__z, __i, __d) mod_zone_page_state(__z, __i, __d)
@@ -256,7 +256,7 @@ void refresh_cpu_vm_stats(int);
  * We do not maintain differentials in a single processor configuration.
  * The functions directly modify the zone and global counters.
  */
-static inline void __mod_zone_page_state(struct zone *zone,
+/*static inline void __mod_zone_page_state(struct zone *zone,
 			enum zone_stat_item item, int delta)
 {
 	zone_page_state_add(delta, zone, item);
@@ -286,15 +286,15 @@ static inline void __dec_zone_page_state(struct page *page,
 	__dec_zone_state(page_zone(page), item);
 }
 
-/*
+*
  * We only use atomic operations to update counters. So there is no need to
  * disable interrupts.
- */
+ *
 #define inc_zone_page_state __inc_zone_page_state
 #define dec_zone_page_state __dec_zone_page_state
 #define mod_zone_page_state __mod_zone_page_state
 
-static inline void refresh_cpu_vm_stats(int cpu) { }
+static inline void refresh_cpu_vm_stats(int cpu) { }*/
 #endif
 
 #endif /* _LINUX_VMSTAT_H */

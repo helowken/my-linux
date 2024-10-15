@@ -78,8 +78,8 @@ void arch_report_meminfo(struct seq_file *m)
 	seq_printf(m, "DirectMap2M:    %8lu kB\n",
 			direct_pages_count[PG_LEVEL_2M] << 11);
 #else
-	seq_printf(m, "DirectMap4M:    %8lu kB\n",
-			direct_pages_count[PG_LEVEL_2M] << 12);
+	/*seq_printf(m, "DirectMap4M:    %8lu kB\n",
+			direct_pages_count[PG_LEVEL_2M] << 12);*/
 #endif
 #ifdef CONFIG_X86_64
 	if (direct_gbpages)
@@ -88,7 +88,7 @@ void arch_report_meminfo(struct seq_file *m)
 #endif
 }
 #else
-static inline void split_page_count(int level) { }
+//static inline void split_page_count(int level) { }
 #endif
 
 #ifdef CONFIG_X86_64
@@ -106,7 +106,7 @@ static inline unsigned long highmap_end_pfn(void)
 #endif
 
 #ifdef CONFIG_DEBUG_PAGEALLOC
-# define debug_pagealloc 1
+//# define debug_pagealloc 1
 #else
 # define debug_pagealloc 0
 #endif
@@ -333,7 +333,7 @@ static void __set_pmd_pte(pte_t *kpte, unsigned long address, pte_t pte)
 	/* change init_mm */
 	set_pte_atomic(kpte, pte);
 #ifdef CONFIG_X86_32
-	if (!SHARED_KERNEL_PMD) {
+	/*if (!SHARED_KERNEL_PMD) {
 		struct page *page;
 
 		list_for_each_entry(page, &pgd_list, lru) {
@@ -346,7 +346,7 @@ static void __set_pmd_pte(pte_t *kpte, unsigned long address, pte_t pte)
 			pmd = pmd_offset(pud, address);
 			set_pte_atomic((pte_t *)pmd, pte);
 		}
-	}
+	}*/
 #endif
 }
 
@@ -1206,7 +1206,7 @@ int set_pages_rw(struct page *page, int numpages)
 }
 
 #ifdef CONFIG_DEBUG_PAGEALLOC
-
+/*
 static int __set_pages_p(struct page *page, int numpages)
 {
 	unsigned long tempaddr = (unsigned long) page_address(page);
@@ -1216,12 +1216,12 @@ static int __set_pages_p(struct page *page, int numpages)
 				.mask_clr = __pgprot(0),
 				.flags = 0};
 
-	/*
+	*
 	 * No alias checking needed for setting present flag. otherwise,
 	 * we may need to break large pages for 64-bit kernel text
 	 * mappings (this adds to complexity if we want to do this from
 	 * atomic context especially). Let's keep it simple!
-	 */
+	 *
 	return __change_page_attr_set_clr(&cpa, 0);
 }
 
@@ -1234,12 +1234,12 @@ static int __set_pages_np(struct page *page, int numpages)
 				.mask_clr = __pgprot(_PAGE_PRESENT | _PAGE_RW),
 				.flags = 0};
 
-	/*
+	*
 	 * No alias checking needed for setting not present flag. otherwise,
 	 * we may need to break large pages for 64-bit kernel text
 	 * mappings (this adds to complexity if we want to do this from
 	 * atomic context especially). Let's keep it simple!
-	 */
+	 *
 	return __change_page_attr_set_clr(&cpa, 0);
 }
 
@@ -1252,26 +1252,26 @@ void kernel_map_pages(struct page *page, int numpages, int enable)
 					   numpages * PAGE_SIZE);
 	}
 
-	/*
+	*
 	 * If page allocator is not up yet then do not call c_p_a():
-	 */
+	 *
 	if (!debug_pagealloc_enabled)
 		return;
 
-	/*
+	*
 	 * The return value is ignored as the calls cannot fail.
 	 * Large pages for identity mappings are not used at boot time
 	 * and hence no memory allocations during large page split.
-	 */
+	 *
 	if (enable)
 		__set_pages_p(page, numpages);
 	else
 		__set_pages_np(page, numpages);
 
-	/*
+	*
 	 * We should perform an IPI and flush all tlbs,
 	 * but that can deadlock->flush only current cpu:
-	 */
+	 *
 	__flush_tlb_all();
 }
 
@@ -1289,8 +1289,8 @@ bool kernel_page_present(struct page *page)
 	return (pte_val(*pte) & _PAGE_PRESENT);
 }
 
-#endif /* CONFIG_HIBERNATION */
-
+#endif * CONFIG_HIBERNATION *
+*/
 #endif /* CONFIG_DEBUG_PAGEALLOC */
 
 /*

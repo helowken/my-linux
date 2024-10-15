@@ -1093,12 +1093,12 @@ static void free_hot_cold_page(struct page *page, int cold)
 	if (free_pages_check(page))
 		return;
 
-	if (!PageHighMem(page)) {
+	/*if (!PageHighMem(page)) {
 		debug_check_no_locks_freed(page_address(page), PAGE_SIZE);
 		debug_check_no_obj_freed(page_address(page), PAGE_SIZE);
 	}
 	arch_free_page(page, 0);
-	kernel_map_pages(page, 1, 0);
+	kernel_map_pages(page, 1, 0);*/
 
 	pcp = &zone_pcp(zone, get_cpu())->pcp;
 	migratetype = get_pageblock_migratetype(page);

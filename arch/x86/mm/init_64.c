@@ -657,11 +657,11 @@ int arch_add_memory(int nid, u64 start, u64 size)
 EXPORT_SYMBOL_GPL(arch_add_memory);
 
 #if !defined(CONFIG_ACPI_NUMA) && defined(CONFIG_NUMA)
-int memory_add_physaddr_to_nid(u64 start)
+/*int memory_add_physaddr_to_nid(u64 start)
 {
 	return 0;
 }
-EXPORT_SYMBOL_GPL(memory_add_physaddr_to_nid);
+EXPORT_SYMBOL_GPL(memory_add_physaddr_to_nid);*/
 #endif
 
 #endif /* CONFIG_MEMORY_HOTPLUG */
@@ -683,7 +683,7 @@ void __init mem_init(void)
 #ifdef CONFIG_NUMA
 	totalram_pages = numa_free_all_bootmem();
 #else
-	totalram_pages = free_all_bootmem();
+	//totalram_pages = free_all_bootmem();
 #endif
 
 	absent_pages = absent_pages_in_range(0, max_pfn);
@@ -764,11 +764,11 @@ void mark_rodata_ro(void)
 	rodata_test();
 
 #ifdef CONFIG_CPA_DEBUG
-	printk(KERN_INFO "Testing CPA: undo %lx-%lx\n", start, end);
+	/*printk(KERN_INFO "Testing CPA: undo %lx-%lx\n", start, end);
 	set_memory_rw(start, (end-start) >> PAGE_SHIFT);
 
 	printk(KERN_INFO "Testing CPA: again\n");
-	set_memory_ro(start, (end-start) >> PAGE_SHIFT);
+	set_memory_ro(start, (end-start) >> PAGE_SHIFT);*/
 #endif
 }
 
