@@ -59,7 +59,7 @@ struct kmem_cache {
 
 /* 6) statistics */
 #ifdef CONFIG_DEBUG_SLAB
-	unsigned long num_active;
+	/*unsigned long num_active;
 	unsigned long num_allocations;
 	unsigned long high_mark;
 	unsigned long grown;
@@ -74,14 +74,14 @@ struct kmem_cache {
 	atomic_t freehit;
 	atomic_t freemiss;
 
-	/*
+	*
 	 * If debugging is enabled, then the allocator can add additional
 	 * fields and/or padding to every object. buffer_size contains the total
 	 * object size including these internal fields, the following two
 	 * variables contain the offset to the user object and its size.
-	 */
+	 *
 	int obj_offset;
-	int obj_size;
+	int obj_size;*/
 #endif /* CONFIG_DEBUG_SLAB */
 
 	/*
@@ -114,7 +114,7 @@ void *__kmalloc(size_t size, gfp_t flags);
 extern void *kmem_cache_alloc_notrace(struct kmem_cache *cachep, gfp_t flags);
 extern size_t slab_buffer_size(struct kmem_cache *cachep);
 #else
-static __always_inline void *
+/*static __always_inline void *
 kmem_cache_alloc_notrace(struct kmem_cache *cachep, gfp_t flags)
 {
 	return kmem_cache_alloc(cachep, flags);
@@ -122,7 +122,7 @@ kmem_cache_alloc_notrace(struct kmem_cache *cachep, gfp_t flags)
 static inline size_t slab_buffer_size(struct kmem_cache *cachep)
 {
 	return 0;
-}
+}*/
 #endif
 
 static __always_inline void *kmalloc(size_t size, gfp_t flags)
@@ -173,13 +173,13 @@ extern void *kmem_cache_alloc_node_notrace(struct kmem_cache *cachep,
 					   gfp_t flags,
 					   int nodeid);
 #else
-static __always_inline void *
+/*static __always_inline void *
 kmem_cache_alloc_node_notrace(struct kmem_cache *cachep,
 			      gfp_t flags,
 			      int nodeid)
 {
 	return kmem_cache_alloc_node(cachep, flags, nodeid);
-}
+}*/
 #endif
 
 static __always_inline void *kmalloc_node(size_t size, gfp_t flags, int node)
