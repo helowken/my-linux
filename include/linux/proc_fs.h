@@ -130,8 +130,8 @@ extern void proc_tty_unregister_driver(struct tty_driver *driver);
 /*
  * proc_devtree.c
  */
-#ifdef CONFIG_PROC_DEVICETREE
-struct device_node;
+  #ifdef CONFIG_PROC_DEVICETREE
+/*struct device_node;
 struct property;
 extern void proc_device_tree_init(void);
 extern void proc_device_tree_add_node(struct device_node *, struct proc_dir_entry *);
@@ -140,8 +140,8 @@ extern void proc_device_tree_remove_prop(struct proc_dir_entry *pde,
 					 struct property *prop);
 extern void proc_device_tree_update_prop(struct proc_dir_entry *pde,
 					 struct property *newprop,
-					 struct property *oldprop);
-#endif /* CONFIG_PROC_DEVICETREE */
+					 struct property *oldprop);*/
+  #endif /* CONFIG_PROC_DEVICETREE */
 
 extern struct proc_dir_entry *proc_symlink(const char *,
 		struct proc_dir_entry *, const char *);
@@ -180,7 +180,7 @@ extern struct file *get_mm_exe_file(struct mm_struct *mm);
 extern void dup_mm_exe_file(struct mm_struct *oldmm, struct mm_struct *newmm);
 
 #else
-
+/*
 #define proc_net_fops_create(net, name, mode, fops)  ({ (void)(mode), NULL; })
 static inline void proc_net_remove(struct net *net, const char *name) {}
 
@@ -238,14 +238,14 @@ static inline struct file *get_mm_exe_file(struct mm_struct *mm)
 static inline void dup_mm_exe_file(struct mm_struct *oldmm,
 	       			   struct mm_struct *newmm)
 {}
-
+*/
 #endif /* CONFIG_PROC_FS */
 
 #if !defined(CONFIG_PROC_KCORE)
-static inline void
+/*static inline void
 kclist_add(struct kcore_list *new, void *addr, size_t size, int type)
 {
-}
+}*/
 #else
 extern void kclist_add(struct kcore_list *, void *, size_t, int type);
 #endif
