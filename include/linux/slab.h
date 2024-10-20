@@ -66,7 +66,7 @@
 
 /* Don't track use of uninitialized memory */
 #ifdef CONFIG_KMEMCHECK
-# define SLAB_NOTRACK		0x01000000UL
+//# define SLAB_NOTRACK		0x01000000UL
 #else
 # define SLAB_NOTRACK		0x00000000UL
 #endif
@@ -235,7 +235,7 @@ static inline void *kcalloc(size_t n, size_t size, gfp_t flags)
  * if available. Equivalent to kmalloc() in the non-NUMA single-node
  * case.
  */
-static inline void *kmalloc_node(size_t size, gfp_t flags, int node)
+/*static inline void *kmalloc_node(size_t size, gfp_t flags, int node)
 {
 	return kmalloc(size, flags);
 }
@@ -251,7 +251,7 @@ static inline void *kmem_cache_alloc_node(struct kmem_cache *cachep,
 					gfp_t flags, int node)
 {
 	return kmem_cache_alloc(cachep, flags);
-}
+}*/
 #endif /* !CONFIG_NUMA && !CONFIG_SLOB */
 
 /*
@@ -263,9 +263,9 @@ static inline void *kmem_cache_alloc_node(struct kmem_cache *cachep,
  * request comes from.
  */
 #if defined(CONFIG_DEBUG_SLAB) || defined(CONFIG_SLUB)
-extern void *__kmalloc_track_caller(size_t, gfp_t, unsigned long);
+/*extern void *__kmalloc_track_caller(size_t, gfp_t, unsigned long);
 #define kmalloc_track_caller(size, flags) \
-	__kmalloc_track_caller(size, flags, _RET_IP_)
+	__kmalloc_track_caller(size, flags, _RET_IP_)*/
 #else
 #define kmalloc_track_caller(size, flags) \
 	__kmalloc(size, flags)
@@ -281,20 +281,20 @@ extern void *__kmalloc_track_caller(size_t, gfp_t, unsigned long);
  * allocation request comes from.
  */
 #if defined(CONFIG_DEBUG_SLAB) || defined(CONFIG_SLUB)
-extern void *__kmalloc_node_track_caller(size_t, gfp_t, int, unsigned long);
+/*extern void *__kmalloc_node_track_caller(size_t, gfp_t, int, unsigned long);
 #define kmalloc_node_track_caller(size, flags, node) \
 	__kmalloc_node_track_caller(size, flags, node, \
-			_RET_IP_)
+			_RET_IP_)*/
 #else
 #define kmalloc_node_track_caller(size, flags, node) \
 	__kmalloc_node(size, flags, node)
 #endif
 
 #else /* CONFIG_NUMA */
-
+/*
 #define kmalloc_node_track_caller(size, flags, node) \
 	kmalloc_track_caller(size, flags)
-
+*/
 #endif /* CONFIG_NUMA */
 
 /*

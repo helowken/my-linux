@@ -48,7 +48,7 @@ static inline int zref_in_nodemask(struct zoneref *zref, nodemask_t *nodes)
 #ifdef CONFIG_NUMA
 	return node_isset(zonelist_node_idx(zref), *nodes);
 #else
-	return 1;
+	//return 1;
 #endif /* CONFIG_NUMA */
 }
 
@@ -75,7 +75,7 @@ struct zoneref *next_zones_zonelist(struct zoneref *z,
 }
 
 #ifdef CONFIG_ARCH_HAS_HOLES_MEMORYMODEL
-int memmap_valid_within(unsigned long pfn,
+/*int memmap_valid_within(unsigned long pfn,
 					struct page *page, struct zone *zone)
 {
 	if (page_to_pfn(page) != pfn)
@@ -85,7 +85,7 @@ int memmap_valid_within(unsigned long pfn,
 		return 0;
 
 	return 1;
-}
+}*/
 #endif /* CONFIG_ARCH_HAS_HOLES_MEMORYMODEL */
 
 #ifdef CONFIG_SMP

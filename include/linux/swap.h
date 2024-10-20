@@ -49,7 +49,7 @@ static inline int current_is_kswapd(void)
 #define SWP_MIGRATION_READ	(MAX_SWAPFILES + SWP_HWPOISON_NUM)
 #define SWP_MIGRATION_WRITE	(MAX_SWAPFILES + SWP_HWPOISON_NUM + 1)
 #else
-#define SWP_MIGRATION_NUM 0
+//#define SWP_MIGRATION_NUM 0
 #endif
 
 /*
@@ -59,7 +59,7 @@ static inline int current_is_kswapd(void)
 #define SWP_HWPOISON_NUM 1
 #define SWP_HWPOISON		MAX_SWAPFILES
 #else
-#define SWP_HWPOISON_NUM 0
+//#define SWP_HWPOISON_NUM 0
 #endif
 
 #define MAX_SWAPFILES \
@@ -246,11 +246,11 @@ extern int sysctl_min_unmapped_ratio;
 extern int sysctl_min_slab_ratio;
 extern int zone_reclaim(struct zone *, gfp_t, unsigned int);
 #else
-#define zone_reclaim_mode 0
+/*#define zone_reclaim_mode 0
 static inline int zone_reclaim(struct zone *z, gfp_t mask, unsigned int order)
 {
 	return 0;
-}
+}*/
 #endif
 
 extern int page_evictable(struct page *page, struct vm_area_struct *vma);
@@ -336,8 +336,8 @@ static inline void disable_swap_token(void)
 }
 
 #ifdef CONFIG_CGROUP_MEM_RES_CTLR
-extern void
-mem_cgroup_uncharge_swapcache(struct page *page, swp_entry_t ent, bool swapout);
+/*extern void
+mem_cgroup_uncharge_swapcache(struct page *page, swp_entry_t ent, bool swapout);*/
 #else
 static inline void
 mem_cgroup_uncharge_swapcache(struct page *page, swp_entry_t ent, bool swapout)
@@ -345,7 +345,7 @@ mem_cgroup_uncharge_swapcache(struct page *page, swp_entry_t ent, bool swapout)
 }
 #endif
 #ifdef CONFIG_CGROUP_MEM_RES_CTLR_SWAP
-extern void mem_cgroup_uncharge_swap(swp_entry_t ent);
+//extern void mem_cgroup_uncharge_swap(swp_entry_t ent);
 #else
 static inline void mem_cgroup_uncharge_swap(swp_entry_t ent)
 {
@@ -353,15 +353,15 @@ static inline void mem_cgroup_uncharge_swap(swp_entry_t ent)
 #endif
 
 #else /* CONFIG_SWAP */
-
+/*
 #define nr_swap_pages				0L
 #define total_swap_pages			0L
 #define total_swapcache_pages			0UL
 
 #define si_swapinfo(val) \
 	do { (val)->freeswap = (val)->totalswap = 0; } while (0)
-/* only sparc can not include linux/pagemap.h in this file
- * so leave page_cache_release and release_pages undeclared... */
+* only sparc can not include linuxpagemap.h in this file
+ * so leave page_cache_release and release_pages undeclared... *
 #define free_page_and_swap_cache(page) \
 	page_cache_release(page)
 #define free_pages_and_swap_cache(pages, nr) \
@@ -435,7 +435,7 @@ static inline swp_entry_t get_swap_page(void)
 	return entry;
 }
 
-/* linux/mm/thrash.c */
+* linuxmmthrash.c *
 static inline void put_swap_token(struct mm_struct *mm)
 {
 }
@@ -457,7 +457,7 @@ static inline void
 mem_cgroup_uncharge_swapcache(struct page *page, swp_entry_t ent)
 {
 }
-
+*/
 #endif /* CONFIG_SWAP */
 #endif /* __KERNEL__*/
 #endif /* _LINUX_SWAP_H */

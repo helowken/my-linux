@@ -22,7 +22,7 @@
 #define __KMEMLEAK_H
 
 #ifdef CONFIG_DEBUG_KMEMLEAK
-
+/*
 extern void kmemleak_init(void) __ref;
 extern void kmemleak_alloc(const void *ptr, size_t size, int min_count,
 			   gfp_t gfp) __ref;
@@ -54,7 +54,7 @@ static inline void kmemleak_erase(void **ptr)
 {
 	*ptr = NULL;
 }
-
+*/
 #else
 
 static inline void kmemleak_init(void)

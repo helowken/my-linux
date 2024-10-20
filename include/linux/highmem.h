@@ -23,7 +23,7 @@ static inline void flush_kernel_dcache_page(struct page *page)
 
 #if defined(CONFIG_DEBUG_HIGHMEM) && defined(CONFIG_TRACE_IRQFLAGS_SUPPORT)
 
-void debug_kmap_atomic(enum km_type type);
+//void debug_kmap_atomic(enum km_type type);
 
 #else
 
@@ -34,14 +34,14 @@ static inline void debug_kmap_atomic(enum km_type type)
 #endif
 
 #ifdef CONFIG_HIGHMEM
-#include <asm/highmem.h>
+/*#include <asm/highmem.h>
 
-/* declarations for linux/mm/highmem.c */
+* declarations for linux/mm/highmem.c *
 unsigned int nr_free_highpages(void);
 extern unsigned long totalhigh_pages;
 
 void kmap_flush_unused(void);
-
+*/
 #else /* CONFIG_HIGHMEM */
 
 static inline unsigned int nr_free_highpages(void) { return 0; }

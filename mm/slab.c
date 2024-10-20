@@ -1460,14 +1460,14 @@ void __init kmem_cache_init(void)
 					ARCH_KMALLOC_FLAGS|SLAB_PANIC,
 					NULL);
 
-	if (INDEX_AC != INDEX_L3) {
+	//if (INDEX_AC != INDEX_L3) {
 		sizes[INDEX_L3].cs_cachep =
 			kmem_cache_create(names[INDEX_L3].name,
 				sizes[INDEX_L3].cs_size,
 				ARCH_KMALLOC_MINALIGN,
 				ARCH_KMALLOC_FLAGS|SLAB_PANIC,
 				NULL);
-	}
+	//}
 
 	slab_early_init = 0;
 
@@ -1538,10 +1538,10 @@ void __init kmem_cache_init(void)
 			init_list(malloc_sizes[INDEX_AC].cs_cachep,
 				  &initkmem_list3[SIZE_AC + nid], nid);
 
-			if (INDEX_AC != INDEX_L3) {
+			//if (INDEX_AC != INDEX_L3) {
 				init_list(malloc_sizes[INDEX_L3].cs_cachep,
 					  &initkmem_list3[SIZE_L3 + nid], nid);
-			}
+			//}
 		}
 	}
 
@@ -2021,9 +2021,9 @@ static int __init_refok setup_cpu_cache(struct kmem_cache *cachep, gfp_t gfp)
 		 * otherwise the creation of further caches will BUG().
 		 */
 		set_up_list3s(cachep, SIZE_AC);
-		if (INDEX_AC == INDEX_L3)
+		/*if (INDEX_AC == INDEX_L3)
 			g_cpucache_up = PARTIAL_L3;
-		else
+		else*/
 			g_cpucache_up = PARTIAL_AC;
 	} else {
 		cachep->array[smp_processor_id()] =
@@ -2743,7 +2743,7 @@ static int cache_grow(struct kmem_cache *cachep,
 	local_flags = flags & (GFP_CONSTRAINT_MASK|GFP_RECLAIM_MASK);
 
 	/* Take the l3 list lock to change the colour_next on this node */
-	check_irq_off();
+	//check_irq_off();
 	l3 = cachep->nodelists[nodeid];
 	spin_lock(&l3->list_lock);
 
@@ -2788,12 +2788,12 @@ static int cache_grow(struct kmem_cache *cachep,
 
 	if (local_flags & __GFP_WAIT)
 		local_irq_disable();
-	check_irq_off();
+	//check_irq_off();
 	spin_lock(&l3->list_lock);
 
 	/* Make slab active. */
 	list_add_tail(&slabp->list, &(l3->slabs_free));
-	STATS_INC_GROWN(cachep);
+	//STATS_INC_GROWN(cachep);
 	l3->free_objects += cachep->num;
 	spin_unlock(&l3->list_lock);
 	return 1;
@@ -2931,7 +2931,7 @@ static void *cache_alloc_refill(struct kmem_cache *cachep, gfp_t flags)
 	int node;
 
 retry:
-	check_irq_off();
+	//check_irq_off();
 	node = numa_node_id();
 	ac = cpu_cache_get(cachep);
 	batchcount = ac->batchcount;
@@ -2965,8 +2965,8 @@ retry:
 		}
 
 		slabp = list_entry(entry, struct slab, list);
-		check_slabp(cachep, slabp);
-		check_spinlock_acquired(cachep);
+		//check_slabp(cachep, slabp);
+		//check_spinlock_acquired(cachep);
 
 		/*
 		 * The slab was either on partial or free list so
@@ -2976,14 +2976,14 @@ retry:
 		BUG_ON(slabp->inuse >= cachep->num);
 
 		while (slabp->inuse < cachep->num && batchcount--) {
-			STATS_INC_ALLOCED(cachep);
-			STATS_INC_ACTIVE(cachep);
-			STATS_SET_HIGH(cachep);
+			//STATS_INC_ALLOCED(cachep);
+			//STATS_INC_ACTIVE(cachep);
+			//STATS_SET_HIGH(cachep);
 
 			ac->entry[ac->avail++] = slab_get_obj(cachep, slabp,
 							    node);
 		}
-		check_slabp(cachep, slabp);
+		//check_slabp(cachep, slabp);
 
 		/* move slabp to correct slabp list: */
 		list_del(&slabp->list);
@@ -3099,11 +3099,11 @@ static inline void *____cache_alloc(struct kmem_cache *cachep, gfp_t flags)
 
 	ac = cpu_cache_get(cachep);
 	if (likely(ac->avail)) {
-		STATS_INC_ALLOCHIT(cachep);
+		//STATS_INC_ALLOCHIT(cachep);
 		ac->touched = 1;
 		objp = ac->entry[--ac->avail];
 	} else {
-		STATS_INC_ALLOCMISS(cachep);
+		//STATS_INC_ALLOCMISS(cachep);
 		objp = cache_alloc_refill(cachep, flags);
 	}
 	/*
@@ -3111,7 +3111,7 @@ static inline void *____cache_alloc(struct kmem_cache *cachep, gfp_t flags)
 	 * per-CPU caches is leaked, we need to make sure kmemleak doesn't
 	 * treat the array pointers as a reference to the object.
 	 */
-	kmemleak_erase(&ac->entry[ac->avail]);
+	//kmemleak_erase(&ac->entry[ac->avail]);
 	return objp;
 }
 
@@ -3233,7 +3233,7 @@ static void *____cache_alloc_node(struct kmem_cache *cachep, gfp_t flags,
 	BUG_ON(!l3);
 
 retry:
-	check_irq_off();
+	//check_irq_off();
 	spin_lock(&l3->list_lock);
 	entry = l3->slabs_partial.next;
 	if (entry == &l3->slabs_partial) {
@@ -3244,17 +3244,17 @@ retry:
 	}
 
 	slabp = list_entry(entry, struct slab, list);
-	check_spinlock_acquired_node(cachep, nodeid);
-	check_slabp(cachep, slabp);
+	//check_spinlock_acquired_node(cachep, nodeid);
+	//check_slabp(cachep, slabp);
 
-	STATS_INC_NODEALLOCS(cachep);
-	STATS_INC_ACTIVE(cachep);
-	STATS_SET_HIGH(cachep);
+	//STATS_INC_NODEALLOCS(cachep);
+	//STATS_INC_ACTIVE(cachep);
+	//STATS_SET_HIGH(cachep);
 
 	BUG_ON(slabp->inuse == cachep->num);
 
 	obj = slab_get_obj(cachep, slabp, nodeid);
-	check_slabp(cachep, slabp);
+	//check_slabp(cachep, slabp);
 	l3->free_objects--;
 	/* move slabp to correct slabp list: */
 	list_del(&slabp->list);
@@ -3332,12 +3332,12 @@ __cache_alloc_node(struct kmem_cache *cachep, gfp_t flags, int nodeid,
 	ptr = ____cache_alloc_node(cachep, flags, nodeid);
   out:
 	local_irq_restore(save_flags);
-	ptr = cache_alloc_debugcheck_after(cachep, flags, ptr, caller);
+	/*ptr = cache_alloc_debugcheck_after(cachep, flags, ptr, caller);
 	kmemleak_alloc_recursive(ptr, obj_size(cachep), 1, cachep->flags,
 				 flags);
 
 	if (likely(ptr))
-		kmemcheck_slab_alloc(cachep, flags, ptr, obj_size(cachep));
+		kmemcheck_slab_alloc(cachep, flags, ptr, obj_size(cachep));*/
 
 	if (unlikely((flags & __GFP_ZERO) && ptr))
 		memset(ptr, 0, obj_size(cachep));
@@ -3394,13 +3394,13 @@ __cache_alloc(struct kmem_cache *cachep, gfp_t flags, void *caller)
 	local_irq_save(save_flags);
 	objp = __do_cache_alloc(cachep, flags);
 	local_irq_restore(save_flags);
-	objp = cache_alloc_debugcheck_after(cachep, flags, objp, caller);
-	kmemleak_alloc_recursive(objp, obj_size(cachep), 1, cachep->flags,
-				 flags);
+	//objp = cache_alloc_debugcheck_after(cachep, flags, objp, caller);
+	/*kmemleak_alloc_recursive(objp, obj_size(cachep), 1, cachep->flags,
+				 flags);*/
 	prefetchw(objp);
 
-	if (likely(objp))
-		kmemcheck_slab_alloc(cachep, flags, objp, obj_size(cachep));
+	//if (likely(objp))
+		//kmemcheck_slab_alloc(cachep, flags, objp, obj_size(cachep));
 
 	if (unlikely((flags & __GFP_ZERO) && objp))
 		memset(objp, 0, obj_size(cachep));
