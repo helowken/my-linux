@@ -31,13 +31,13 @@
  * This only works with compare-and-swap.  There is no other way to
  * atomically claim the lock and set the owner.
  */
-#include <linux/smp.h>
+/*#include <linux/smp.h>
 extern volatile unsigned long cmos_lock;
 
-/*
+*
  * All of these below must be called with interrupts off, preempt
  * disabled, etc.
- */
+ *
 
 static inline void lock_cmos(unsigned char reg)
 {
@@ -77,7 +77,7 @@ static inline unsigned char current_lock_cmos_reg(void)
 #define lock_cmos_suffix(reg)			\
 	unlock_cmos();				\
 	local_irq_restore(cmos_flags);		\
-	} while (0)
+	} while (0)*/
 #else
 #define lock_cmos_prefix(reg) do {} while (0)
 #define lock_cmos_suffix(reg) do {} while (0)

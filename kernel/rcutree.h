@@ -40,11 +40,11 @@
 #define RCU_FANOUT_CUBE	      (RCU_FANOUT_SQ * RCU_FANOUT)
 
 #if NR_CPUS <= RCU_FANOUT
-#  define NUM_RCU_LVLS	      1
+/*#  define NUM_RCU_LVLS	      1
 #  define NUM_RCU_LVL_0	      1
 #  define NUM_RCU_LVL_1	      (NR_CPUS)
 #  define NUM_RCU_LVL_2	      0
-#  define NUM_RCU_LVL_3	      0
+#  define NUM_RCU_LVL_3	      0*/
 #elif NR_CPUS <= RCU_FANOUT_SQ
 #  define NUM_RCU_LVLS	      2
 #  define NUM_RCU_LVL_0	      1
@@ -52,11 +52,11 @@
 #  define NUM_RCU_LVL_2	      (NR_CPUS)
 #  define NUM_RCU_LVL_3	      0
 #elif NR_CPUS <= RCU_FANOUT_CUBE
-#  define NUM_RCU_LVLS	      3
+/*#  define NUM_RCU_LVLS	      3
 #  define NUM_RCU_LVL_0	      1
 #  define NUM_RCU_LVL_1	      DIV_ROUND_UP(NR_CPUS, RCU_FANOUT_SQ)
 #  define NUM_RCU_LVL_2	      DIV_ROUND_UP(NR_CPUS, RCU_FANOUT)
-#  define NUM_RCU_LVL_3	      NR_CPUS
+#  define NUM_RCU_LVL_3	      NR_CPUS*/
 #else
 # error "CONFIG_RCU_FANOUT insufficient for NR_CPUS"
 #endif /* #if (NR_CPUS) <= RCU_FANOUT */
@@ -212,18 +212,19 @@ struct rcu_data {
 #ifdef CONFIG_NO_HZ
 #define RCU_SIGNAL_INIT		RCU_SAVE_DYNTICK
 #else /* #ifdef CONFIG_NO_HZ */
-#define RCU_SIGNAL_INIT		RCU_SAVE_COMPLETED
+//#define RCU_SIGNAL_INIT		RCU_SAVE_COMPLETED
 #endif /* #else #ifdef CONFIG_NO_HZ */
 
 #define RCU_JIFFIES_TILL_FORCE_QS	 3	/* for rsp->jiffies_force_qs */
 #ifdef CONFIG_RCU_CPU_STALL_DETECTOR
-#define RCU_SECONDS_TILL_STALL_CHECK   (10 * HZ)  /* for rsp->jiffies_stall */
-#define RCU_SECONDS_TILL_STALL_RECHECK (30 * HZ)  /* for rsp->jiffies_stall */
-#define RCU_STALL_RAT_DELAY		2	  /* Allow other CPUs time */
-						  /*  to take at least one */
-						  /*  scheduling clock irq */
-						  /*  before ratting on them. */
-
+/*
+#define RCU_SECONDS_TILL_STALL_CHECK   (10 * HZ)  * for rsp->jiffies_stall *
+#define RCU_SECONDS_TILL_STALL_RECHECK (30 * HZ)  * for rsp->jiffies_stall *
+#define RCU_STALL_RAT_DELAY		2	  * Allow other CPUs time *
+						  *  to take at least one *
+						  *  scheduling clock irq *
+						  *  before ratting on them. *
+*/
 #endif /* #ifdef CONFIG_RCU_CPU_STALL_DETECTOR */
 
 /*
@@ -273,9 +274,9 @@ struct rcu_state {
 	unsigned long n_force_qs_ngp;		/* Number of calls leaving */
 						/*  due to no GP active. */
 #ifdef CONFIG_RCU_CPU_STALL_DETECTOR
-	unsigned long gp_start;			/* Time at which GP started, */
+	//unsigned long gp_start;			/* Time at which GP started, */
 						/*  but in jiffies. */
-	unsigned long jiffies_stall;		/* Time at which to check */
+	//unsigned long jiffies_stall;		/* Time at which to check */
 						/*  for CPU stalls. */
 #endif /* #ifdef CONFIG_RCU_CPU_STALL_DETECTOR */
 	long dynticks_completed;		/* Value of completed @ snap. */
@@ -287,7 +288,7 @@ struct rcu_state {
 /*
  * RCU implementation internal declarations:
  */
-extern struct rcu_state rcu_sched_state;
+/*extern struct rcu_state rcu_sched_state;
 DECLARE_PER_CPU(struct rcu_data, rcu_sched_data);
 
 extern struct rcu_state rcu_bh_state;
@@ -296,8 +297,8 @@ DECLARE_PER_CPU(struct rcu_data, rcu_bh_data);
 #ifdef CONFIG_TREE_PREEMPT_RCU
 extern struct rcu_state rcu_preempt_state;
 DECLARE_PER_CPU(struct rcu_data, rcu_preempt_data);
-#endif /* #ifdef CONFIG_TREE_PREEMPT_RCU */
-
+#endif * #ifdef CONFIG_TREE_PREEMPT_RCU *
+*/
 #else /* #ifdef RCU_TREE_NONCORE */
 
 /* Forward declarations for rcutree_plugin.h */
@@ -306,7 +307,7 @@ long rcu_batches_completed(void);
 static void rcu_preempt_note_context_switch(int cpu);
 static int rcu_preempted_readers(struct rcu_node *rnp);
 #ifdef CONFIG_RCU_CPU_STALL_DETECTOR
-static void rcu_print_task_stall(struct rcu_node *rnp);
+//static void rcu_print_task_stall(struct rcu_node *rnp);
 #endif /* #ifdef CONFIG_RCU_CPU_STALL_DETECTOR */
 static void rcu_preempt_check_blocked_tasks(struct rcu_node *rnp);
 #ifdef CONFIG_HOTPLUG_CPU

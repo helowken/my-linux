@@ -419,7 +419,7 @@ static int rcu_implicit_dynticks_qs(struct rcu_data *rdp)
 #endif /* #ifdef CONFIG_SMP */
 
 #else /* #ifdef CONFIG_NO_HZ */
-
+/*
 #ifdef CONFIG_SMP
 
 static int dyntick_save_progress_counter(struct rcu_data *rdp)
@@ -432,12 +432,12 @@ static int rcu_implicit_dynticks_qs(struct rcu_data *rdp)
 	return rcu_implicit_offline_qs(rdp);
 }
 
-#endif /* #ifdef CONFIG_SMP */
-
+#endif * #ifdef CONFIG_SMP *
+*/
 #endif /* #else #ifdef CONFIG_NO_HZ */
 
 #ifdef CONFIG_RCU_CPU_STALL_DETECTOR
-
+/*
 static void record_gp_stall_check_time(struct rcu_state *rsp)
 {
 	rsp->gp_start = jiffies;
@@ -451,7 +451,7 @@ static void print_other_cpu_stall(struct rcu_state *rsp)
 	unsigned long flags;
 	struct rcu_node *rnp = rcu_get_root(rsp);
 
-	/* Only let one CPU complain about others per time interval. */
+	* Only let one CPU complain about others per time interval. *
 
 	spin_lock_irqsave(&rnp->lock, flags);
 	delta = jiffies - rsp->jiffies_stall;
@@ -461,14 +461,14 @@ static void print_other_cpu_stall(struct rcu_state *rsp)
 	}
 	rsp->jiffies_stall = jiffies + RCU_SECONDS_TILL_STALL_RECHECK;
 
-	/*
+	*
 	 * Now rat on any tasks that got kicked up to the root rcu_node
 	 * due to CPU offlining.
-	 */
+	 *
 	rcu_print_task_stall(rnp);
 	spin_unlock_irqrestore(&rnp->lock, flags);
 
-	/* OK, time to rat on our buddy... */
+	* OK, time to rat on our buddy... *
 
 	printk(KERN_ERR "INFO: RCU detected CPU stalls:");
 	rcu_for_each_leaf_node(rsp, rnp) {
@@ -483,7 +483,7 @@ static void print_other_cpu_stall(struct rcu_state *rsp)
 	       smp_processor_id(), (long)(jiffies - rsp->gp_start));
 	trigger_all_cpu_backtrace();
 
-	force_quiescent_state(rsp, 0);  /* Kick them all. */
+	force_quiescent_state(rsp, 0);  * Kick them all. *
 }
 
 static void print_cpu_stall(struct rcu_state *rsp)
@@ -501,7 +501,7 @@ static void print_cpu_stall(struct rcu_state *rsp)
 			jiffies + RCU_SECONDS_TILL_STALL_RECHECK;
 	spin_unlock_irqrestore(&rnp->lock, flags);
 
-	set_need_resched();  /* kick ourselves to get things going. */
+	set_need_resched();  * kick ourselves to get things going. *
 }
 
 static void check_cpu_stall(struct rcu_state *rsp, struct rcu_data *rdp)
@@ -513,16 +513,16 @@ static void check_cpu_stall(struct rcu_state *rsp, struct rcu_data *rdp)
 	rnp = rdp->mynode;
 	if ((rnp->qsmask & rdp->grpmask) && delta >= 0) {
 
-		/* We haven't checked in, so go dump stack. */
+		* We haven't checked in, so go dump stack. *
 		print_cpu_stall(rsp);
 
 	} else if (rcu_gp_in_progress(rsp) && delta >= RCU_STALL_RAT_DELAY) {
 
-		/* They had two time units to dump stack, so complain. */
+		* They had two time units to dump stack, so complain. *
 		print_other_cpu_stall(rsp);
 	}
 }
-
+*/
 #else /* #ifdef CONFIG_RCU_CPU_STALL_DETECTOR */
 
 static void record_gp_stall_check_time(struct rcu_state *rsp)
@@ -995,7 +995,7 @@ static void rcu_offline_cpu(int cpu)
 }
 
 #else /* #ifdef CONFIG_HOTPLUG_CPU */
-
+/*
 static void rcu_send_cbs_to_orphanage(struct rcu_state *rsp)
 {
 }
@@ -1007,7 +1007,7 @@ static void rcu_adopt_orphan_cbs(struct rcu_state *rsp)
 static void rcu_offline_cpu(int cpu)
 {
 }
-
+*/
 #endif /* #else #ifdef CONFIG_HOTPLUG_CPU */
 
 /*
@@ -1254,12 +1254,12 @@ unlock_ret:
 }
 
 #else /* #ifdef CONFIG_SMP */
-
+/*
 static void force_quiescent_state(struct rcu_state *rsp, int relaxed)
 {
 	set_need_resched();
 }
-
+*/
 #endif /* #else #ifdef CONFIG_SMP */
 
 /*
@@ -1687,13 +1687,13 @@ int __cpuinit rcu_cpu_notify(struct notifier_block *self,
  * or balancing the tree, depending on CONFIG_RCU_FANOUT_EXACT.
  */
 #ifdef CONFIG_RCU_FANOUT_EXACT
-static void __init rcu_init_levelspread(struct rcu_state *rsp)
+/*static void __init rcu_init_levelspread(struct rcu_state *rsp)
 {
 	int i;
 
 	for (i = NUM_RCU_LVLS - 1; i >= 0; i--)
 		rsp->levelspread[i] = CONFIG_RCU_FANOUT;
-}
+}*/
 #else /* #ifdef CONFIG_RCU_FANOUT_EXACT */
 static void __init rcu_init_levelspread(struct rcu_state *rsp)
 {

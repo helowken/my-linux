@@ -173,7 +173,7 @@ hrtimer_check_target(struct hrtimer *timer, struct hrtimer_clock_base *new_base)
 	expires = ktime_sub(hrtimer_get_expires(timer), new_base->offset);
 	return expires.tv64 <= new_base->cpu_base->expires_next.tv64;
 #else
-	return 0;
+	//return 0;
 #endif
 }
 
@@ -224,7 +224,7 @@ again:
 }
 
 #else /* CONFIG_SMP */
-
+/*
 static inline struct hrtimer_clock_base *
 lock_hrtimer_base(const struct hrtimer *timer, unsigned long *flags)
 {
@@ -236,7 +236,7 @@ lock_hrtimer_base(const struct hrtimer *timer, unsigned long *flags)
 }
 
 # define switch_hrtimer_base(t, b, p)	(b)
-
+*/
 #endif	/* !CONFIG_SMP */
 
 /*
@@ -244,14 +244,14 @@ lock_hrtimer_base(const struct hrtimer *timer, unsigned long *flags)
  * too large for inlining:
  */
 #if BITS_PER_LONG < 64
-# ifndef CONFIG_KTIME_SCALAR
-/**
+/*# ifndef CONFIG_KTIME_SCALAR
+**
  * ktime_add_ns - Add a scalar nanoseconds value to a ktime_t variable
  * @kt:		addend
  * @nsec:	the scalar nsec value to add
  *
  * Returns the sum of kt and nsec in ktime_t format
- */
+ *
 ktime_t ktime_add_ns(const ktime_t kt, u64 nsec)
 {
 	ktime_t tmp;
@@ -269,13 +269,13 @@ ktime_t ktime_add_ns(const ktime_t kt, u64 nsec)
 
 EXPORT_SYMBOL_GPL(ktime_add_ns);
 
-/**
+**
  * ktime_sub_ns - Subtract a scalar nanoseconds value from a ktime_t variable
  * @kt:		minuend
  * @nsec:	the scalar nsec value to subtract
  *
  * Returns the subtraction of @nsec from @kt in ktime_t format
- */
+ *
 ktime_t ktime_sub_ns(const ktime_t kt, u64 nsec)
 {
 	ktime_t tmp;
@@ -292,18 +292,18 @@ ktime_t ktime_sub_ns(const ktime_t kt, u64 nsec)
 }
 
 EXPORT_SYMBOL_GPL(ktime_sub_ns);
-# endif /* !CONFIG_KTIME_SCALAR */
+# endif * !CONFIG_KTIME_SCALAR *
 
-/*
+*
  * Divide a ktime value by a nanosecond value
- */
+ *
 u64 ktime_divns(const ktime_t kt, s64 div)
 {
 	u64 dclc;
 	int sft = 0;
 
 	dclc = ktime_to_ns(kt);
-	/* Make sure the divisor is less than 2^32: */
+	* Make sure the divisor is less than 2^32: *
 	while (div >> 32) {
 		sft++;
 		div >>= 1;
@@ -312,7 +312,7 @@ u64 ktime_divns(const ktime_t kt, s64 div)
 	do_div(dclc, (unsigned long) div);
 
 	return dclc;
-}
+}*/
 #endif /* BITS_PER_LONG >= 64 */
 
 /*
@@ -335,13 +335,13 @@ ktime_t ktime_add_safe(const ktime_t lhs, const ktime_t rhs)
 EXPORT_SYMBOL_GPL(ktime_add_safe);
 
 #ifdef CONFIG_DEBUG_OBJECTS_TIMERS
-
+/*
 static struct debug_obj_descr hrtimer_debug_descr;
 
-/*
+*
  * fixup_init is called when:
  * - an active object is initialized
- */
+ *
 static int hrtimer_fixup_init(void *addr, enum debug_obj_state state)
 {
 	struct hrtimer *timer = addr;
@@ -356,11 +356,11 @@ static int hrtimer_fixup_init(void *addr, enum debug_obj_state state)
 	}
 }
 
-/*
+*
  * fixup_activate is called when:
  * - an active object is activated
  * - an unknown object is activated (might be a statically initialized object)
- */
+ *
 static int hrtimer_fixup_activate(void *addr, enum debug_obj_state state)
 {
 	switch (state) {
@@ -377,10 +377,10 @@ static int hrtimer_fixup_activate(void *addr, enum debug_obj_state state)
 	}
 }
 
-/*
+*
  * fixup_free is called when:
  * - an active object is freed
- */
+ *
 static int hrtimer_fixup_free(void *addr, enum debug_obj_state state)
 {
 	struct hrtimer *timer = addr;
@@ -437,7 +437,7 @@ void destroy_hrtimer_on_stack(struct hrtimer *timer)
 {
 	debug_object_free(timer, &hrtimer_debug_descr);
 }
-
+*/
 #else
 static inline void debug_hrtimer_init(struct hrtimer *timer) { }
 static inline void debug_hrtimer_activate(struct hrtimer *timer) { }
@@ -739,7 +739,7 @@ static int hrtimer_switch_to_hres(void)
 }
 
 #else
-
+/*
 static inline int hrtimer_hres_active(void) { return 0; }
 static inline int hrtimer_is_hres_enabled(void) { return 0; }
 static inline int hrtimer_switch_to_hres(void) { return 0; }
@@ -753,7 +753,7 @@ static inline int hrtimer_enqueue_reprogram(struct hrtimer *timer,
 }
 static inline void hrtimer_init_hres(struct hrtimer_cpu_base *base) { }
 static inline void hrtimer_init_timer_hres(struct hrtimer *timer) { }
-
+*/
 #endif /* CONFIG_HIGH_RES_TIMERS */
 
 #ifdef CONFIG_TIMER_STATS
@@ -972,7 +972,7 @@ int __hrtimer_start_range_ns(struct hrtimer *timer, ktime_t tim,
 		 * timeouts. This will go away with the GTOD framework.
 		 */
 #ifdef CONFIG_TIME_LOW_RES
-		tim = ktime_add_safe(tim, base->resolution);
+		//tim = ktime_add_safe(tim, base->resolution);
 #endif
 	}
 
@@ -1398,7 +1398,7 @@ static void run_hrtimer_softirq(struct softirq_action *h)
 
 #else /* CONFIG_HIGH_RES_TIMERS */
 
-static inline void __hrtimer_peek_ahead_timers(void) { }
+//static inline void __hrtimer_peek_ahead_timers(void) { }
 
 #endif	/* !CONFIG_HIGH_RES_TIMERS */
 

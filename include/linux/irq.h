@@ -73,8 +73,8 @@ typedef	void (*irq_flow_handler_t)(unsigned int irq,
 #define IRQ_NESTED_THREAD	0x10000000	/* IRQ is nested into another, no own handler thread */
 
 #ifdef CONFIG_IRQ_PER_CPU
-# define CHECK_IRQ_PER_CPU(var) ((var) & IRQ_PER_CPU)
-# define IRQ_NO_BALANCING_MASK	(IRQ_PER_CPU | IRQ_NO_BALANCING)
+//# define CHECK_IRQ_PER_CPU(var) ((var) & IRQ_PER_CPU)
+//# define IRQ_NO_BALANCING_MASK	(IRQ_PER_CPU | IRQ_NO_BALANCING)
 #else
 # define CHECK_IRQ_PER_CPU(var) 0
 # define IRQ_NO_BALANCING_MASK	IRQ_NO_BALANCING
@@ -133,7 +133,7 @@ struct irq_chip {
 
 	/* Currently used only by UML, might disappear one day.*/
 #ifdef CONFIG_IRQ_RELEASE_METHOD
-	void		(*release)(unsigned int irq, void *dev_id);
+	//void		(*release)(unsigned int irq, void *dev_id);
 #endif
 	/*
 	 * For compatibility, ->typename is copied into ->name.
@@ -177,7 +177,7 @@ struct irq_desc {
 	struct timer_rand_state *timer_rand_state;
 	unsigned int            *kstat_irqs;
 #ifdef CONFIG_INTR_REMAP
-	struct irq_2_iommu      *irq_2_iommu;
+	//struct irq_2_iommu      *irq_2_iommu;
 #endif
 	irq_flow_handler_t	handle_irq;
 	struct irq_chip		*chip;
@@ -219,10 +219,10 @@ extern struct irq_desc irq_desc[NR_IRQS];
 #ifdef CONFIG_NUMA_IRQ_DESC
 extern struct irq_desc *move_irq_desc(struct irq_desc *old_desc, int node);
 #else
-static inline struct irq_desc *move_irq_desc(struct irq_desc *desc, int node)
+/*static inline struct irq_desc *move_irq_desc(struct irq_desc *desc, int node)
 {
 	return desc;
-}
+}*/
 #endif
 
 extern struct irq_desc *irq_to_desc_alloc_node(unsigned int irq, int node);
@@ -245,7 +245,7 @@ void move_native_irq(int irq);
 void move_masked_irq(int irq);
 
 #else /* CONFIG_GENERIC_PENDING_IRQ */
-
+/*
 static inline void move_irq(int irq)
 {
 }
@@ -257,13 +257,13 @@ static inline void move_native_irq(int irq)
 static inline void move_masked_irq(int irq)
 {
 }
-
+*/
 #endif /* CONFIG_GENERIC_PENDING_IRQ */
 
 #else /* CONFIG_SMP */
 
-#define move_native_irq(x)
-#define move_masked_irq(x)
+//#define move_native_irq(x)
+//#define move_masked_irq(x)
 
 #endif /* CONFIG_SMP */
 
@@ -296,7 +296,7 @@ extern void handle_nested_irq(unsigned int irq);
  * Monolithic do_IRQ implementation.
  */
 #ifndef CONFIG_GENERIC_HARDIRQS_NO__DO_IRQ
-extern unsigned int __do_IRQ(unsigned int irq);
+//extern unsigned int __do_IRQ(unsigned int irq);
 #endif
 
 /*
@@ -310,10 +310,10 @@ static inline void generic_handle_irq_desc(unsigned int irq, struct irq_desc *de
 #ifdef CONFIG_GENERIC_HARDIRQS_NO__DO_IRQ
 	desc->handle_irq(irq, desc);
 #else
-	if (likely(desc->handle_irq))
+	/*if (likely(desc->handle_irq))
 		desc->handle_irq(irq, desc);
 	else
-		__do_IRQ(irq);
+		__do_IRQ(irq);*/
 #endif
 }
 
@@ -498,7 +498,7 @@ static inline void free_desc_masks(struct irq_desc *old_desc,
 }
 
 #else /* !CONFIG_SMP */
-
+/*
 static inline bool alloc_desc_masks(struct irq_desc *desc, int node,
 								bool boot)
 {
@@ -517,7 +517,7 @@ static inline void init_copy_desc_masks(struct irq_desc *old_desc,
 static inline void free_desc_masks(struct irq_desc *old_desc,
 				   struct irq_desc *new_desc)
 {
-}
+}*/
 #endif	/* CONFIG_SMP */
 
 #endif /* _LINUX_IRQ_H */

@@ -56,7 +56,7 @@
  * be shot.
  */
 
-static irqreturn_t math_error_irq(int cpl, void *dev_id)
+/*static irqreturn_t math_error_irq(int cpl, void *dev_id)
 {
 	outb(0, 0xF0);
 	if (ignore_fpu_irq || !boot_cpu_data.hard_math)
@@ -65,14 +65,14 @@ static irqreturn_t math_error_irq(int cpl, void *dev_id)
 	return IRQ_HANDLED;
 }
 
-/*
+*
  * New motherboards sometimes make IRQ 13 be a PCI interrupt,
  * so allow interrupt sharing.
- */
+ *
 static struct irqaction fpu_irq = {
 	.handler = math_error_irq,
 	.name = "fpu",
-};
+};*/
 #endif
 
 /*
@@ -243,9 +243,9 @@ void __init native_init_IRQ(void)
 	 * External FPU? Set up irq13 if so, for
 	 * original braindamaged IBM FERR coupling.
 	 */
-	if (boot_cpu_data.hard_math && !cpu_has_fpu)
+	/*if (boot_cpu_data.hard_math && !cpu_has_fpu)
 		setup_irq(FPU_IRQ, &fpu_irq);
 
-	irq_ctx_init(smp_processor_id());
+	irq_ctx_init(smp_processor_id());*/
 #endif
 }

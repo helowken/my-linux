@@ -50,9 +50,9 @@ static void __init init_irq_default_affinity(void)
 	cpumask_setall(irq_default_affinity);
 }
 #else
-static void __init init_irq_default_affinity(void)
+/*static void __init init_irq_default_affinity(void)
 {
-}
+}*/
 #endif
 
 /*
@@ -432,12 +432,12 @@ irqreturn_t handle_IRQ_event(unsigned int irq, struct irqaction *action)
 }
 
 #ifndef CONFIG_GENERIC_HARDIRQS_NO__DO_IRQ
-
+/*
 #ifdef CONFIG_ENABLE_WARN_DEPRECATED
 # warning __do_IRQ is deprecated. Please convert to proper flow handlers
 #endif
 
-/**
+**
  * __do_IRQ - original all in one highlevel IRQ handler
  * @irq:	the interrupt number
  *
@@ -447,7 +447,7 @@ irqreturn_t handle_IRQ_event(unsigned int irq, struct irqaction *action)
  *
  * This is the original x86 implementation which is used for every
  * interrupt type.
- */
+ *
 unsigned int __do_IRQ(unsigned int irq)
 {
 	struct irq_desc *desc = irq_to_desc(irq);
@@ -459,9 +459,9 @@ unsigned int __do_IRQ(unsigned int irq)
 	if (CHECK_IRQ_PER_CPU(desc->status)) {
 		irqreturn_t action_ret;
 
-		/*
+		*
 		 * No locking required for CPU-local interrupts:
-		 */
+		 *
 		if (desc->chip->ack)
 			desc->chip->ack(irq);
 		if (likely(!(desc->status & IRQ_DISABLED))) {
@@ -476,35 +476,35 @@ unsigned int __do_IRQ(unsigned int irq)
 	spin_lock(&desc->lock);
 	if (desc->chip->ack)
 		desc->chip->ack(irq);
-	/*
+	*
 	 * REPLAY is when Linux resends an IRQ that was dropped earlier
 	 * WAITING is used by probe to mark irqs that are being tested
-	 */
+	 *
 	status = desc->status & ~(IRQ_REPLAY | IRQ_WAITING);
-	status |= IRQ_PENDING; /* we _want_ to handle it */
+	status |= IRQ_PENDING; * we _want_ to handle it *
 
-	/*
+	*
 	 * If the IRQ is disabled for whatever reason, we cannot
 	 * use the action we have.
-	 */
+	 *
 	action = NULL;
 	if (likely(!(status & (IRQ_DISABLED | IRQ_INPROGRESS)))) {
 		action = desc->action;
-		status &= ~IRQ_PENDING; /* we commit to handling */
-		status |= IRQ_INPROGRESS; /* we are handling it */
+		status &= ~IRQ_PENDING; * we commit to handling *
+		status |= IRQ_INPROGRESS; * we are handling it *
 	}
 	desc->status = status;
 
-	/*
+	*
 	 * If there is no IRQ handler or it was disabled, exit early.
 	 * Since we set PENDING, if another processor is handling
 	 * a different instance of this same irq, the other processor
 	 * will take care of it.
-	 */
+	 *
 	if (unlikely(!action))
 		goto out;
 
-	/*
+	*
 	 * Edge triggered interrupts need to remember
 	 * pending events.
 	 * This applies to any hw interrupts that allow a second
@@ -513,7 +513,7 @@ unsigned int __do_IRQ(unsigned int irq)
 	 * instance of the irq, not the third or fourth. So it is mostly
 	 * useful for irq hardware that does not mask cleanly in an
 	 * SMP environment.
-	 */
+	 *
 	for (;;) {
 		irqreturn_t action_ret;
 
@@ -531,15 +531,15 @@ unsigned int __do_IRQ(unsigned int irq)
 	desc->status &= ~IRQ_INPROGRESS;
 
 out:
-	/*
+	*
 	 * The ->end() handler has to deal with interrupts which got
 	 * disabled while the handler was running.
-	 */
+	 *
 	desc->chip->end(irq);
 	spin_unlock(&desc->lock);
 
 	return 1;
-}
+}*/
 #endif
 
 void early_init_irq_lock_class(void)

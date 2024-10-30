@@ -23,7 +23,7 @@ struct timer_list {
 	int start_pid;
 #endif
 #ifdef CONFIG_LOCKDEP
-	struct lockdep_map lockdep_map;
+	//struct lockdep_map lockdep_map;
 #endif
 };
 
@@ -36,8 +36,8 @@ extern struct tvec_base boot_tvec_bases;
  * the copy of the lockdep_map later! We use the pointer to and the string
  * "<file>:<line>" as the key resp. the name of the lockdep_map.
  */
-#define __TIMER_LOCKDEP_MAP_INITIALIZER(_kn)				\
-	.lockdep_map = STATIC_LOCKDEP_MAP_INIT(_kn, &_kn),
+/*#define __TIMER_LOCKDEP_MAP_INITIALIZER(_kn)				\
+	.lockdep_map = STATIC_LOCKDEP_MAP_INIT(_kn, &_kn),*/
 #else
 #define __TIMER_LOCKDEP_MAP_INITIALIZER(_kn)
 #endif
@@ -64,7 +64,7 @@ void init_timer_deferrable_key(struct timer_list *timer,
 			       struct lock_class_key *key);
 
 #ifdef CONFIG_LOCKDEP
-#define init_timer(timer)						\
+/*#define init_timer(timer)						\
 	do {								\
 		static struct lock_class_key __key;			\
 		init_timer_key((timer), #timer, &__key);		\
@@ -93,7 +93,7 @@ void init_timer_deferrable_key(struct timer_list *timer,
 		static struct lock_class_key __key;			\
 		setup_timer_on_stack_key((timer), #timer, &__key,	\
 					 (fn), (data));			\
-	} while (0)
+	} while (0)*/
 #else
 #define init_timer(timer)\
 	init_timer_key((timer), NULL, NULL)
@@ -108,10 +108,10 @@ void init_timer_deferrable_key(struct timer_list *timer,
 #endif
 
 #ifdef CONFIG_DEBUG_OBJECTS_TIMERS
-extern void init_timer_on_stack_key(struct timer_list *timer,
+/*extern void init_timer_on_stack_key(struct timer_list *timer,
 				    const char *name,
 				    struct lock_class_key *key);
-extern void destroy_timer_on_stack(struct timer_list *timer);
+extern void destroy_timer_on_stack(struct timer_list *timer);*/
 #else
 static inline void destroy_timer_on_stack(struct timer_list *timer) { }
 static inline void init_timer_on_stack_key(struct timer_list *timer,
@@ -210,7 +210,7 @@ static inline void timer_stats_timer_clear_start_info(struct timer_list *timer)
 	timer->start_site = NULL;
 }
 #else
-static inline void init_timer_stats(void)
+/*static inline void init_timer_stats(void)
 {
 }
 
@@ -220,7 +220,7 @@ static inline void timer_stats_timer_set_start_info(struct timer_list *timer)
 
 static inline void timer_stats_timer_clear_start_info(struct timer_list *timer)
 {
-}
+}*/
 #endif
 
 extern void add_timer(struct timer_list *timer);
@@ -229,8 +229,8 @@ extern void add_timer(struct timer_list *timer);
   extern int try_to_del_timer_sync(struct timer_list *timer);
   extern int del_timer_sync(struct timer_list *timer);
 #else
-# define try_to_del_timer_sync(t)	del_timer(t)
-# define del_timer_sync(t)		del_timer(t)
+//# define try_to_del_timer_sync(t)	del_timer(t)
+//# define del_timer_sync(t)		del_timer(t)
 #endif
 
 #define del_singleshot_timer_sync(t) del_timer_sync(t)
