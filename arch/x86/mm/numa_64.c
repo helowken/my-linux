@@ -306,15 +306,15 @@ void __init numa_init_array(void)
 
 #ifdef CONFIG_NUMA_EMU
 /* Numa emulation */
-static char *cmdline __initdata;
+/*static char *cmdline __initdata;
 
-/*
+*
  * Setups up nid to range from addr to addr + size.  If the end
  * boundary is greater than max_addr, then max_addr is used instead.
  * The return value is 0 if there is additional memory left for
  * allocation past addr and -1 otherwise.  addr is adjusted to be at
  * the end of the node.
- */
+ *
 static int __init setup_node_range(int nid, struct bootnode *nodes, u64 *addr,
 				   u64 size, u64 max_addr)
 {
@@ -334,11 +334,11 @@ static int __init setup_node_range(int nid, struct bootnode *nodes, u64 *addr,
 	return ret;
 }
 
-/*
+*
  * Splits num_nodes nodes up equally starting at node_start.  The return value
  * is the number of nodes split up and addr is adjusted to be at the end of the
  * last node allocated.
- */
+ *
 static int __init split_nodes_equally(struct bootnode *nodes, u64 *addr,
 				      u64 max_addr, int node_start,
 				      int num_nodes)
@@ -351,16 +351,16 @@ static int __init split_nodes_equally(struct bootnode *nodes, u64 *addr,
 		return -1;
 	if (num_nodes > MAX_NUMNODES)
 		num_nodes = MAX_NUMNODES;
-	size = (max_addr - *addr - e820_hole_size(*addr, max_addr)) /
+	size = (max_addr - *addr - e820_hole_size(*addr, max_addr)) 
 	       num_nodes;
-	/*
+	*
 	 * Calculate the number of big nodes that can be allocated as a result
 	 * of consolidating the leftovers.
-	 */
-	big = ((size & ~FAKE_NODE_MIN_HASH_MASK) * num_nodes) /
+	 *
+	big = ((size & ~FAKE_NODE_MIN_HASH_MASK) * num_nodes) 
 	      FAKE_NODE_MIN_SIZE;
 
-	/* Round down to nearest FAKE_NODE_MIN_SIZE. */
+	* Round down to nearest FAKE_NODE_MIN_SIZE. *
 	size &= FAKE_NODE_MIN_HASH_MASK;
 	if (!size) {
 		printk(KERN_ERR "Not enough memory for each node.  "
@@ -373,10 +373,10 @@ static int __init split_nodes_equally(struct bootnode *nodes, u64 *addr,
 
 		if (i < big)
 			end += FAKE_NODE_MIN_SIZE;
-		/*
+		*
 		 * The final node can have the remaining system RAM.  Other
 		 * nodes receive roughly the same amount of available pages.
-		 */
+		 *
 		if (i == num_nodes + node_start - 1)
 			end = max_addr;
 		else
@@ -394,11 +394,11 @@ static int __init split_nodes_equally(struct bootnode *nodes, u64 *addr,
 	return i - node_start + 1;
 }
 
-/*
+*
  * Splits the remaining system RAM into chunks of size.  The remaining memory is
  * always assigned to a final node and can be asymmetric.  Returns the number of
  * nodes split.
- */
+ *
 static int __init split_nodes_by_size(struct bootnode *nodes, u64 *addr,
 				      u64 max_addr, int node_start, u64 size)
 {
@@ -409,10 +409,10 @@ static int __init split_nodes_by_size(struct bootnode *nodes, u64 *addr,
 	return i - node_start;
 }
 
-/*
+*
  * Sets up the system RAM area from start_pfn to last_pfn according to the
  * numa=fake command-line option.
- */
+ *
 static struct bootnode nodes[MAX_NUMNODES] __initdata;
 
 static int __init numa_emulation(unsigned long start_pfn, unsigned long last_pfn)
@@ -422,10 +422,10 @@ static int __init numa_emulation(unsigned long start_pfn, unsigned long last_pfn
 	int num_nodes = 0, num = 0, coeff_flag, coeff = -1, i;
 
 	memset(&nodes, 0, sizeof(nodes));
-	/*
+	*
 	 * If the numa=fake command-line is just a single number N, split the
 	 * system RAM into N fake nodes.
-	 */
+	 *
 	if (!strchr(cmdline, '*') && !strchr(cmdline, ',')) {
 		long n = simple_strtol(cmdline, NULL, 0);
 
@@ -435,7 +435,7 @@ static int __init numa_emulation(unsigned long start_pfn, unsigned long last_pfn
 		goto out;
 	}
 
-	/* Parse the command line. */
+	* Parse the command line. *
 	for (coeff_flag = 0; ; cmdline++) {
 		if (*cmdline && isdigit(*cmdline)) {
 			num = num * 10 + *cmdline - '0';
@@ -449,10 +449,10 @@ static int __init numa_emulation(unsigned long start_pfn, unsigned long last_pfn
 		if (!*cmdline || *cmdline == ',') {
 			if (!coeff_flag)
 				coeff = 1;
-			/*
+			*
 			 * Round down to the nearest FAKE_NODE_MIN_SIZE.
 			 * Command-line coefficients are in megabytes.
-			 */
+			 *
 			size = ((u64)num << 20) & FAKE_NODE_MIN_HASH_MASK;
 			if (size)
 				for (i = 0; i < coeff; i++, num_nodes++)
@@ -469,27 +469,27 @@ static int __init numa_emulation(unsigned long start_pfn, unsigned long last_pfn
 done:
 	if (!num_nodes)
 		return -1;
-	/* Fill remainder of system RAM, if appropriate. */
+	* Fill remainder of system RAM, if appropriate. *
 	if (addr < max_addr) {
 		if (coeff_flag && coeff < 0) {
-			/* Split remaining nodes into num-sized chunks */
+			* Split remaining nodes into num-sized chunks *
 			num_nodes += split_nodes_by_size(nodes, &addr, max_addr,
 							 num_nodes, num);
 			goto out;
 		}
 		switch (*(cmdline - 1)) {
 		case '*':
-			/* Split remaining nodes into coeff chunks */
+			* Split remaining nodes into coeff chunks *
 			if (coeff <= 0)
 				break;
 			num_nodes += split_nodes_equally(nodes, &addr, max_addr,
 							 num_nodes, coeff);
 			break;
 		case ',':
-			/* Do not allocate remaining system RAM */
+			* Do not allocate remaining system RAM *
 			break;
 		default:
-			/* Give one final node */
+			* Give one final node *
 			setup_node_range(num_nodes, nodes, &addr,
 					 max_addr - addr, max_addr);
 			num_nodes++;
@@ -504,11 +504,11 @@ out:
 		return -1;
 	}
 
-	/*
+	*
 	 * We need to vacate all active ranges that may have been registered by
 	 * SRAT and set acpi_numa to -1 so that srat_disabled() always returns
 	 * true.  NUMA emulation has succeeded so we will not scan ACPI nodes.
-	 */
+	 *
 	remove_all_active_ranges();
 #ifdef CONFIG_ACPI_NUMA
 	acpi_numa = -1;
@@ -521,7 +521,7 @@ out:
 	acpi_fake_nodes(nodes, num_nodes);
 	numa_init_array();
 	return 0;
-}
+}*/
 #endif /* CONFIG_NUMA_EMU */
 
 void __init initmem_init(unsigned long start_pfn, unsigned long last_pfn)
@@ -589,8 +589,8 @@ static __init int numa_setup(char *opt)
 	if (!strncmp(opt, "off", 3))
 		numa_off = 1;
 #ifdef CONFIG_NUMA_EMU
-	if (!strncmp(opt, "fake=", 5))
-		cmdline = opt + 5;
+	/*if (!strncmp(opt, "fake=", 5))
+		cmdline = opt + 5;*/
 #endif
 #ifdef CONFIG_ACPI_NUMA
 	if (!strncmp(opt, "noacpi", 6))
@@ -650,11 +650,11 @@ void __cpuinit numa_set_node(int cpu, int node)
 	}
 
 #ifdef CONFIG_DEBUG_PER_CPU_MAPS
-	if (cpu >= nr_cpu_ids || !cpu_possible(cpu)) {
+	/*if (cpu >= nr_cpu_ids || !cpu_possible(cpu)) {
 		printk(KERN_ERR "numa_set_node: invalid cpu# (%d)\n", cpu);
 		dump_stack();
 		return;
-	}
+	}*/
 #endif
 	per_cpu(x86_cpu_to_node_map, cpu) = node;
 
@@ -684,7 +684,7 @@ void __cpuinit numa_remove_cpu(int cpu)
 /*
  * --------- debug versions of the numa functions ---------
  */
-static void __cpuinit numa_set_cpumask(int cpu, int enable)
+/*static void __cpuinit numa_set_cpumask(int cpu, int enable)
 {
 	int node = early_cpu_to_node(cpu);
 	struct cpumask *mask;
@@ -729,10 +729,10 @@ int cpu_to_node(int cpu)
 }
 EXPORT_SYMBOL(cpu_to_node);
 
-/*
+*
  * Same function as cpu_to_node() but used if called before the
  * per_cpu areas are setup.
- */
+ *
 int early_cpu_to_node(int cpu)
 {
 	if (early_per_cpu_ptr(x86_cpu_to_node_map))
@@ -746,7 +746,7 @@ int early_cpu_to_node(int cpu)
 	}
 	return per_cpu(x86_cpu_to_node_map, cpu);
 }
-
+*/
 /*
  * --------- end of debug versions of the numa functions ---------
  */

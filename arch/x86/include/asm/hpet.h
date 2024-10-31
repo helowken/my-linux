@@ -81,10 +81,10 @@ extern void hpet_msi_read(unsigned int irq, struct msi_msg *msg);
 #ifdef CONFIG_PCI_MSI
 extern int arch_setup_hpet_msi(unsigned int irq);
 #else
-static inline int arch_setup_hpet_msi(unsigned int irq)
+/*static inline int arch_setup_hpet_msi(unsigned int irq)
 {
 	return -EINVAL;
-}
+}*/
 #endif
 
 #ifdef CONFIG_HPET_EMULATE_RTC
@@ -106,10 +106,10 @@ extern void hpet_unregister_irq_handler(rtc_irq_handler handler);
 #endif /* CONFIG_HPET_EMULATE_RTC */
 
 #else /* CONFIG_HPET_TIMER */
-
+/*
 static inline int hpet_enable(void) { return 0; }
 static inline int is_hpet_enabled(void) { return 0; }
 #define hpet_readl(a) 0
-
+*/
 #endif
 #endif /* _ASM_X86_HPET_H */

@@ -913,21 +913,21 @@ int vma_wants_writenotify(struct vm_area_struct *vma);
 extern pte_t *get_locked_pte(struct mm_struct *mm, unsigned long addr, spinlock_t **ptl);
 
 #ifdef __PAGETABLE_PUD_FOLDED
-static inline int __pud_alloc(struct mm_struct *mm, pgd_t *pgd,
+/*static inline int __pud_alloc(struct mm_struct *mm, pgd_t *pgd,
 						unsigned long address)
 {
 	return 0;
-}
+}*/
 #else
 int __pud_alloc(struct mm_struct *mm, pgd_t *pgd, unsigned long address);
 #endif
 
 #ifdef __PAGETABLE_PMD_FOLDED
-static inline int __pmd_alloc(struct mm_struct *mm, pud_t *pud,
+/*static inline int __pmd_alloc(struct mm_struct *mm, pud_t *pud,
 						unsigned long address)
 {
 	return 0;
-}
+}*/
 #else
 int __pmd_alloc(struct mm_struct *mm, pud_t *pud, unsigned long address);
 #endif
@@ -970,9 +970,9 @@ static inline pmd_t *pmd_alloc(struct mm_struct *mm, pud_t *pud, unsigned long a
 /*
  * We use mm->page_table_lock to guard all pagetable pages of the mm.
  */
-#define pte_lock_init(page)	do {} while (0)
+/*#define pte_lock_init(page)	do {} while (0)
 #define pte_lock_deinit(page)	do {} while (0)
-#define pte_lockptr(mm, pmd)	({(void)(pmd); &(mm)->page_table_lock;})
+#define pte_lockptr(mm, pmd)	({(void)(pmd); &(mm)->page_table_lock;})*/
 #endif /* USE_SPLIT_PTLOCKS */
 
 static inline void pgtable_page_ctor(struct page *page)
@@ -1064,10 +1064,10 @@ extern void sparse_memory_present_with_active_regions(int nid);
 
 #if !defined(CONFIG_ARCH_POPULATES_NODE_MAP) && \
     !defined(CONFIG_HAVE_ARCH_EARLY_PFN_TO_NID)
-static inline int __early_pfn_to_nid(unsigned long pfn)
+/*static inline int __early_pfn_to_nid(unsigned long pfn)
 {
 	return 0;
-}
+}*/
 #else
 /* please see mm/page_alloc.c */
 extern int __meminit early_pfn_to_nid(unsigned long pfn);
@@ -1092,7 +1092,7 @@ extern int after_bootmem;
 #ifdef CONFIG_NUMA
 extern void setup_per_cpu_pageset(void);
 #else
-static inline void setup_per_cpu_pageset(void) {}
+//static inline void setup_per_cpu_pageset(void) {}
 #endif
 
 extern void zone_pcp_update(struct zone *zone);
@@ -1145,11 +1145,11 @@ extern void mm_drop_all_locks(struct mm_struct *mm);
 extern void added_exe_file_vma(struct mm_struct *mm);
 extern void removed_exe_file_vma(struct mm_struct *mm);
 #else
-static inline void added_exe_file_vma(struct mm_struct *mm)
+/*static inline void added_exe_file_vma(struct mm_struct *mm)
 {}
 
 static inline void removed_exe_file_vma(struct mm_struct *mm)
-{}
+{}*/
 #endif /* CONFIG_PROC_FS */
 
 extern int may_expand_vm(struct mm_struct *mm, unsigned long npages);
@@ -1278,14 +1278,14 @@ extern int apply_to_page_range(struct mm_struct *mm, unsigned long address,
 #ifdef CONFIG_PROC_FS
 void vm_stat_account(struct mm_struct *, unsigned long, struct file *, long);
 #else
-static inline void vm_stat_account(struct mm_struct *mm,
+/*static inline void vm_stat_account(struct mm_struct *mm,
 			unsigned long flags, struct file *file, long pages)
 {
-}
+}*/
 #endif /* CONFIG_PROC_FS */
 
 #ifdef CONFIG_DEBUG_PAGEALLOC
-extern int debug_pagealloc_enabled;
+/*extern int debug_pagealloc_enabled;
 
 extern void kernel_map_pages(struct page *page, int numpages, int enable);
 
@@ -1295,7 +1295,7 @@ static inline void enable_debug_pagealloc(void)
 }
 #ifdef CONFIG_HIBERNATION
 extern bool kernel_page_present(struct page *page);
-#endif /* CONFIG_HIBERNATION */
+#endif*/ /* CONFIG_HIBERNATION */
 #else
 static inline void
 kernel_map_pages(struct page *page, int numpages, int enable) {}
@@ -1303,7 +1303,7 @@ static inline void enable_debug_pagealloc(void)
 {
 }
 #ifdef CONFIG_HIBERNATION
-static inline bool kernel_page_present(struct page *page) { return true; }
+//static inline bool kernel_page_present(struct page *page) { return true; }
 #endif /* CONFIG_HIBERNATION */
 #endif
 
@@ -1312,8 +1312,8 @@ extern struct vm_area_struct *get_gate_vma(struct task_struct *tsk);
 int in_gate_area_no_task(unsigned long addr);
 int in_gate_area(struct task_struct *task, unsigned long addr);
 #else
-int in_gate_area_no_task(unsigned long addr);
-#define in_gate_area(task, addr) ({(void)task; in_gate_area_no_task(addr);})
+/*int in_gate_area_no_task(unsigned long addr);
+#define in_gate_area(task, addr) ({(void)task; in_gate_area_no_task(addr);})*/
 #endif	/* __HAVE_ARCH_GATE_AREA */
 
 int drop_caches_sysctl_handler(struct ctl_table *, int,
@@ -1322,7 +1322,7 @@ unsigned long shrink_slab(unsigned long scanned, gfp_t gfp_mask,
 			unsigned long lru_pages);
 
 #ifndef CONFIG_MMU
-#define randomize_va_space 0
+//#define randomize_va_space 0
 #else
 extern int randomize_va_space;
 #endif

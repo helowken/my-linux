@@ -264,7 +264,7 @@ static inline int ntp_synced(void)
 #ifdef CONFIG_NO_HZ
 #define NTP_INTERVAL_FREQ  (2)
 #else
-#define NTP_INTERVAL_FREQ  (HZ)
+//#define NTP_INTERVAL_FREQ  (HZ)
 #endif
 #define NTP_INTERVAL_LENGTH (NSEC_PER_SEC/NTP_INTERVAL_FREQ)
 
