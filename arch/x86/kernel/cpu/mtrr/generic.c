@@ -194,7 +194,7 @@ static void get_fixed_ranges(mtrr_type *frs)
 	unsigned int *p = (unsigned int *)frs;
 	int i;
 
-	k8_check_syscfg_dram_mod_en();
+	//k8_check_syscfg_dram_mod_en();
 
 	rdmsr(MSR_MTRRfix64K_00000, p[0], p[1]);
 

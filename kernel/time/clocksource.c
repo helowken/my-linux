@@ -375,7 +375,7 @@ static int clocksource_watchdog_kthread(void *data)
 
 #else /* CONFIG_CLOCKSOURCE_WATCHDOG */
 
-static void clocksource_enqueue_watchdog(struct clocksource *cs)
+/*static void clocksource_enqueue_watchdog(struct clocksource *cs)
 {
 	if (cs->flags & CLOCK_SOURCE_IS_CONTINUOUS)
 		cs->flags |= CLOCK_SOURCE_VALID_FOR_HRES;
@@ -384,7 +384,7 @@ static void clocksource_enqueue_watchdog(struct clocksource *cs)
 static inline void clocksource_dequeue_watchdog(struct clocksource *cs) { }
 static inline void clocksource_resume_watchdog(void) { }
 static inline int clocksource_watchdog_kthread(void *data) { return 0; }
-
+*/
 #endif /* CONFIG_CLOCKSOURCE_WATCHDOG */
 
 /**
@@ -502,7 +502,7 @@ static void clocksource_select(void)
 
 #else /* CONFIG_GENERIC_TIME */
 
-static inline void clocksource_select(void) { }
+//static inline void clocksource_select(void) { }
 
 #endif
 

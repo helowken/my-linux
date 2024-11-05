@@ -68,11 +68,11 @@
 
 #ifndef CONFIG_NEED_MULTIPLE_NODES
 /* use the per-pgdat data instead for discontigmem - mbligh */
-unsigned long max_mapnr;
+/*unsigned long max_mapnr;
 struct page *mem_map;
 
 EXPORT_SYMBOL(max_mapnr);
-EXPORT_SYMBOL(mem_map);
+EXPORT_SYMBOL(mem_map);*/
 #endif
 
 unsigned long num_physpages;
@@ -96,7 +96,7 @@ EXPORT_SYMBOL(high_memory);
  */
 int randomize_va_space __read_mostly =
 #ifdef CONFIG_COMPAT_BRK
-					1;
+					//1;
 #else
 					2;
 #endif
@@ -516,7 +516,7 @@ static inline unsigned long my_zero_pfn(unsigned long addr)
 #ifdef __HAVE_ARCH_PTE_SPECIAL
 # define HAVE_PTE_SPECIAL 1
 #else
-# define HAVE_PTE_SPECIAL 0
+//# define HAVE_PTE_SPECIAL 0
 #endif
 struct page *vm_normal_page(struct vm_area_struct *vma, unsigned long addr,
 				pte_t pte)
@@ -960,7 +960,7 @@ static unsigned long unmap_page_range(struct mmu_gather *tlb,
 }
 
 #ifdef CONFIG_PREEMPT
-# define ZAP_BLOCK_SIZE	(8 * PAGE_SIZE)
+//# define ZAP_BLOCK_SIZE	(8 * PAGE_SIZE)
 #else
 /* No preempt: go for improved straight-line efficiency */
 # define ZAP_BLOCK_SIZE	(1024 * PAGE_SIZE)
@@ -3106,10 +3106,10 @@ int __pmd_alloc(struct mm_struct *mm, pud_t *pud, unsigned long address)
 	else
 		pud_populate(mm, pud, new);
 #else
-	if (pgd_present(*pud))		/* Another has populated it */
+	/*if (pgd_present(*pud))		* Another has populated it *
 		pmd_free(mm, new);
 	else
-		pgd_populate(mm, pud, new);
+		pgd_populate(mm, pud, new);*/
 #endif /* __ARCH_HAS_4LEVEL_HACK */
 	spin_unlock(&mm->page_table_lock);
 	return 0;
@@ -3136,7 +3136,7 @@ int make_pages_present(unsigned long addr, unsigned long end)
 }
 
 #if !defined(__HAVE_ARCH_GATE_AREA)
-
+/*
 #if defined(AT_SYSINFO_EHDR)
 static struct vm_area_struct gate_vma;
 
@@ -3147,12 +3147,12 @@ static int __init gate_vma_init(void)
 	gate_vma.vm_end = FIXADDR_USER_END;
 	gate_vma.vm_flags = VM_READ | VM_MAYREAD | VM_EXEC | VM_MAYEXEC;
 	gate_vma.vm_page_prot = __P101;
-	/*
+	*
 	 * Make sure the vDSO gets into every core dump.
 	 * Dumping its contents makes post-mortem fully interpretable later
 	 * without matching up the same kernel and hardware config to see
 	 * what PC values meant.
-	 */
+	 *
 	gate_vma.vm_flags |= VM_ALWAYSDUMP;
 	return 0;
 }
@@ -3176,7 +3176,7 @@ int in_gate_area_no_task(unsigned long addr)
 #endif
 	return 0;
 }
-
+*/
 #endif	/* __HAVE_ARCH_GATE_AREA */
 
 static int follow_pte(struct mm_struct *mm, unsigned long address,
@@ -3403,25 +3403,25 @@ void print_vma_addr(char *prefix, unsigned long ip)
 }
 
 #ifdef CONFIG_PROVE_LOCKING
-void might_fault(void)
+/*void might_fault(void)
 {
-	/*
-	 * Some code (nfs/sunrpc) uses socket ops on kernel memory while
+	*
+	 * Some code (nfssunrpc) uses socket ops on kernel memory while
 	 * holding the mmap_sem, this is safe because kernel memory doesn't
 	 * get paged out, therefore we'll never actually fault, and the
 	 * below annotations will generate false positives.
-	 */
+	 *
 	if (segment_eq(get_fs(), KERNEL_DS))
 		return;
 
 	might_sleep();
-	/*
+	*
 	 * it would be nicer only to annotate paths which are not under
 	 * pagefault_disable, however that requires a larger audit and
 	 * providing helpers like get_user_atomic.
-	 */
+	 *
 	if (!in_atomic() && current->mm)
 		might_lock_read(&current->mm->mmap_sem);
 }
-EXPORT_SYMBOL(might_fault);
+EXPORT_SYMBOL(might_fault);*/
 #endif

@@ -386,14 +386,14 @@ void timekeeping_notify(struct clocksource *clock)
 }
 
 #else /* GENERIC_TIME */
-
+/*
 static inline void timekeeping_forward_now(void) { }
 
-/**
+**
  * ktime_get - get the monotonic time in ktime_t format
  *
  * returns the time in ktime_t format
- */
+ *
 ktime_t ktime_get(void)
 {
 	struct timespec now;
@@ -404,14 +404,14 @@ ktime_t ktime_get(void)
 }
 EXPORT_SYMBOL_GPL(ktime_get);
 
-/**
+**
  * ktime_get_ts - get the monotonic clock in timespec format
  * @ts:		pointer to timespec variable
  *
  * The function calculates the monotonic clock from the realtime
  * clock and the wall_to_monotonic offset and stores the result
  * in normalized timespec format in the variable pointed to by @ts.
- */
+ *
 void ktime_get_ts(struct timespec *ts)
 {
 	struct timespec tomono;
@@ -428,7 +428,7 @@ void ktime_get_ts(struct timespec *ts)
 				ts->tv_nsec + tomono.tv_nsec);
 }
 EXPORT_SYMBOL_GPL(ktime_get_ts);
-
+*/
 #endif /* !GENERIC_TIME */
 
 /**
@@ -752,7 +752,7 @@ void update_wall_time(void)
 #ifdef CONFIG_GENERIC_TIME
 	offset = (clock->read(clock) - clock->cycle_last) & clock->mask;
 #else
-	offset = timekeeper.cycle_interval;
+	//offset = timekeeper.cycle_interval;
 #endif
 	timekeeper.xtime_nsec = (s64)xtime.tv_nsec << timekeeper.shift;
 

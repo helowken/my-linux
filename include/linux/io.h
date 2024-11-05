@@ -31,11 +31,11 @@ void __iowrite64_copy(void __iomem *to, const void *from, size_t count);
 int ioremap_page_range(unsigned long addr, unsigned long end,
 		       unsigned long phys_addr, pgprot_t prot);
 #else
-static inline int ioremap_page_range(unsigned long addr, unsigned long end,
+/*static inline int ioremap_page_range(unsigned long addr, unsigned long end,
 				     unsigned long phys_addr, pgprot_t prot)
 {
 	return 0;
-}
+}*/
 #endif
 
 /*
@@ -46,7 +46,7 @@ void __iomem * devm_ioport_map(struct device *dev, unsigned long port,
 			       unsigned int nr);
 void devm_ioport_unmap(struct device *dev, void __iomem *addr);
 #else
-static inline void __iomem *devm_ioport_map(struct device *dev,
+/*static inline void __iomem *devm_ioport_map(struct device *dev,
 					     unsigned long port,
 					     unsigned int nr)
 {
@@ -55,7 +55,7 @@ static inline void __iomem *devm_ioport_map(struct device *dev,
 
 static inline void devm_ioport_unmap(struct device *dev, void __iomem *addr)
 {
-}
+}*/
 #endif
 
 void __iomem *devm_ioremap(struct device *dev, resource_size_t offset,

@@ -59,10 +59,10 @@ static inline unsigned long long native_read_tscp(unsigned int *aux)
 #define EAX_EDX_ARGS(val, low, high)	"a" (low), "d" (high)
 #define EAX_EDX_RET(val, low, high)	"=a" (low), "=d" (high)
 #else
-#define DECLARE_ARGS(val, low, high)	unsigned long long val
+/*#define DECLARE_ARGS(val, low, high)	unsigned long long val
 #define EAX_EDX_VAL(val, low, high)	(val)
 #define EAX_EDX_ARGS(val, low, high)	"A" (val)
-#define EAX_EDX_RET(val, low, high)	"=A" (val)
+#define EAX_EDX_RET(val, low, high)	"=A" (val)*/
 #endif
 
 static inline unsigned long long native_read_msr(unsigned int msr)
@@ -136,7 +136,7 @@ static inline unsigned long long native_read_pmc(int counter)
 }
 
 #ifdef CONFIG_PARAVIRT
-#include <asm/paravirt.h>
+//#include <asm/paravirt.h>
 #else
 #include <linux/errno.h>
 /*
@@ -269,7 +269,7 @@ int wrmsr_safe_on_cpu(unsigned int cpu, u32 msr_no, u32 l, u32 h);
 int rdmsr_safe_regs_on_cpu(unsigned int cpu, u32 regs[8]);
 int wrmsr_safe_regs_on_cpu(unsigned int cpu, u32 regs[8]);
 #else  /*  CONFIG_SMP  */
-static inline int rdmsr_on_cpu(unsigned int cpu, u32 msr_no, u32 *l, u32 *h)
+/*static inline int rdmsr_on_cpu(unsigned int cpu, u32 msr_no, u32 *l, u32 *h)
 {
 	rdmsr(msr_no, *l, *h);
 	return 0;
@@ -305,7 +305,7 @@ static inline int rdmsr_safe_regs_on_cpu(unsigned int cpu, u32 regs[8])
 static inline int wrmsr_safe_regs_on_cpu(unsigned int cpu, u32 regs[8])
 {
 	return wrmsr_safe_regs(regs);
-}
+}*/
 #endif  /* CONFIG_SMP */
 #endif /* __KERNEL__ */
 #endif /* __ASSEMBLY__ */

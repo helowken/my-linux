@@ -54,7 +54,7 @@ struct vm_area_struct;
 #define __GFP_RECLAIMABLE ((__force gfp_t)0x80000u) /* Page is reclaimable */
 
 #ifdef CONFIG_KMEMCHECK
-#define __GFP_NOTRACK	((__force gfp_t)0x200000u)  /* Don't track with kmemcheck */
+//#define __GFP_NOTRACK	((__force gfp_t)0x200000u)  /* Don't track with kmemcheck */
 #else
 #define __GFP_NOTRACK	((__force gfp_t)0)
 #endif
@@ -87,7 +87,7 @@ struct vm_area_struct;
 #ifdef CONFIG_NUMA
 #define GFP_THISNODE	(__GFP_THISNODE | __GFP_NOWARN | __GFP_NORETRY)
 #else
-#define GFP_THISNODE	((__force gfp_t)0)
+//#define GFP_THISNODE	((__force gfp_t)0)
 #endif
 
 /* This mask makes up all the page movable related flags */
@@ -129,7 +129,7 @@ static inline int allocflags_to_migratetype(gfp_t gfp_flags)
 }
 
 #ifdef CONFIG_HIGHMEM
-#define OPT_ZONE_HIGHMEM ZONE_HIGHMEM
+//#define OPT_ZONE_HIGHMEM ZONE_HIGHMEM
 #else
 #define OPT_ZONE_HIGHMEM ZONE_NORMAL
 #endif
@@ -137,13 +137,13 @@ static inline int allocflags_to_migratetype(gfp_t gfp_flags)
 #ifdef CONFIG_ZONE_DMA
 #define OPT_ZONE_DMA ZONE_DMA
 #else
-#define OPT_ZONE_DMA ZONE_NORMAL
+//#define OPT_ZONE_DMA ZONE_NORMAL
 #endif
 
 #ifdef CONFIG_ZONE_DMA32
 #define OPT_ZONE_DMA32 ZONE_DMA32
 #else
-#define OPT_ZONE_DMA32 ZONE_NORMAL
+//#define OPT_ZONE_DMA32 ZONE_NORMAL
 #endif
 
 /*
@@ -223,7 +223,7 @@ static inline enum zone_type gfp_zone(gfp_t flags)
 		MAYBE_BUILD_BUG_ON((GFP_ZONE_BAD >> bit) & 1);
 	else {
 #ifdef CONFIG_DEBUG_VM
-		BUG_ON((GFP_ZONE_BAD >> bit) & 1);
+		//BUG_ON((GFP_ZONE_BAD >> bit) & 1);
 #endif
 	}
 	return z;
@@ -305,9 +305,9 @@ alloc_pages(gfp_t gfp_mask, unsigned int order)
 extern struct page *alloc_page_vma(gfp_t gfp_mask,
 			struct vm_area_struct *vma, unsigned long addr);
 #else
-#define alloc_pages(gfp_mask, order) \
+/*#define alloc_pages(gfp_mask, order) \
 		alloc_pages_node(numa_node_id(), gfp_mask, order)
-#define alloc_page_vma(gfp_mask, vma, addr) alloc_pages(gfp_mask, 0)
+#define alloc_page_vma(gfp_mask, vma, addr) alloc_pages(gfp_mask, 0)*/
 #endif
 #define alloc_page(gfp_mask) alloc_pages(gfp_mask, 0)
 
