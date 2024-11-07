@@ -3,7 +3,7 @@
 
 #include <linux/preempt.h>
 #ifdef CONFIG_PREEMPT
-#include <linux/smp_lock.h>
+//#include <linux/smp_lock.h>
 #endif
 #include <linux/lockdep.h>
 #include <linux/ftrace_irq.h>
@@ -93,8 +93,8 @@
 #define in_nmi()	(preempt_count() & NMI_MASK)
 
 #if defined(CONFIG_PREEMPT)
-# define PREEMPT_INATOMIC_BASE kernel_locked()
-# define PREEMPT_CHECK_OFFSET 1
+//# define PREEMPT_INATOMIC_BASE kernel_locked()
+//# define PREEMPT_CHECK_OFFSET 1
 #else
 # define PREEMPT_INATOMIC_BASE 0
 # define PREEMPT_CHECK_OFFSET 0
@@ -117,8 +117,8 @@
 		((preempt_count() & ~PREEMPT_ACTIVE) != PREEMPT_CHECK_OFFSET)
 
 #ifdef CONFIG_PREEMPT
-# define preemptible()	(preempt_count() == 0 && !irqs_disabled())
-# define IRQ_EXIT_OFFSET (HARDIRQ_OFFSET-1)
+//# define preemptible()	(preempt_count() == 0 && !irqs_disabled())
+//# define IRQ_EXIT_OFFSET (HARDIRQ_OFFSET-1)
 #else
 # define preemptible()	0
 # define IRQ_EXIT_OFFSET HARDIRQ_OFFSET
@@ -127,7 +127,7 @@
 #if defined(CONFIG_SMP) || defined(CONFIG_GENERIC_HARDIRQS)
 extern void synchronize_irq(unsigned int irq);
 #else
-# define synchronize_irq(irq)	barrier()
+//# define synchronize_irq(irq)	barrier()
 #endif
 
 struct task_struct;
@@ -144,10 +144,10 @@ extern void rcu_irq_exit(void);
 extern void rcu_nmi_enter(void);
 extern void rcu_nmi_exit(void);
 #else
-# define rcu_irq_enter() do { } while (0)
+/*# define rcu_irq_enter() do { } while (0)
 # define rcu_irq_exit() do { } while (0)
 # define rcu_nmi_enter() do { } while (0)
-# define rcu_nmi_exit() do { } while (0)
+# define rcu_nmi_exit() do { } while (0)*/
 #endif /* #if defined(CONFIG_NO_HZ) */
 
 /*

@@ -128,10 +128,10 @@ int irq_set_affinity(unsigned int irq, const struct cpumask *cpumask)
 		cpumask_copy(desc->pending_mask, cpumask);
 	}
 #else
-	if (!desc->chip->set_affinity(irq, cpumask)) {
+	/*if (!desc->chip->set_affinity(irq, cpumask)) {
 		cpumask_copy(desc->affinity, cpumask);
 		irq_set_thread_affinity(desc);
-	}
+	}*/
 #endif
 	desc->status |= IRQ_AFFINITY_SET;
 	spin_unlock_irqrestore(&desc->lock, flags);
@@ -166,10 +166,10 @@ set_affinity:
 	return 0;
 }
 #else
-static inline int setup_affinity(unsigned int irq, struct irq_desc *d)
+/*static inline int setup_affinity(unsigned int irq, struct irq_desc *d)
 {
 	return irq_select_affinity(irq);
-}
+}*/
 #endif
 
 /*
@@ -191,10 +191,10 @@ int irq_select_affinity_usr(unsigned int irq)
 }
 
 #else
-static inline int setup_affinity(unsigned int irq, struct irq_desc *desc)
+/*static inline int setup_affinity(unsigned int irq, struct irq_desc *desc)
 {
 	return 0;
-}
+}*/
 #endif
 
 void __disable_irq(struct irq_desc *desc, unsigned int irq, bool suspend)
@@ -525,8 +525,8 @@ irq_thread_check_affinity(struct irq_desc *desc, struct irqaction *action)
 	free_cpumask_var(mask);
 }
 #else
-static inline void
-irq_thread_check_affinity(struct irq_desc *desc, struct irqaction *action) { }
+/*static inline void
+irq_thread_check_affinity(struct irq_desc *desc, struct irqaction *action) { }*/
 #endif
 
 /*
@@ -700,9 +700,9 @@ __setup_irq(unsigned int irq, struct irq_desc *desc, struct irqaction *new)
 
 #if defined(CONFIG_IRQ_PER_CPU)
 		/* All handlers must agree on per-cpuness */
-		if ((old->flags & IRQF_PERCPU) !=
+		/*if ((old->flags & IRQF_PERCPU) !=
 		    (new->flags & IRQF_PERCPU))
-			goto mismatch;
+			goto mismatch;*/
 #endif
 
 		/* add new interrupt at end of irq queue */
@@ -728,8 +728,8 @@ __setup_irq(unsigned int irq, struct irq_desc *desc, struct irqaction *new)
 		} else
 			compat_irq_chip_set_default_handler(desc);
 #if defined(CONFIG_IRQ_PER_CPU)
-		if (new->flags & IRQF_PERCPU)
-			desc->status |= IRQ_PER_CPU;
+		/*if (new->flags & IRQF_PERCPU)
+			desc->status |= IRQ_PER_CPU;*/
 #endif
 
 		desc->status &= ~(IRQ_AUTODETECT | IRQ_WAITING | IRQ_ONESHOT |
@@ -884,8 +884,8 @@ static struct irqaction *__free_irq(unsigned int irq, void *dev_id)
 
 	/* Currently used only by UML, might disappear one day: */
 #ifdef CONFIG_IRQ_RELEASE_METHOD
-	if (desc->chip->release)
-		desc->chip->release(irq, dev_id);
+	/*if (desc->chip->release)
+		desc->chip->release(irq, dev_id);*/
 #endif
 
 	/* If this was the last handler, shut down the IRQ line: */
@@ -1038,7 +1038,7 @@ int request_threaded_irq(unsigned int irq, irq_handler_t handler,
 	/*
 	 * Lockdep wants atomic interrupt handlers:
 	 */
-	irqflags |= IRQF_DISABLED;
+	//irqflags |= IRQF_DISABLED;
 #endif
 	/*
 	 * Sanity-check: shared interrupts must pass in a real dev-ID,

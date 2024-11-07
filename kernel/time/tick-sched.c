@@ -644,8 +644,8 @@ static inline void tick_check_nohz(int cpu)
 
 #else
 
-static inline void tick_nohz_switch_to_nohz(void) { }
-static inline void tick_check_nohz(int cpu) { }
+//static inline void tick_nohz_switch_to_nohz(void) { }
+//static inline void tick_check_nohz(int cpu) { }
 
 #endif /* NO_HZ */
 

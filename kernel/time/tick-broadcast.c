@@ -37,7 +37,7 @@ static int tick_broadcast_force;
 #ifdef CONFIG_TICK_ONESHOT
 static void tick_broadcast_clear_oneshot(int cpu);
 #else
-static inline void tick_broadcast_clear_oneshot(int cpu) { }
+//static inline void tick_broadcast_clear_oneshot(int cpu) { }
 #endif
 
 /*

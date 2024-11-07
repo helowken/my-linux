@@ -38,7 +38,7 @@ extern int tick_resume_broadcast_oneshot(struct clock_event_device *bc);
 extern int tick_broadcast_oneshot_active(void);
 extern void tick_check_oneshot_broadcast(int cpu);
 # else /* BROADCAST */
-static inline void tick_broadcast_setup_oneshot(struct clock_event_device *bc)
+/*static inline void tick_broadcast_setup_oneshot(struct clock_event_device *bc)
 {
 	BUG();
 }
@@ -46,11 +46,11 @@ static inline void tick_broadcast_oneshot_control(unsigned long reason) { }
 static inline void tick_broadcast_switch_to_oneshot(void) { }
 static inline void tick_shutdown_broadcast_oneshot(unsigned int *cpup) { }
 static inline int tick_broadcast_oneshot_active(void) { return 0; }
-static inline void tick_check_oneshot_broadcast(int cpu) { }
+static inline void tick_check_oneshot_broadcast(int cpu) { }*/
 # endif /* !BROADCAST */
 
 #else /* !ONESHOT */
-static inline
+/*static inline
 void tick_setup_oneshot(struct clock_event_device *newdev,
 			void (*handler)(struct clock_event_device *),
 			ktime_t nextevt)
@@ -76,7 +76,7 @@ static inline int tick_resume_broadcast_oneshot(struct clock_event_device *bc)
 {
 	return 0;
 }
-static inline int tick_broadcast_oneshot_active(void) { return 0; }
+static inline int tick_broadcast_oneshot_active(void) { return 0; }*/
 #endif /* !TICK_ONESHOT */
 
 /*
@@ -95,7 +95,7 @@ extern void
 tick_set_periodic_handler(struct clock_event_device *dev, int broadcast);
 
 #else /* !BROADCAST */
-
+/*
 static inline int tick_check_broadcast_device(struct clock_event_device *dev)
 {
 	return 0;
@@ -116,14 +116,14 @@ static inline void tick_shutdown_broadcast(unsigned int *cpup) { }
 static inline void tick_suspend_broadcast(void) { }
 static inline int tick_resume_broadcast(void) { return 0; }
 
-/*
+*
  * Set the periodic handler in non broadcast mode
- */
+ *
 static inline void tick_set_periodic_handler(struct clock_event_device *dev,
 					     int broadcast)
 {
 	dev->event_handler = tick_handle_periodic;
-}
+}*/
 #endif /* !BROADCAST */
 
 /*
