@@ -65,6 +65,7 @@ patches
 series
 
 # cscope files
+cscope/*
 cscope.*
 ncscope.*
 

@@ -495,11 +495,11 @@ static void **dbg_userword(struct kmem_cache *cachep, void *objp)
 #endif
 
 #ifdef CONFIG_KMEMTRACE
-size_t slab_buffer_size(struct kmem_cache *cachep)
+/*size_t slab_buffer_size(struct kmem_cache *cachep)
 {
 	return cachep->buffer_size;
 }
-EXPORT_SYMBOL(slab_buffer_size);
+EXPORT_SYMBOL(slab_buffer_size);*/
 #endif
 
 /*
@@ -3561,11 +3561,11 @@ void *kmem_cache_alloc(struct kmem_cache *cachep, gfp_t flags)
 EXPORT_SYMBOL(kmem_cache_alloc);
 
 #ifdef CONFIG_KMEMTRACE
-void *kmem_cache_alloc_notrace(struct kmem_cache *cachep, gfp_t flags)
+/*void *kmem_cache_alloc_notrace(struct kmem_cache *cachep, gfp_t flags)
 {
 	return __cache_alloc(cachep, flags, __builtin_return_address(0));
 }
-EXPORT_SYMBOL(kmem_cache_alloc_notrace);
+EXPORT_SYMBOL(kmem_cache_alloc_notrace);*/
 #endif
 
 /**
@@ -3624,14 +3624,14 @@ void *kmem_cache_alloc_node(struct kmem_cache *cachep, gfp_t flags, int nodeid)
 EXPORT_SYMBOL(kmem_cache_alloc_node);
 
 #ifdef CONFIG_KMEMTRACE
-void *kmem_cache_alloc_node_notrace(struct kmem_cache *cachep,
+/*void *kmem_cache_alloc_node_notrace(struct kmem_cache *cachep,
 				    gfp_t flags,
 				    int nodeid)
 {
 	return __cache_alloc_node(cachep, flags, nodeid,
 				  __builtin_return_address(0));
 }
-EXPORT_SYMBOL(kmem_cache_alloc_node_notrace);
+EXPORT_SYMBOL(kmem_cache_alloc_node_notrace);*/
 #endif
 
 static __always_inline void *
@@ -3652,7 +3652,7 @@ __do_kmalloc_node(size_t size, gfp_t flags, int node, void *caller)
 }
 
 #if defined(CONFIG_DEBUG_SLAB) || defined(CONFIG_KMEMTRACE)
-void *__kmalloc_node(size_t size, gfp_t flags, int node)
+/*void *__kmalloc_node(size_t size, gfp_t flags, int node)
 {
 	return __do_kmalloc_node(size, flags, node,
 			__builtin_return_address(0));
@@ -3664,13 +3664,13 @@ void *__kmalloc_node_track_caller(size_t size, gfp_t flags,
 {
 	return __do_kmalloc_node(size, flags, node, (void *)caller);
 }
-EXPORT_SYMBOL(__kmalloc_node_track_caller);
+EXPORT_SYMBOL(__kmalloc_node_track_caller);*/
 #else
-/*void *__kmalloc_node(size_t size, gfp_t flags, int node)
+void *__kmalloc_node(size_t size, gfp_t flags, int node)
 {
 	return __do_kmalloc_node(size, flags, node, NULL);
 }
-EXPORT_SYMBOL(__kmalloc_node);*/
+EXPORT_SYMBOL(__kmalloc_node);
 #endif /* CONFIG_DEBUG_SLAB */
 #endif /* CONFIG_NUMA */
 
@@ -3704,7 +3704,7 @@ static __always_inline void *__do_kmalloc(size_t size, gfp_t flags,
 
 
 #if defined(CONFIG_DEBUG_SLAB) || defined(CONFIG_KMEMTRACE)
-void *__kmalloc(size_t size, gfp_t flags)
+/*void *__kmalloc(size_t size, gfp_t flags)
 {
 	return __do_kmalloc(size, flags, __builtin_return_address(0));
 }
@@ -3715,13 +3715,13 @@ void *__kmalloc_track_caller(size_t size, gfp_t flags, unsigned long caller)
 	return __do_kmalloc(size, flags, (void *)caller);
 }
 EXPORT_SYMBOL(__kmalloc_track_caller);
-
+*/
 #else
-/*void *__kmalloc(size_t size, gfp_t flags)
+void *__kmalloc(size_t size, gfp_t flags)
 {
 	return __do_kmalloc(size, flags, NULL);
 }
-EXPORT_SYMBOL(__kmalloc);*/
+EXPORT_SYMBOL(__kmalloc);
 #endif
 
 /**

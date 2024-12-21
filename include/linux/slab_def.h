@@ -111,10 +111,10 @@ void *kmem_cache_alloc(struct kmem_cache *, gfp_t);
 void *__kmalloc(size_t size, gfp_t flags);
 
 #ifdef CONFIG_KMEMTRACE
-extern void *kmem_cache_alloc_notrace(struct kmem_cache *cachep, gfp_t flags);
-extern size_t slab_buffer_size(struct kmem_cache *cachep);
+//extern void *kmem_cache_alloc_notrace(struct kmem_cache *cachep, gfp_t flags);
+//extern size_t slab_buffer_size(struct kmem_cache *cachep);
 #else
-/*static __always_inline void *
+static __always_inline void *
 kmem_cache_alloc_notrace(struct kmem_cache *cachep, gfp_t flags)
 {
 	return kmem_cache_alloc(cachep, flags);
@@ -122,7 +122,7 @@ kmem_cache_alloc_notrace(struct kmem_cache *cachep, gfp_t flags)
 static inline size_t slab_buffer_size(struct kmem_cache *cachep)
 {
 	return 0;
-}*/
+}
 #endif
 
 static __always_inline void *kmalloc(size_t size, gfp_t flags)
@@ -169,17 +169,17 @@ extern void *__kmalloc_node(size_t size, gfp_t flags, int node);
 extern void *kmem_cache_alloc_node(struct kmem_cache *, gfp_t flags, int node);
 
 #ifdef CONFIG_KMEMTRACE
-extern void *kmem_cache_alloc_node_notrace(struct kmem_cache *cachep,
+/*extern void *kmem_cache_alloc_node_notrace(struct kmem_cache *cachep,
 					   gfp_t flags,
-					   int nodeid);
+					   int nodeid);*/
 #else
-/*static __always_inline void *
+static __always_inline void *
 kmem_cache_alloc_node_notrace(struct kmem_cache *cachep,
 			      gfp_t flags,
 			      int nodeid)
 {
 	return kmem_cache_alloc_node(cachep, flags, nodeid);
-}*/
+}
 #endif
 
 static __always_inline void *kmalloc_node(size_t size, gfp_t flags, int node)

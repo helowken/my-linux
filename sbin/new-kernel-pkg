@@ -124,18 +124,18 @@ install() {
     fi
 
     # FIXME: is this a good heuristic to find out if we're on iSeries?
-    if [ -d /proc/iSeries ]; then
-	[ -n "$verbose" ] && echo "On an iSeries, just making img file"
-	if [ -z $initrdfile  ]; then
-	    [ -n "$verbose" ] && echo "No initrd, just adding system map"
-	    /sbin/addSystemMap $bootPrefix/System.map-$version $bootPrefix/$kernelName-$version $bootPrefix/vmlinitrd-$version
-	else
-	    /sbin/addSystemMap $bootPrefix/System.map-$version $bootPrefix/$kernelName-$version $bootPrefix/vmlinux.sm-$version
-	    /sbin/addRamDisk $initrdfile $bootPrefix/System.map-$version $bootPrefix/vmlinux.sm-$version $bootPrefix/vmlinitrd-$version 2>/dev/null
-	    rm $bootPrefix/vmlinux.sm-$version
-	fi
-	return
-    fi
+#    if [ -d /proc/iSeries ]; then
+#	[ -n "$verbose" ] && echo "On an iSeries, just making img file"
+#	if [ -z $initrdfile  ]; then
+#	    [ -n "$verbose" ] && echo "No initrd, just adding system map"
+#	    /sbin/addSystemMap $bootPrefix/System.map-$version $bootPrefix/$kernelName-$version $bootPrefix/vmlinitrd-$version
+#	else
+#	    /sbin/addSystemMap $bootPrefix/System.map-$version $bootPrefix/$kernelName-$version $bootPrefix/vmlinux.sm-$version
+#	    /sbin/addRamDisk $initrdfile $bootPrefix/System.map-$version $bootPrefix/vmlinux.sm-$version $bootPrefix/vmlinitrd-$version 2>/dev/null
+#	    rm $bootPrefix/vmlinux.sm-$version
+#	fi
+#	return
+#    fi
 
     # get the root filesystem to use
     rootdevice=$(awk '{ if ($1 !~ /^[ \t]*#/ && $2 == "/") { print $1; }}' /etc/fstab)
@@ -155,10 +155,10 @@ install() {
 	else
 	    title="Red Hat Linux ($version)"
 	fi
-	$grubby --add-kernel=$bootPrefix/$kernelName-$version \
-	    $INITRD --copy-default $makedefault --title "$title" \
-	    ${mbkernel:+--add-multiboot="$mbkernel"} ${mbargs:+--mbargs="$mbargs"} \
-	    --args="root=$rootdevice $kernargs" --remove-kernel="TITLE=$title"
+#	$grubby --add-kernel=$bootPrefix/$kernelName-$version \
+#	    $INITRD --copy-default $makedefault --title "$title" \
+#	    ${mbkernel:+--add-multiboot="$mbkernel"} ${mbargs:+--mbargs="$mbargs"} \
+#	    --args="root=$rootdevice $kernargs" --remove-kernel="TITLE=$title"
     else
 	[ -n "$verbose" ] && echo "$grubConfig does not exist, not running grubby"
     fi

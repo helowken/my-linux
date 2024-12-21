@@ -1,13 +1,15 @@
 #!/bin/bash
 
 LNX=$(pwd)
-DIR=$LNX/../cscope
+DIR=$LNX/cscope
 
 files=cscope.files
+tags_file=tags
 
 set -x
 echo "Finding relevant source files..."
 rm -rf $DIR
+
 mkdir -p $DIR
 cd $DIR
 find $LNX                                                                \
@@ -58,9 +60,26 @@ echo "Building cscope database..."
 time cscope -q -k -b -i cscope.files
 
 
+# use ctags --list-kinds to see details of --c-kinds and --c++-kinds
+# --regex-c is for "extern ..." and the kinds of it is "r" which is not included in c/c++ kinds
+#xargs -a $files 
+ctags -I __THROW -I __THROWNL -I __attribute_pure__ -I __nonnull \
+	-I __attribute__ -I __wur -I __weak_alias -I __read_mostly -I EXPORT_SYMBOL+ \
+	--file-scope=yes \
+	--langmap=c:+.h,Asm:+.asm \
+	--languages=c,c++,Asm \
+	--links=yes \
+	--fields=+ianmt \
+	--extra=+q \
+	--recurse=no \
+	--c-kinds=-p \
+	--c++-kinds=-p \
+	-L $files \
+	-f $tags_file
+	#--regex-c="/^[ \\t]*extern[ \\t]+[^;]*;/UNUSED/" \
+	#--regex-c="/^[ \\t]*EXPORT_SYMBOL[^\(]*\(([^)]+)\);/d/p,proto,/e" \
+	#--regex-c++="/^[ \\t]*EXPORT_SYMBOL[^\(]*\(([^)]+)\);/d/p,proto,/e" \
 
-ctags -I __THROW -I __THROWNL -I __attribute_pure__ -I __nonnull -I __attribute__ -I __wur -I __weak_alias --file-scope=yes --langmap=c:+.h,Asm:+.asm --languages=c,c++,Asm --links=yes --c-kinds=+p --c++-kinds=+p --fields=+iaS --extra=+q -R --recurse=no -f linux_tags $LNX/fs/*.c
 
+rm -f $files
 
-
-cd ..

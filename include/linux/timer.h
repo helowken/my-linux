@@ -184,7 +184,7 @@ extern unsigned long get_next_timer_interrupt(unsigned long now);
  * Timer-statistics info:
  */
 #ifdef CONFIG_TIMER_STATS
-
+/*
 extern int timer_stats_active;
 
 #define TIMER_STATS_FLAG_DEFERRABLE	0x1
@@ -208,9 +208,9 @@ static inline void timer_stats_timer_set_start_info(struct timer_list *timer)
 static inline void timer_stats_timer_clear_start_info(struct timer_list *timer)
 {
 	timer->start_site = NULL;
-}
+}*/
 #else
-/*static inline void init_timer_stats(void)
+static inline void init_timer_stats(void)
 {
 }
 
@@ -220,7 +220,7 @@ static inline void timer_stats_timer_set_start_info(struct timer_list *timer)
 
 static inline void timer_stats_timer_clear_start_info(struct timer_list *timer)
 {
-}*/
+}
 #endif
 
 extern void add_timer(struct timer_list *timer);

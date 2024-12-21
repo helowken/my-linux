@@ -130,7 +130,7 @@ void sysfs_printk_last_file(void);
 int __must_check sysfs_init(void);
 
 #else /* CONFIG_SYSFS */
-
+/*
 static inline int sysfs_schedule_callback(struct kobject *kobj,
 		void (*func)(void *), void *data, struct module *owner)
 {
@@ -259,7 +259,7 @@ static inline int __must_check sysfs_init(void)
 static inline void sysfs_printk_last_file(void)
 {
 }
-
+*/
 #endif /* CONFIG_SYSFS */
 
 #endif /* _SYSFS_H_ */

@@ -105,7 +105,7 @@ static unsigned long __cpuinit calibrate_delay_direct(void)
 	return 0;
 }
 #else
-static unsigned long __cpuinit calibrate_delay_direct(void) {return 0;}
+//static unsigned long __cpuinit calibrate_delay_direct(void) {return 0;}
 #endif
 
 /*

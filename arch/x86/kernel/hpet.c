@@ -166,7 +166,7 @@ do {								\
  * timer 0 and timer 1 in case of RTC emulation.
  */
 #ifdef CONFIG_HPET
-
+/*
 static void hpet_reserve_msi_timers(struct hpet_data *hd);
 
 static void hpet_reserve_platform_timers(unsigned long id)
@@ -188,11 +188,11 @@ static void hpet_reserve_platform_timers(unsigned long id)
 	hpet_reserve_timer(&hd, 1);
 #endif
 
-	/*
+	*
 	 * NOTE that hd_irq[] reflects IOAPIC input pins (LEGACY_8254
 	 * is wrong for i8259!) not the output IRQ.  Many BIOS writers
 	 * don't bother configuring *any* comparator interrupts.
-	 */
+	 *
 	hd.hd_irq[0] = HPET_LEGACY_8254;
 	hd.hd_irq[1] = HPET_LEGACY_RTC;
 
@@ -205,7 +205,7 @@ static void hpet_reserve_platform_timers(unsigned long id)
 
 	hpet_alloc(&hd);
 
-}
+}*/
 #else
 static void hpet_reserve_platform_timers(unsigned long id) { }
 #endif
@@ -591,7 +591,7 @@ static void init_one_hpet_msi_clockevent(struct hpet_dev *hdev, int cpu)
 
 #ifdef CONFIG_HPET
 /* Reserve at least one timer for userspace (/dev/hpet) */
-#define RESERVE_TIMERS 1
+//#define RESERVE_TIMERS 1
 #else
 #define RESERVE_TIMERS 0
 #endif
@@ -647,7 +647,7 @@ static void hpet_msi_capability_lookup(unsigned int start_timer)
 }
 
 #ifdef CONFIG_HPET
-static void hpet_reserve_msi_timers(struct hpet_data *hd)
+/*static void hpet_reserve_msi_timers(struct hpet_data *hd)
 {
 	int i;
 
@@ -663,7 +663,7 @@ static void hpet_reserve_msi_timers(struct hpet_data *hd)
 		hd->hd_irq[hdev->num] = hdev->irq;
 		hpet_reserve_timer(hd, hdev->num);
 	}
-}
+}*/
 #endif
 
 static struct hpet_dev *hpet_get_unused_timer(void)
@@ -733,7 +733,7 @@ static int hpet_cpuhp_notify(struct notifier_block *n,
 	return NOTIFY_OK;
 }
 #else
-
+/*
 static int hpet_setup_msi_irq(unsigned int irq)
 {
 	return 0;
@@ -755,7 +755,7 @@ static int hpet_cpuhp_notify(struct notifier_block *n,
 {
 	return NOTIFY_OK;
 }
-
+*/
 #endif
 
 /*

@@ -56,8 +56,8 @@ struct execute_work {
  * here is required, otherwise it could get initialised to the
  * copy of the lockdep_map!
  */
-#define __WORK_INIT_LOCKDEP_MAP(n, k) \
-	.lockdep_map = STATIC_LOCKDEP_MAP_INIT(n, k),
+/*#define __WORK_INIT_LOCKDEP_MAP(n, k) \
+	.lockdep_map = STATIC_LOCKDEP_MAP_INIT(n, k),*/
 #else
 #define __WORK_INIT_LOCKDEP_MAP(n, k)
 #endif
@@ -99,7 +99,7 @@ struct execute_work {
  * to generate better code.
  */
 #ifdef CONFIG_LOCKDEP
-#define INIT_WORK(_work, _func)						\
+/*#define INIT_WORK(_work, _func)						\
 	do {								\
 		static struct lock_class_key __key;			\
 									\
@@ -107,7 +107,7 @@ struct execute_work {
 		lockdep_init_map(&(_work)->lockdep_map, #_work, &__key, 0);\
 		INIT_LIST_HEAD(&(_work)->entry);			\
 		PREPARE_WORK((_work), (_func));				\
-	} while (0)
+	} while (0)*/
 #else
 #define INIT_WORK(_work, _func)						\
 	do {								\
@@ -170,7 +170,7 @@ __create_workqueue_key(const char *name, int singlethread,
 		       const char *lock_name);
 
 #ifdef CONFIG_LOCKDEP
-#define __create_workqueue(name, singlethread, freezeable, rt)	\
+/*#define __create_workqueue(name, singlethread, freezeable, rt)	\
 ({								\
 	static struct lock_class_key __key;			\
 	const char *__lock_name;				\
@@ -183,7 +183,7 @@ __create_workqueue_key(const char *name, int singlethread,
 	__create_workqueue_key((name), (singlethread),		\
 			       (freezeable), (rt), &__key,	\
 			       __lock_name);			\
-})
+})*/
 #else
 #define __create_workqueue(name, singlethread, freezeable, rt)	\
 	__create_workqueue_key((name), (singlethread), (freezeable), (rt), \
@@ -274,10 +274,10 @@ void cancel_rearming_delayed_work(struct delayed_work *work)
 }
 
 #ifndef CONFIG_SMP
-static inline long work_on_cpu(unsigned int cpu, long (*fn)(void *), void *arg)
+/*static inline long work_on_cpu(unsigned int cpu, long (*fn)(void *), void *arg)
 {
 	return fn(arg);
-}
+}*/
 #else
 long work_on_cpu(unsigned int cpu, long (*fn)(void *), void *arg);
 #endif /* CONFIG_SMP */

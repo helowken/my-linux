@@ -23,7 +23,7 @@
 #include <asm/time.h>
 
 #if defined(CONFIG_X86_32) && defined(CONFIG_X86_IO_APIC)
-int timer_ack;
+//int timer_ack;
 #endif
 
 #ifdef CONFIG_X86_64
@@ -38,17 +38,17 @@ unsigned long profile_pc(struct pt_regs *regs)
 #ifdef CONFIG_FRAME_POINTER
 		return *(unsigned long *)(regs->bp + sizeof(long));
 #else
-		unsigned long *sp =
+		/*unsigned long *sp =
 			(unsigned long *)kernel_stack_pointer(regs);
-		/*
+		*
 		 * Return address is either directly at stack pointer
 		 * or above a saved flags. Eflags has bits 22-31 zero,
 		 * kernel addresses don't.
-		 */
+		 *
 		if (sp[0] >> 22)
 			return sp[0];
 		if (sp[1] >> 22)
-			return sp[1];
+			return sp[1];*/
 #endif
 	}
 	return pc;
@@ -64,18 +64,18 @@ static irqreturn_t timer_interrupt(int irq, void *dev_id)
 	inc_irq_stat(irq0_irqs);
 
 	/* Optimized out for !IO_APIC and x86_64 */
-	if (timer_ack) {
-		/*
+	/*if (timer_ack) {
+		*
 		 * Subtle, when I/O APICs are used we have to ack timer IRQ
 		 * manually to deassert NMI lines for the watchdog if run
 		 * on an 82489DX-based system.
-		 */
+		 *
 		spin_lock(&i8259A_lock);
 		outb(0x0c, PIC_MASTER_OCW3);
-		/* Ack the IRQ; AEOI will end it automatically. */
+		* Ack the IRQ; AEOI will end it automatically. *
 		inb(PIC_MASTER_POLL);
 		spin_unlock(&i8259A_lock);
-	}
+	}*/
 
 	global_clock_event->event_handler(global_clock_event);
 

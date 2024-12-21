@@ -152,10 +152,10 @@ struct seq_file;
 struct cfs_rq;
 struct task_group;
 #ifdef CONFIG_SCHED_DEBUG
-extern void proc_sched_show_task(struct task_struct *p, struct seq_file *m);
+/*extern void proc_sched_show_task(struct task_struct *p, struct seq_file *m);
 extern void proc_sched_set_task(struct task_struct *p);
 extern void
-print_cfs_rq(struct seq_file *m, int cpu, struct cfs_rq *cfs_rq);
+print_cfs_rq(struct seq_file *m, int cpu, struct cfs_rq *cfs_rq);*/
 #else
 static inline void
 proc_sched_show_task(struct task_struct *p, struct seq_file *m)
@@ -268,10 +268,10 @@ extern cpumask_var_t nohz_cpu_mask;
 extern int select_nohz_load_balancer(int cpu);
 extern int get_nohz_load_balancer(void);
 #else
-static inline int select_nohz_load_balancer(int cpu)
+/*static inline int select_nohz_load_balancer(int cpu)
 {
 	return 0;
-}
+}*/
 #endif
 
 /*
@@ -304,14 +304,14 @@ extern void scheduler_tick(void);
 extern void sched_show_task(struct task_struct *p);
 
 #ifdef CONFIG_DETECT_SOFTLOCKUP
-extern void softlockup_tick(void);
+/*extern void softlockup_tick(void);
 extern void touch_softlockup_watchdog(void);
 extern void touch_all_softlockup_watchdogs(void);
 extern int proc_dosoftlockup_thresh(struct ctl_table *table, int write,
 				    void __user *buffer,
 				    size_t *lenp, loff_t *ppos);
 extern unsigned int  softlockup_panic;
-extern int softlockup_thresh;
+extern int softlockup_thresh;*/
 #else
 static inline void softlockup_tick(void)
 {
@@ -325,13 +325,13 @@ static inline void touch_all_softlockup_watchdogs(void)
 #endif
 
 #ifdef CONFIG_DETECT_HUNG_TASK
-extern unsigned int  sysctl_hung_task_panic;
+/*extern unsigned int  sysctl_hung_task_panic;
 extern unsigned long sysctl_hung_task_check_count;
 extern unsigned long sysctl_hung_task_timeout_secs;
 extern unsigned long sysctl_hung_task_warnings;
 extern int proc_dohung_task_timeout_secs(struct ctl_table *table, int write,
 					 void __user *buffer,
-					 size_t *lenp, loff_t *ppos);
+					 size_t *lenp, loff_t *ppos);*/
 #endif
 
 /* Attach to any functions which should be ignored in wchan output. */
@@ -400,12 +400,12 @@ extern void arch_unmap_area_topdown(struct mm_struct *, unsigned long);
  * The mm counters are protected by its page_table_lock,
  * so can be incremented directly.
  */
-#define set_mm_counter(mm, member, value) (mm)->_##member = (value)
+/*#define set_mm_counter(mm, member, value) (mm)->_##member = (value)
 #define get_mm_counter(mm, member) ((mm)->_##member)
 #define add_mm_counter(mm, member, value) (mm)->_##member += (value)
 #define inc_mm_counter(mm, member) (mm)->_##member++
 #define dec_mm_counter(mm, member) (mm)->_##member--
-
+*/
 #endif /* !USE_SPLIT_PTLOCKS */
 
 #define get_mm_rss(mm)					\
@@ -1035,14 +1035,14 @@ unsigned long default_scale_freq_power(struct sched_domain *sd, int cpu);
 unsigned long default_scale_smt_power(struct sched_domain *sd, int cpu);
 
 #else /* CONFIG_SMP */
-
+/*
 struct sched_domain_attr;
 
 static inline void
 partition_sched_domains(int ndoms_new, struct cpumask *doms_new,
 			struct sched_domain_attr *dattr_new)
 {
-}
+}*/
 #endif	/* !CONFIG_SMP */
 
 
@@ -1050,7 +1050,7 @@ struct io_context;			/* See blkdev.h */
 
 
 #ifdef ARCH_HAS_PREFETCH_SWITCH_STACK
-extern void prefetch_stack(struct task_struct *t);
+//extern void prefetch_stack(struct task_struct *t);
 #else
 static inline void prefetch_stack(struct task_struct *t) { }
 #endif
@@ -1795,9 +1795,9 @@ extern void thread_group_times(struct task_struct *p, cputime_t *ut, cputime_t *
 #define used_math() tsk_used_math(current)
 
 #ifdef CONFIG_TREE_PREEMPT_RCU
-
-#define RCU_READ_UNLOCK_BLOCKED (1 << 0) /* blocked while in RCU read-side. */
-#define RCU_READ_UNLOCK_NEED_QS (1 << 1) /* RCU core needs CPU response. */
+/*
+#define RCU_READ_UNLOCK_BLOCKED (1 << 0) * blocked while in RCU read-side. *
+#define RCU_READ_UNLOCK_NEED_QS (1 << 1) * RCU core needs CPU response. *
 
 static inline void rcu_copy_process(struct task_struct *p)
 {
@@ -1806,7 +1806,7 @@ static inline void rcu_copy_process(struct task_struct *p)
 	p->rcu_blocked_node = NULL;
 	INIT_LIST_HEAD(&p->rcu_node_entry);
 }
-
+*/
 #else
 
 static inline void rcu_copy_process(struct task_struct *p)
@@ -1819,13 +1819,13 @@ static inline void rcu_copy_process(struct task_struct *p)
 extern int set_cpus_allowed_ptr(struct task_struct *p,
 				const struct cpumask *new_mask);
 #else
-static inline int set_cpus_allowed_ptr(struct task_struct *p,
+/*static inline int set_cpus_allowed_ptr(struct task_struct *p,
 				       const struct cpumask *new_mask)
 {
 	if (!cpumask_test_cpu(0, new_mask))
 		return -EINVAL;
 	return 0;
-}
+}*/
 #endif
 
 #ifndef CONFIG_CPUMASK_OFFSTACK
@@ -1851,7 +1851,7 @@ extern void sched_clock_init(void);
 extern u64 sched_clock_cpu(int cpu);
 
 #ifndef CONFIG_HAVE_UNSTABLE_SCHED_CLOCK
-static inline void sched_clock_tick(void)
+/*static inline void sched_clock_tick(void)
 {
 }
 
@@ -1861,7 +1861,7 @@ static inline void sched_clock_idle_sleep_event(void)
 
 static inline void sched_clock_idle_wakeup_event(u64 delta_ns)
 {
-}
+}*/
 #else
 extern void sched_clock_tick(void);
 extern void sched_clock_idle_sleep_event(void);
@@ -1882,7 +1882,7 @@ extern unsigned long long thread_group_sched_runtime(struct task_struct *task);
 #ifdef CONFIG_SMP
 extern void sched_exec(void);
 #else
-#define sched_exec()   {}
+//#define sched_exec()   {}
 #endif
 
 extern void sched_clock_idle_sleep_event(void);
@@ -1892,7 +1892,7 @@ extern void sched_clock_idle_wakeup_event(u64 delta_ns);
 extern void move_task_off_dead_cpu(int dead_cpu, struct task_struct *p);
 extern void idle_task_exit(void);
 #else
-static inline void idle_task_exit(void) {}
+//static inline void idle_task_exit(void) {}
 #endif
 
 extern void sched_idle_next(void);
@@ -1900,7 +1900,7 @@ extern void sched_idle_next(void);
 #if defined(CONFIG_NO_HZ) && defined(CONFIG_SMP)
 extern void wake_up_idle_cpu(int cpu);
 #else
-static inline void wake_up_idle_cpu(int cpu) { }
+//static inline void wake_up_idle_cpu(int cpu) { }
 #endif
 
 extern unsigned int sysctl_sched_latency;
@@ -1910,7 +1910,7 @@ extern unsigned int sysctl_sched_shares_ratelimit;
 extern unsigned int sysctl_sched_shares_thresh;
 extern unsigned int sysctl_sched_child_runs_first;
 #ifdef CONFIG_SCHED_DEBUG
-extern unsigned int sysctl_sched_features;
+/*extern unsigned int sysctl_sched_features;
 extern unsigned int sysctl_sched_migration_cost;
 extern unsigned int sysctl_sched_nr_migrate;
 extern unsigned int sysctl_sched_time_avg;
@@ -1918,13 +1918,13 @@ extern unsigned int sysctl_timer_migration;
 
 int sched_nr_latency_handler(struct ctl_table *table, int write,
 		void __user *buffer, size_t *length,
-		loff_t *ppos);
+		loff_t *ppos);*/
 #endif
 #ifdef CONFIG_SCHED_DEBUG
-static inline unsigned int get_sysctl_timer_migration(void)
+/*static inline unsigned int get_sysctl_timer_migration(void)
 {
 	return sysctl_timer_migration;
-}
+}*/
 #else
 static inline unsigned int get_sysctl_timer_migration(void)
 {
@@ -1945,11 +1945,11 @@ extern int rt_mutex_getprio(struct task_struct *p);
 extern void rt_mutex_setprio(struct task_struct *p, int prio);
 extern void rt_mutex_adjust_pi(struct task_struct *p);
 #else
-static inline int rt_mutex_getprio(struct task_struct *p)
+/*static inline int rt_mutex_getprio(struct task_struct *p)
 {
 	return p->normal_prio;
 }
-# define rt_mutex_adjust_pi(p)		do { } while (0)
+# define rt_mutex_adjust_pi(p)		do { } while (0)*/
 #endif
 
 extern void set_user_nice(struct task_struct *p, long nice);
@@ -2032,7 +2032,7 @@ extern void wake_up_new_task(struct task_struct *tsk,
 #ifdef CONFIG_SMP
  extern void kick_process(struct task_struct *tsk);
 #else
- static inline void kick_process(struct task_struct *tsk) { }
+// static inline void kick_process(struct task_struct *tsk) { }
 #endif
 extern void sched_fork(struct task_struct *p, int clone_flags);
 extern void sched_dead(struct task_struct *p);
@@ -2102,8 +2102,8 @@ static inline int is_si_special(const struct siginfo *info)
 static inline int on_sig_stack(unsigned long sp)
 {
 #ifdef CONFIG_STACK_GROWSUP
-	return sp >= current->sas_ss_sp &&
-		sp - current->sas_ss_sp < current->sas_ss_size;
+	/*return sp >= current->sas_ss_sp &&
+		sp - current->sas_ss_sp < current->sas_ss_size;*/
 #else
 	return sp > current->sas_ss_sp &&
 		sp - current->sas_ss_sp <= current->sas_ss_size;
@@ -2167,12 +2167,12 @@ extern char *get_task_comm(char *to, struct task_struct *tsk);
 extern void wait_task_context_switch(struct task_struct *p);
 extern unsigned long wait_task_inactive(struct task_struct *, long match_state);
 #else
-static inline void wait_task_context_switch(struct task_struct *p) {}
+/*static inline void wait_task_context_switch(struct task_struct *p) {}
 static inline unsigned long wait_task_inactive(struct task_struct *p,
 					       long match_state)
 {
 	return 1;
-}
+}*/
 #endif
 
 #define next_task(p) \
@@ -2289,16 +2289,16 @@ static inline int object_is_on_stack(void *obj)
 extern void thread_info_cache_init(void);
 
 #ifdef CONFIG_DEBUG_STACK_USAGE
-static inline unsigned long stack_not_used(struct task_struct *p)
+/*static inline unsigned long stack_not_used(struct task_struct *p)
 {
 	unsigned long *n = end_of_stack(p);
 
-	do { 	/* Skip over canary */
+	do { 	* Skip over canary *
 		n++;
 	} while (!*n);
 
 	return (unsigned long)n - (unsigned long)end_of_stack(p);
-}
+}*/
 #endif
 
 /* set thread flags in other task's structures
@@ -2397,7 +2397,7 @@ extern int _cond_resched(void);
 extern int __cond_resched_lock(spinlock_t *lock);
 
 #ifdef CONFIG_PREEMPT
-#define PREEMPT_LOCK_OFFSET	PREEMPT_OFFSET
+//#define PREEMPT_LOCK_OFFSET	PREEMPT_OFFSET
 #else
 #define PREEMPT_LOCK_OFFSET	0
 #endif
@@ -2422,7 +2422,7 @@ extern int __cond_resched_softirq(void);
 static inline int spin_needbreak(spinlock_t *lock)
 {
 #ifdef CONFIG_PREEMPT
-	return spin_is_contended(lock);
+	//return spin_is_contended(lock);
 #else
 	return 0;
 #endif
@@ -2469,7 +2469,7 @@ static inline unsigned int task_cpu(const struct task_struct *p)
 extern void set_task_cpu(struct task_struct *p, unsigned int cpu);
 
 #else
-
+/*
 static inline unsigned int task_cpu(const struct task_struct *p)
 {
 	return 0;
@@ -2478,15 +2478,15 @@ static inline unsigned int task_cpu(const struct task_struct *p)
 static inline void set_task_cpu(struct task_struct *p, unsigned int cpu)
 {
 }
-
+*/
 #endif /* CONFIG_SMP */
 
 extern void arch_pick_mmap_layout(struct mm_struct *mm);
 
 #ifdef CONFIG_TRACING
-extern void
+/*extern void
 __trace_special(void *__tr, void *__data,
-		unsigned long arg1, unsigned long arg2, unsigned long arg3);
+		unsigned long arg1, unsigned long arg2, unsigned long arg3);*/
 #else
 static inline void
 __trace_special(void *__tr, void *__data,
@@ -2550,7 +2550,7 @@ static inline void inc_syscw(struct task_struct *tsk)
 	tsk->ioac.syscw++;
 }
 #else
-static inline void add_rchar(struct task_struct *tsk, ssize_t amt)
+/*static inline void add_rchar(struct task_struct *tsk, ssize_t amt)
 {
 }
 
@@ -2564,7 +2564,7 @@ static inline void inc_syscr(struct task_struct *tsk)
 
 static inline void inc_syscw(struct task_struct *tsk)
 {
-}
+}*/
 #endif
 
 #ifndef TASK_SIZE_OF
@@ -2579,8 +2579,8 @@ extern void task_oncpu_function_call(struct task_struct *p,
 
 
 #ifdef CONFIG_MM_OWNER
-extern void mm_update_next_owner(struct mm_struct *mm);
-extern void mm_init_owner(struct mm_struct *mm, struct task_struct *p);
+//extern void mm_update_next_owner(struct mm_struct *mm);
+//extern void mm_init_owner(struct mm_struct *mm, struct task_struct *p);
 #else
 static inline void mm_update_next_owner(struct mm_struct *mm)
 {

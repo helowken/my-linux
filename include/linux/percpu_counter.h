@@ -78,7 +78,7 @@ static inline s64 percpu_counter_read_positive(struct percpu_counter *fbc)
 }
 
 #else
-
+/*
 struct percpu_counter {
 	s64 count;
 };
@@ -128,7 +128,7 @@ static inline s64 percpu_counter_sum(struct percpu_counter *fbc)
 {
 	return percpu_counter_read(fbc);
 }
-
+*/
 #endif	/* CONFIG_SMP */
 
 static inline void percpu_counter_inc(struct percpu_counter *fbc)

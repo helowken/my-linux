@@ -426,19 +426,19 @@ static inline char *pack_hex_byte(char *buf, u8 byte)
  * Most likely, you want to use tracing_on/tracing_off.
  */
 #ifdef CONFIG_RING_BUFFER
-void tracing_on(void);
+/*void tracing_on(void);
 void tracing_off(void);
-/* trace_off_permanent stops recording with no way to bring it back */
+* trace_off_permanent stops recording with no way to bring it back *
 void tracing_off_permanent(void);
-int tracing_is_on(void);
+int tracing_is_on(void);*/
 #else
-/*static inline void tracing_on(void) { }
+static inline void tracing_on(void) { }
 static inline void tracing_off(void) { }
 static inline void tracing_off_permanent(void) { }
-static inline int tracing_is_on(void) { return 0; }*/
+static inline int tracing_is_on(void) { return 0; }
 #endif
 #ifdef CONFIG_TRACING
-extern void tracing_start(void);
+/*extern void tracing_start(void);
 extern void tracing_stop(void);
 extern void ftrace_off_permanent(void);
 
@@ -455,7 +455,7 @@ do {									\
 		____trace_printk_check_format(fmt, ##args);		\
 } while (0)
 
-/**
+**
  * trace_printk - printf formatting in the ftrace buffer
  * @fmt: the printf format for printing
  *
@@ -470,7 +470,7 @@ do {									\
  * This is intended as a debugging tool for the developer only.
  * Please refrain from leaving trace_printks scattered around in
  * your code.
- */
+ *
 
 #define trace_printk(fmt, args...)					\
 do {									\
@@ -493,11 +493,11 @@ extern int
 __trace_printk(unsigned long ip, const char *fmt, ...)
 	__attribute__ ((format (printf, 2, 3)));
 
-/*
+*
  * The double __builtin_constant_p is because gcc will give us an error
  * if we try to allocate the static variable to fmt if it is not a
  * constant. Even with the outer if statement.
- */
+ *
 #define ftrace_vprintk(fmt, vargs)					\
 do {									\
 	if (__builtin_constant_p(fmt)) {				\
@@ -516,9 +516,9 @@ __ftrace_vbprintk(unsigned long ip, const char *fmt, va_list ap);
 extern int
 __ftrace_vprintk(unsigned long ip, const char *fmt, va_list ap);
 
-extern void ftrace_dump(void);
+extern void ftrace_dump(void);*/
 #else
-/*static inline void
+static inline void
 ftrace_special(unsigned long arg1, unsigned long arg2, unsigned long arg3) { }
 static inline int
 trace_printk(const char *fmt, ...) __attribute__ ((format (printf, 1, 2)));
@@ -536,7 +536,7 @@ ftrace_vprintk(const char *fmt, va_list ap)
 {
 	return 0;
 }
-static inline void ftrace_dump(void) { }*/
+static inline void ftrace_dump(void) { }
 #endif /* CONFIG_TRACING */
 
 /*

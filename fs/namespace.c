@@ -155,7 +155,7 @@ struct vfsmount *alloc_vfsmnt(const char *name)
 		if (!mnt->mnt_writers)
 			goto out_free_devname;
 #else
-		mnt->mnt_writers = 0;
+		//mnt->mnt_writers = 0;
 #endif
 	}
 	return mnt;
@@ -205,7 +205,7 @@ static inline void inc_mnt_writers(struct vfsmount *mnt)
 #ifdef CONFIG_SMP
 	(*per_cpu_ptr(mnt->mnt_writers, smp_processor_id()))++;
 #else
-	mnt->mnt_writers++;
+	//mnt->mnt_writers++;
 #endif
 }
 
@@ -214,7 +214,7 @@ static inline void dec_mnt_writers(struct vfsmount *mnt)
 #ifdef CONFIG_SMP
 	(*per_cpu_ptr(mnt->mnt_writers, smp_processor_id()))--;
 #else
-	mnt->mnt_writers--;
+	//mnt->mnt_writers--;
 #endif
 }
 
@@ -230,7 +230,7 @@ static unsigned int count_mnt_writers(struct vfsmount *mnt)
 
 	return count;
 #else
-	return mnt->mnt_writers;
+	//return mnt->mnt_writers;
 #endif
 }
 
@@ -1167,7 +1167,7 @@ static int mount_is_safe(struct path *path)
 		return 0;
 	return -EPERM;
 #ifdef notyet
-	if (S_ISLNK(path->dentry->d_inode->i_mode))
+	/*if (S_ISLNK(path->dentry->d_inode->i_mode))
 		return -EPERM;
 	if (path->dentry->d_inode->i_mode & S_ISVTX) {
 		if (current_uid() != path->dentry->d_inode->i_uid)
@@ -1175,7 +1175,7 @@ static int mount_is_safe(struct path *path)
 	}
 	if (inode_permission(path->dentry->d_inode, MAY_WRITE))
 		return -EPERM;
-	return 0;
+	return 0;*/
 #endif
 }
 
