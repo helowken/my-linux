@@ -709,9 +709,9 @@ static inline int mapping_writably_mapped(struct address_space *mapping)
  * Use sequence counter to get consistent i_size on 32-bit processors.
  */
 #if BITS_PER_LONG==32 && defined(CONFIG_SMP)
-#include <linux/seqlock.h>
+/*#include <linux/seqlock.h>
 #define __NEED_I_SIZE_ORDERED
-#define i_size_ordered_init(inode) seqcount_init(&inode->i_size_seqcount)
+#define i_size_ordered_init(inode) seqcount_init(&inode->i_size_seqcount)*/
 #else
 #define i_size_ordered_init(inode) do { } while (0)
 #endif
@@ -822,21 +822,21 @@ enum inode_i_mutex_lock_class
 static inline loff_t i_size_read(const struct inode *inode)
 {
 #if BITS_PER_LONG==32 && defined(CONFIG_SMP)
-	loff_t i_size;
+	/*loff_t i_size;
 	unsigned int seq;
 
 	do {
 		seq = read_seqcount_begin(&inode->i_size_seqcount);
 		i_size = inode->i_size;
 	} while (read_seqcount_retry(&inode->i_size_seqcount, seq));
-	return i_size;
+	return i_size;*/
 #elif BITS_PER_LONG==32 && defined(CONFIG_PREEMPT)
-	loff_t i_size;
+	/*loff_t i_size;
 
 	preempt_disable();
 	i_size = inode->i_size;
 	preempt_enable();
-	return i_size;
+	return i_size;*/
 #else
 	return inode->i_size;
 #endif
@@ -850,13 +850,13 @@ static inline loff_t i_size_read(const struct inode *inode)
 static inline void i_size_write(struct inode *inode, loff_t i_size)
 {
 #if BITS_PER_LONG==32 && defined(CONFIG_SMP)
-	write_seqcount_begin(&inode->i_size_seqcount);
+	/*write_seqcount_begin(&inode->i_size_seqcount);
 	inode->i_size = i_size;
-	write_seqcount_end(&inode->i_size_seqcount);
+	write_seqcount_end(&inode->i_size_seqcount);*/
 #elif BITS_PER_LONG==32 && defined(CONFIG_PREEMPT)
-	preempt_disable();
+	/*preempt_disable();
 	inode->i_size = i_size;
-	preempt_enable();
+	preempt_enable();*/
 #else
 	inode->i_size = i_size;
 #endif
@@ -954,7 +954,7 @@ extern spinlock_t files_lock;
 #define file_count(x)	atomic_long_read(&(x)->f_count)
 
 #ifdef CONFIG_DEBUG_WRITECOUNT
-static inline void file_take_write(struct file *f)
+/*static inline void file_take_write(struct file *f)
 {
 	WARN_ON(f->f_mnt_write_state != 0);
 	f->f_mnt_write_state = FILE_MNT_WRITE_TAKEN;
@@ -969,10 +969,10 @@ static inline void file_reset_write(struct file *f)
 }
 static inline void file_check_state(struct file *f)
 {
-	/*
+	*
 	 * At this point, either both or neither of these bits
 	 * should be set.
-	 */
+	 *
 	WARN_ON(f->f_mnt_write_state == FILE_MNT_WRITE_TAKEN);
 	WARN_ON(f->f_mnt_write_state == FILE_MNT_WRITE_RELEASED);
 }
@@ -984,7 +984,7 @@ static inline int file_check_writeable(struct file *f)
 			    "mnt_want_write()\n");
 	WARN_ON(1);
 	return -EINVAL;
-}
+}*/
 #else /* !CONFIG_DEBUG_WRITECOUNT */
 static inline void file_take_write(struct file *filp) {}
 static inline void file_release_write(struct file *filp) {}
@@ -1001,7 +1001,7 @@ static inline int file_check_writeable(struct file *filp)
 /* Page cache limit. The filesystems should put that into their s_maxbytes 
    limits, otherwise bad things can happen in VM. */ 
 #if BITS_PER_LONG==32
-#define MAX_LFS_FILESIZE	(((u64)PAGE_CACHE_SIZE << (BITS_PER_LONG-1))-1) 
+//#define MAX_LFS_FILESIZE	(((u64)PAGE_CACHE_SIZE << (BITS_PER_LONG-1))-1) 
 #elif BITS_PER_LONG==64
 #define MAX_LFS_FILESIZE 	0x7fffffffffffffffUL
 #endif
@@ -1106,9 +1106,9 @@ extern int fcntl_setlk(unsigned int, struct file *, unsigned int,
 			struct flock __user *);
 
 #if BITS_PER_LONG == 32
-extern int fcntl_getlk64(struct file *, struct flock64 __user *);
+/*extern int fcntl_getlk64(struct file *, struct flock64 __user *);
 extern int fcntl_setlk64(unsigned int, struct file *, unsigned int,
-			struct flock64 __user *);
+			struct flock64 __user *);*/
 #endif
 
 extern int fcntl_setlease(unsigned int fd, struct file *filp, long arg);
@@ -1137,7 +1137,7 @@ extern int lease_modify(struct file_lock **, int);
 extern int lock_may_read(struct inode *, loff_t start, unsigned long count);
 extern int lock_may_write(struct inode *, loff_t start, unsigned long count);
 #else /* !CONFIG_FILE_LOCKING */
-static inline int fcntl_getlk(struct file *file, struct flock __user *user)
+/*static inline int fcntl_getlk(struct file *file, struct flock __user *user)
 {
 	return -EINVAL;
 }
@@ -1277,7 +1277,7 @@ static inline int lock_may_write(struct inode *inode, loff_t start,
 {
 	return 1;
 }
-
+*/
 #endif /* !CONFIG_FILE_LOCKING */
 
 
@@ -1872,7 +1872,7 @@ static inline int break_lease(struct inode *inode, unsigned int mode)
 	return 0;
 }
 #else /* !CONFIG_FILE_LOCKING */
-static inline int locks_mandatory_locked(struct inode *inode)
+/*static inline int locks_mandatory_locked(struct inode *inode)
 {
 	return 0;
 }
@@ -1909,7 +1909,7 @@ static inline int break_lease(struct inode *inode, unsigned int mode)
 {
 	return 0;
 }
-
+*/
 #endif /* CONFIG_FILE_LOCKING */
 
 /* fs/open.c */
@@ -1940,7 +1940,7 @@ extern struct kmem_cache *names_cachep;
 #define __getname()		__getname_gfp(GFP_KERNEL)
 #define __putname(name)		kmem_cache_free(names_cachep, (void *)(name))
 #ifndef CONFIG_AUDITSYSCALL
-#define putname(name)   __putname(name)
+//#define putname(name)   __putname(name)
 #else
 extern void putname(const char *name);
 #endif
@@ -1961,7 +1961,7 @@ extern void emergency_thaw_all(void);
 extern int thaw_bdev(struct block_device *bdev, struct super_block *sb);
 extern int fsync_bdev(struct block_device *);
 #else
-static inline void bd_forget(struct inode *inode) {}
+/*static inline void bd_forget(struct inode *inode) {}
 static inline int sync_blockdev(struct block_device *bdev) { return 0; }
 static inline void invalidate_bdev(struct block_device *bdev) {}
 
@@ -1973,7 +1973,7 @@ static inline struct super_block *freeze_bdev(struct block_device *sb)
 static inline int thaw_bdev(struct block_device *bdev, struct super_block *sb)
 {
 	return 0;
-}
+}*/
 #endif
 extern int sync_filesystem(struct super_block *);
 extern const struct file_operations def_blk_fops;
@@ -1992,8 +1992,8 @@ extern void bd_release(struct block_device *);
 extern int bd_claim_by_disk(struct block_device *, void *, struct gendisk *);
 extern void bd_release_from_disk(struct block_device *, struct gendisk *);
 #else
-#define bd_claim_by_disk(bdev, holder, disk)	bd_claim(bdev, holder)
-#define bd_release_from_disk(bdev, disk)	bd_release(bdev)
+//#define bd_claim_by_disk(bdev, holder, disk)	bd_claim(bdev, holder)
+//#define bd_release_from_disk(bdev, disk)	bd_release(bdev)
 #endif
 #endif
 
@@ -2034,7 +2034,7 @@ extern void close_bdev_exclusive(struct block_device *, fmode_t);
 extern void blkdev_show(struct seq_file *,off_t);
 
 #else
-#define BLKDEV_MAJOR_HASH_SIZE	0
+//#define BLKDEV_MAJOR_HASH_SIZE	0
 #endif
 
 extern void init_special_inode(struct inode *, umode_t, dev_t);
@@ -2251,12 +2251,12 @@ extern int generic_file_open(struct inode * inode, struct file * filp);
 extern int nonseekable_open(struct inode * inode, struct file * filp);
 
 #ifdef CONFIG_FS_XIP
-extern ssize_t xip_file_read(struct file *filp, char __user *buf, size_t len,
+/*extern ssize_t xip_file_read(struct file *filp, char __user *buf, size_t len,
 			     loff_t *ppos);
 extern int xip_file_mmap(struct file * file, struct vm_area_struct * vma);
 extern ssize_t xip_file_write(struct file *filp, const char __user *buf,
 			      size_t len, loff_t *ppos);
-extern int xip_truncate_page(struct address_space *mapping, loff_t from);
+extern int xip_truncate_page(struct address_space *mapping, loff_t from);*/
 #else
 static inline int xip_truncate_page(struct address_space *mapping, loff_t from)
 {
@@ -2391,7 +2391,7 @@ extern int simple_fsync(struct file *, struct dentry *, int);
 extern int buffer_migrate_page(struct address_space *,
 				struct page *, struct page *);
 #else
-#define buffer_migrate_page NULL
+//#define buffer_migrate_page NULL
 #endif
 
 extern int inode_change_ok(const struct inode *, struct iattr *);

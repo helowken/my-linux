@@ -15,12 +15,12 @@ extern struct proc_dir_entry proc_root;
 #ifdef CONFIG_PROC_SYSCTL
 extern int proc_sys_init(void);
 #else
-static inline void proc_sys_init(void) { }
+//static inline void proc_sys_init(void) { }
 #endif
 #ifdef CONFIG_NET
 extern int proc_net_init(void);
 #else
-static inline int proc_net_init(void) { return 0; }
+//static inline int proc_net_init(void) { return 0; }
 #endif
 
 struct vmalloc_info {
@@ -34,13 +34,13 @@ extern struct mm_struct *mm_for_maps(struct task_struct *);
 #define VMALLOC_TOTAL (VMALLOC_END - VMALLOC_START)
 extern void get_vmalloc_info(struct vmalloc_info *vmi);
 #else
-
+/*
 #define VMALLOC_TOTAL 0UL
 #define get_vmalloc_info(vmi)			\
 do {						\
 	(vmi)->used = 0;			\
 	(vmi)->largest_chunk = 0;		\
-} while(0)
+} while(0)*/
 #endif
 
 extern int proc_tid_stat(struct seq_file *m, struct pid_namespace *ns,

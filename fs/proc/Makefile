@@ -2,6 +2,9 @@
 # Makefile for the Linux proc filesystem routines.
 #
 
+#TODO remove -O2
+KBUILD_CFLAGS := $(filter-out -O2,$(KBUILD_CFLAGS))
+
 obj-$(CONFIG_PROC_FS) += proc.o
 
 proc-y			:= nommu.o task_nommu.o

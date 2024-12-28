@@ -18,7 +18,6 @@ find $LNX                                                                \
                                ! -path "$LNX/include/asm-x86*" -prune -o \
     -path "$LNX/include/xen/*" -prune -o       \
     -path "$LNX/include/sound/*" -prune -o       \
-    -path "$LNX/include/net/*" -prune -o       \
     -path "$LNX/include/media/*" -prune -o       \
     -path "$LNX/fs/*" ! -path "$LNX/fs/ext*"	 \
 					  ! -path "$LNX/fs/sysfs*"	 \

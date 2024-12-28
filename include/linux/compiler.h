@@ -4,8 +4,8 @@
 #ifndef __ASSEMBLY__
 
 #ifdef __CHECKER__
-# define __user		__attribute__((noderef, address_space(1)))
-# define __kernel	/* default address space */
+/*# define __user		__attribute__((noderef, address_space(1)))
+# define __kernel	* default address space *
 # define __safe		__attribute__((safe))
 # define __force	__attribute__((force))
 # define __nocast	__attribute__((nocast))
@@ -16,7 +16,7 @@
 # define __release(x)	__context__(x,-1)
 # define __cond_lock(x,c)	((c) ? ({ __acquire(x); 1; }) : 0)
 extern void __chk_user_ptr(const volatile void __user *);
-extern void __chk_io_ptr(const volatile void __iomem *);
+extern void __chk_io_ptr(const volatile void __iomem *);*/
 #else
 # define __user
 # define __kernel
@@ -46,7 +46,7 @@ extern void __chk_io_ptr(const volatile void __iomem *);
  * coming from above header files here
  */
 #ifdef __INTEL_COMPILER
-# include <linux/compiler-intel.h>
+//# include <linux/compiler-intel.h>
 #endif
 
 /*
@@ -78,7 +78,7 @@ struct ftrace_branch_data {
  */
 #if defined(CONFIG_TRACE_BRANCH_PROFILING) \
     && !defined(DISABLE_BRANCH_PROFILING) && !defined(__CHECKER__)
-void ftrace_likely_update(struct ftrace_branch_data *f, int val, int expect);
+/*void ftrace_likely_update(struct ftrace_branch_data *f, int val, int expect);
 
 #define likely_notrace(x)	__builtin_expect(!!(x), 1)
 #define unlikely_notrace(x)	__builtin_expect(!!(x), 0)
@@ -98,11 +98,11 @@ void ftrace_likely_update(struct ftrace_branch_data *f, int val, int expect);
 			______r;					\
 		})
 
-/*
+*
  * Using __builtin_constant_p(x) to ignore cases where the return
  * value is always the same.  This idea is taken from a similar patch
  * written by Daniel Walker.
- */
+ *
 # ifndef likely
 #  define likely(x)	(__builtin_constant_p(x) ? !!(x) : __branch_check__(x, 1))
 # endif
@@ -111,10 +111,10 @@ void ftrace_likely_update(struct ftrace_branch_data *f, int val, int expect);
 # endif
 
 #ifdef CONFIG_PROFILE_ALL_BRANCHES
-/*
+*
  * "Define 'is'", Bill Clinton
  * "Define 'if'", Steven Rostedt
- */
+ *
 #define if(cond, ...) __trace_if( (cond , ## __VA_ARGS__) )
 #define __trace_if(cond) \
 	if (__builtin_constant_p((cond)) ? !!(cond) :			\
@@ -132,8 +132,8 @@ void ftrace_likely_update(struct ftrace_branch_data *f, int val, int expect);
 		______f.miss_hit[______r]++;					\
 		______r;						\
 	}))
-#endif /* CONFIG_PROFILE_ALL_BRANCHES */
-
+#endif * CONFIG_PROFILE_ALL_BRANCHES *
+*/
 #else
 # define likely(x)	__builtin_expect(!!(x), 1)
 # define unlikely(x)	__builtin_expect(!!(x), 0)

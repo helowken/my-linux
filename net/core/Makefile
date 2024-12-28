@@ -2,6 +2,9 @@
 # Makefile for the Linux networking core.
 #
 
+#TODO remove -O2
+KBUILD_CFLAGS := $(filter-out -O2,$(KBUILD_CFLAGS))
+
 obj-y := sock.o request_sock.o skbuff.o iovec.o datagram.o stream.o scm.o \
 	 gen_stats.o gen_estimator.o net_namespace.o
 

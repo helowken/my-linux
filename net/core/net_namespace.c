@@ -39,7 +39,7 @@ static __net_init int setup_net(struct net *net)
 	atomic_set(&net->count, 1);
 
 #ifdef NETNS_REFCNT_DEBUG
-	atomic_set(&net->use_count, 0);
+	//atomic_set(&net->use_count, 0);
 #endif
 
 	list_for_each_entry(ops, &pernet_list, list) {
@@ -107,11 +107,11 @@ out_free:
 static void net_free(struct net *net)
 {
 #ifdef NETNS_REFCNT_DEBUG
-	if (unlikely(atomic_read(&net->use_count) != 0)) {
+	/*if (unlikely(atomic_read(&net->use_count) != 0)) {
 		printk(KERN_EMERG "network namespace not free! Usage: %d\n",
 			atomic_read(&net->use_count));
 		return;
-	}
+	}*/
 #endif
 	kfree(net->gen);
 	kmem_cache_free(net_cachep, net);
@@ -300,7 +300,7 @@ static void unregister_pernet_operations(struct pernet_operations *ops)
 }
 
 #else
-
+/*
 static int register_pernet_operations(struct list_head *list,
 				      struct pernet_operations *ops)
 {
@@ -313,7 +313,7 @@ static void unregister_pernet_operations(struct pernet_operations *ops)
 {
 	if (ops->exit)
 		ops->exit(&init_net);
-}
+}*/
 #endif
 
 static DEFINE_IDA(net_generic_ids);

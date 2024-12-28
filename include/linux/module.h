@@ -189,7 +189,7 @@ void *__symbol_get_gpl(const char *symbol);
 	__attribute__((section("__kcrctab" sec), unused))	\
 	= (unsigned long) &__crc_##sym;
 #else
-#define __CRC_SYMBOL(sym, sec)
+//#define __CRC_SYMBOL(sym, sec)
 #endif
 
 /* For every exported symbol, place a struct in the __ksymtab section */
@@ -215,8 +215,8 @@ void *__symbol_get_gpl(const char *symbol);
 
 
 #ifdef CONFIG_UNUSED_SYMBOLS
-#define EXPORT_UNUSED_SYMBOL(sym) __EXPORT_SYMBOL(sym, "_unused")
-#define EXPORT_UNUSED_SYMBOL_GPL(sym) __EXPORT_SYMBOL(sym, "_unused_gpl")
+//#define EXPORT_UNUSED_SYMBOL(sym) __EXPORT_SYMBOL(sym, "_unused")
+//#define EXPORT_UNUSED_SYMBOL_GPL(sym) __EXPORT_SYMBOL(sym, "_unused_gpl")
 #else
 #define EXPORT_UNUSED_SYMBOL(sym)
 #define EXPORT_UNUSED_SYMBOL_GPL(sym)
@@ -457,7 +457,7 @@ static inline local_t *__module_ref_addr(struct module *mod, int cpu)
 #ifdef CONFIG_SMP
 	return (local_t *) (mod->refptr + per_cpu_offset(cpu));
 #else
-	return &mod->ref;
+	//return &mod->ref;
 #endif
 }
 
@@ -678,7 +678,7 @@ int module_add_modinfo_attrs(struct module *mod);
 void module_remove_modinfo_attrs(struct module *mod);
 
 #else /* !CONFIG_SYSFS */
-
+/*
 static inline int mod_sysfs_init(struct module *mod)
 {
 	return 0;
@@ -698,7 +698,7 @@ static inline int module_add_modinfo_attrs(struct module *mod)
 
 static inline void module_remove_modinfo_attrs(struct module *mod)
 { }
-
+*/
 #endif /* CONFIG_SYSFS */
 
 #define symbol_request(x) try_then_request_module(symbol_get(x), "symbol:" #x)
@@ -714,14 +714,14 @@ int  module_bug_finalize(const Elf_Ehdr *, const Elf_Shdr *,
 void module_bug_cleanup(struct module *);
 
 #else	/* !CONFIG_GENERIC_BUG */
-
+/*
 static inline int  module_bug_finalize(const Elf_Ehdr *hdr,
 					const Elf_Shdr *sechdrs,
 					struct module *mod)
 {
 	return 0;
 }
-static inline void module_bug_cleanup(struct module *mod) {}
+static inline void module_bug_cleanup(struct module *mod) {}*/
 #endif	/* CONFIG_GENERIC_BUG */
 
 #endif /* _LINUX_MODULE_H */

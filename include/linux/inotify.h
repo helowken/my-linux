@@ -138,7 +138,7 @@ extern int pin_inotify_watch(struct inotify_watch *);
 extern void unpin_inotify_watch(struct inotify_watch *);
 
 #else
-
+/*
 static inline void inotify_d_instantiate(struct dentry *dentry,
 					struct inode *inode)
 {
@@ -238,7 +238,7 @@ extern inline int pin_inotify_watch(struct inotify_watch *watch)
 extern inline void unpin_inotify_watch(struct inotify_watch *watch)
 {
 }
-
+*/
 #endif	/* CONFIG_INOTIFY */
 
 #endif	/* __KERNEL __ */
