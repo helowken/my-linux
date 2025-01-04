@@ -107,7 +107,7 @@ static struct kmem_cache *task_struct_cachep;
 static inline struct thread_info *alloc_thread_info(struct task_struct *tsk)
 {
 #ifdef CONFIG_DEBUG_STACK_USAGE
-	gfp_t mask = GFP_KERNEL | __GFP_ZERO;
+	//gfp_t mask = GFP_KERNEL | __GFP_ZERO;
 #else
 	gfp_t mask = GFP_KERNEL;
 #endif
@@ -253,14 +253,14 @@ static struct task_struct *dup_task_struct(struct task_struct *orig)
 	*stackend = STACK_END_MAGIC;	/* for overflow detection */
 
 #ifdef CONFIG_CC_STACKPROTECTOR
-	tsk->stack_canary = get_random_int();
+	//tsk->stack_canary = get_random_int();
 #endif
 
 	/* One for us, one for whoever does the "release_task()" (usually parent) */
 	atomic_set(&tsk->usage,2);
 	atomic_set(&tsk->fs_excl, 0);
 #ifdef CONFIG_BLK_DEV_IO_TRACE
-	tsk->btrace_seq = 0;
+	//tsk->btrace_seq = 0;
 #endif
 	tsk->splice_pipe = NULL;
 
@@ -413,9 +413,9 @@ static inline void mm_free_pgd(struct mm_struct * mm)
 	pgd_free(mm, mm->pgd);
 }
 #else
-#define dup_mmap(mm, oldmm)	(0)
+/*#define dup_mmap(mm, oldmm)	(0)
 #define mm_alloc_pgd(mm)	(0)
-#define mm_free_pgd(mm)
+#define mm_free_pgd(mm)*/
 #endif /* CONFIG_MMU */
 
 __cacheline_aligned_in_smp DEFINE_SPINLOCK(mmlist_lock);
@@ -685,7 +685,7 @@ static int copy_mm(unsigned long clone_flags, struct task_struct * tsk)
 	tsk->min_flt = tsk->maj_flt = 0;
 	tsk->nvcsw = tsk->nivcsw = 0;
 #ifdef CONFIG_DETECT_HUNG_TASK
-	tsk->last_switch_count = tsk->nvcsw + tsk->nivcsw;
+	//tsk->last_switch_count = tsk->nvcsw + tsk->nivcsw;
 #endif
 
 	tsk->mm = NULL;
@@ -948,10 +948,10 @@ static void rt_mutex_init_task(struct task_struct *p)
 }
 
 #ifdef CONFIG_MM_OWNER
-void mm_init_owner(struct mm_struct *mm, struct task_struct *p)
+/*void mm_init_owner(struct mm_struct *mm, struct task_struct *p)
 {
 	mm->owner = p;
-}
+}*/
 #endif /* CONFIG_MM_OWNER */
 
 /*
@@ -1029,8 +1029,8 @@ static struct task_struct *copy_process(unsigned long clone_flags,
 	rt_mutex_init_task(p);
 
 #ifdef CONFIG_PROVE_LOCKING
-	DEBUG_LOCKS_WARN_ON(!p->hardirqs_enabled);
-	DEBUG_LOCKS_WARN_ON(!p->softirqs_enabled);
+	/*DEBUG_LOCKS_WARN_ON(!p->hardirqs_enabled);
+	DEBUG_LOCKS_WARN_ON(!p->softirqs_enabled);*/
 #endif
 	retval = -EAGAIN;
 	if (atomic_read(&p->real_cred->user->processes) >=
@@ -1099,7 +1099,7 @@ static struct task_struct *copy_process(unsigned long clone_flags,
 	mpol_fix_fork_child_flag(p);
 #endif
 #ifdef CONFIG_TRACE_IRQFLAGS
-	p->irq_events = 0;
+	/*p->irq_events = 0;
 #ifdef __ARCH_WANT_INTERRUPTS_ON_CTXSW
 	p->hardirqs_enabled = 1;
 #else
@@ -1115,16 +1115,16 @@ static struct task_struct *copy_process(unsigned long clone_flags,
 	p->softirq_disable_ip = 0;
 	p->softirq_disable_event = 0;
 	p->hardirq_context = 0;
-	p->softirq_context = 0;
+	p->softirq_context = 0;*/
 #endif
 #ifdef CONFIG_LOCKDEP
-	p->lockdep_depth = 0; /* no locks held yet */
+	/*p->lockdep_depth = 0; /* no locks held yet */
 	p->curr_chain_key = 0;
-	p->lockdep_recursion = 0;
+	p->lockdep_recursion = 0;*/
 #endif
 
 #ifdef CONFIG_DEBUG_MUTEXES
-	p->blocked_on = NULL; /* not blocked yet */
+	//p->blocked_on = NULL; /* not blocked yet */
 #endif
 
 	p->bts = NULL;

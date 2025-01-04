@@ -73,8 +73,8 @@ static void __cpuinit early_init_intel(struct cpuinfo_x86 *c)
 	set_cpu_cap(c, X86_FEATURE_SYSENTER32);
 #else
 	/* Netburst reports 64 bytes clflush size, but does IO in 128 bytes */
-	if (c->x86 == 15 && c->x86_cache_alignment == 64)
-		c->x86_cache_alignment = 128;
+	/*if (c->x86 == 15 && c->x86_cache_alignment == 64)
+		c->x86_cache_alignment = 128;*/
 #endif
 
 	/* CPUID workaround for 0F33/0F34 CPU */
@@ -118,7 +118,7 @@ static void __cpuinit early_init_intel(struct cpuinfo_x86 *c)
 	 * Ingo Molnar reported a Pentium D (model 6) and a Xeon
 	 * (model 2) with the same problem.
 	 */
-	if (c->x86 == 15) {
+	/*if (c->x86 == 15) {
 		u64 misc_enable;
 
 		rdmsrl(MSR_IA32_MISC_ENABLE, misc_enable);
@@ -129,7 +129,7 @@ static void __cpuinit early_init_intel(struct cpuinfo_x86 *c)
 			misc_enable &= ~MSR_IA32_MISC_ENABLE_FAST_STRING;
 			wrmsrl(MSR_IA32_MISC_ENABLE, misc_enable);
 		}
-	}
+	}*/
 #endif
 }
 
@@ -139,10 +139,10 @@ static void __cpuinit early_init_intel(struct cpuinfo_x86 *c)
  *
  *	This is called before we do cpu ident work
  */
-
+/*
 int __cpuinit ppro_with_ram_bug(void)
 {
-	/* Uses data from early_cpu_detect now */
+	* Uses data from early_cpu_detect now *
 	if (boot_cpu_data.x86_vendor == X86_VENDOR_INTEL &&
 	    boot_cpu_data.x86 == 6 &&
 	    boot_cpu_data.x86_model == 1 &&
@@ -158,10 +158,10 @@ static void __cpuinit trap_init_f00f_bug(void)
 {
 	__set_fixmap(FIX_F00F_IDT, __pa(&idt_table), PAGE_KERNEL_RO);
 
-	/*
+	*
 	 * Update the IDT descriptor and reload the IDT so that
 	 * it uses the read-only mapped virtual address.
-	 */
+	 *
 	idt_descr.address = fix_to_virt(FIX_F00F_IDT);
 	load_idt(&idt_descr);
 }
@@ -170,19 +170,19 @@ static void __cpuinit trap_init_f00f_bug(void)
 static void __cpuinit intel_smp_check(struct cpuinfo_x86 *c)
 {
 #ifdef CONFIG_SMP
-	/* calling is from identify_secondary_cpu() ? */
+	* calling is from identify_secondary_cpu() ? *
 	if (c->cpu_index == boot_cpu_id)
 		return;
 
-	/*
+	*
 	 * Mask B, Pentium, but not Pentium MMX
-	 */
+	 *
 	if (c->x86 == 5 &&
 	    c->x86_mask >= 1 && c->x86_mask <= 4 &&
 	    c->x86_model <= 3) {
-		/*
+		*
 		 * Remember we have B step Pentia with bugs
-		 */
+		 *
 		WARN_ONCE(1, "WARNING: SMP operation may be unreliable"
 				    "with B stepping processors.\n");
 	}
@@ -194,12 +194,12 @@ static void __cpuinit intel_workarounds(struct cpuinfo_x86 *c)
 	unsigned long lo, hi;
 
 #ifdef CONFIG_X86_F00F_BUG
-	/*
+	*
 	 * All current models of Pentium and Pentium with MMX technology CPUs
 	 * have the F0 0F bug, which lets nonprivileged users lock up the
 	 * system.
 	 * Note that the workaround only should be initialized once...
-	 */
+	 *
 	c->f00f_bug = 0;
 	if (!paravirt_enabled() && c->x86 == 5) {
 		static int f00f_workaround_enabled;
@@ -213,17 +213,17 @@ static void __cpuinit intel_workarounds(struct cpuinfo_x86 *c)
 	}
 #endif
 
-	/*
+	*
 	 * SEP CPUID bug: Pentium Pro reports SEP but doesn't have it until
 	 * model 3 mask 3
-	 */
+	 *
 	if ((c->x86<<8 | c->x86_model<<4 | c->x86_mask) < 0x633)
 		clear_cpu_cap(c, X86_FEATURE_SEP);
 
-	/*
+	*
 	 * P4 Xeon errata 037 workaround.
 	 * Hardware prefetcher may cause stale data to be loaded into the cache.
-	 */
+	 *
 	if ((c->x86 == 15) && (c->x86_model == 1) && (c->x86_mask == 1)) {
 		rdmsr(MSR_IA32_MISC_ENABLE, lo, hi);
 		if ((lo & MSR_IA32_MISC_ENABLE_PREFETCH_DISABLE) == 0) {
@@ -234,30 +234,30 @@ static void __cpuinit intel_workarounds(struct cpuinfo_x86 *c)
 		}
 	}
 
-	/*
+	*
 	 * See if we have a good local APIC by checking for buggy Pentia,
 	 * i.e. all B steppings and the C2 stepping of P54C when using their
 	 * integrated APIC (see 11AP erratum in "Pentium Processor
 	 * Specification Update").
-	 */
+	 *
 	if (cpu_has_apic && (c->x86<<8 | c->x86_model<<4) == 0x520 &&
 	    (c->x86_mask < 0x6 || c->x86_mask == 0xb))
 		set_cpu_cap(c, X86_FEATURE_11AP);
 
 
 #ifdef CONFIG_X86_INTEL_USERCOPY
-	/*
+	*
 	 * Set up the preferred alignment for movsl bulk memory moves
-	 */
+	 *
 	switch (c->x86) {
-	case 4:		/* 486: untested */
+	case 4:		* 486: untested *
 		break;
-	case 5:		/* Old Pentia: untested */
+	case 5:		* Old Pentia: untested *
 		break;
-	case 6:		/* PII/PIII only like movsl with 8-byte alignment */
+	case 6:		* PII/PIII only like movsl with 8-byte alignment *
 		movsl_mask.mask = 7;
 		break;
-	case 15:	/* P4 is OK down to 8-byte alignment */
+	case 15:	* P4 is OK down to 8-byte alignment *
 		movsl_mask.mask = 7;
 		break;
 	}
@@ -268,7 +268,7 @@ static void __cpuinit intel_workarounds(struct cpuinfo_x86 *c)
 #endif
 
 	intel_smp_check(c);
-}
+}*/
 #else
 static void __cpuinit intel_workarounds(struct cpuinfo_x86 *c)
 {
@@ -404,7 +404,7 @@ static void __cpuinit init_intel(struct cpuinfo_x86 *c)
 	 * detectable only by also checking the cache size.
 	 * Dixon is NOT a Celeron.
 	 */
-	if (c->x86 == 6) {
+	/*if (c->x86 == 6) {
 		char *p = NULL;
 
 		switch (c->x86_model) {
@@ -437,7 +437,7 @@ static void __cpuinit init_intel(struct cpuinfo_x86 *c)
 	if (c->x86 == 15)
 		set_cpu_cap(c, X86_FEATURE_P4);
 	if (c->x86 == 6)
-		set_cpu_cap(c, X86_FEATURE_P3);
+		set_cpu_cap(c, X86_FEATURE_P3);*/
 #endif
 
 	if (!cpu_has(c, X86_FEATURE_XTOPOLOGY)) {
@@ -447,7 +447,7 @@ static void __cpuinit init_intel(struct cpuinfo_x86 *c)
 		 */
 		c->x86_max_cores = intel_num_cpu_cores(c);
 #ifdef CONFIG_X86_32
-		detect_ht(c);
+		//detect_ht(c);
 #endif
 	}
 
@@ -459,25 +459,25 @@ static void __cpuinit init_intel(struct cpuinfo_x86 *c)
 }
 
 #ifdef CONFIG_X86_32
-static unsigned int __cpuinit intel_size_cache(struct cpuinfo_x86 *c, unsigned int size)
+/*static unsigned int __cpuinit intel_size_cache(struct cpuinfo_x86 *c, unsigned int size)
 {
-	/*
+	*
 	 * Intel PIII Tualatin. This comes in two flavours.
 	 * One has 256kb of cache, the other 512. We have no way
 	 * to determine which, so we use a boottime override
 	 * for the 512kb model, and assume 256 otherwise.
-	 */
+	 *
 	if ((c->x86 == 6) && (c->x86_model == 11) && (size == 0))
 		size = 256;
 	return size;
-}
+}*/
 #endif
 
 static const struct cpu_dev __cpuinitconst intel_cpu_dev = {
 	.c_vendor	= "Intel",
 	.c_ident	= { "GenuineIntel" },
 #ifdef CONFIG_X86_32
-	.c_models = {
+	/*.c_models = {
 		{ .vendor = X86_VENDOR_INTEL, .family = 4, .model_names =
 		  {
 			  [0] = "486 DX-25/33",
@@ -526,7 +526,7 @@ static const struct cpu_dev __cpuinitconst intel_cpu_dev = {
 		  }
 		},
 	},
-	.c_size_cache	= intel_size_cache,
+	.c_size_cache	= intel_size_cache,*/
 #endif
 	.c_early_init   = early_init_intel,
 	.c_init		= init_intel,

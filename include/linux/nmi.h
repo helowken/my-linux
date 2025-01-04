@@ -20,12 +20,12 @@ extern void touch_nmi_watchdog(void);
 extern void acpi_nmi_disable(void);
 extern void acpi_nmi_enable(void);
 #else
-static inline void touch_nmi_watchdog(void)
+/*static inline void touch_nmi_watchdog(void)
 {
 	touch_softlockup_watchdog();
 }
 static inline void acpi_nmi_disable(void) { }
-static inline void acpi_nmi_enable(void) { }
+static inline void acpi_nmi_enable(void) { }*/
 #endif
 
 /*
@@ -41,10 +41,10 @@ static inline bool trigger_all_cpu_backtrace(void)
 	return true;
 }
 #else
-static inline bool trigger_all_cpu_backtrace(void)
+/*static inline bool trigger_all_cpu_backtrace(void)
 {
 	return false;
-}
+}*/
 #endif
 
 #endif

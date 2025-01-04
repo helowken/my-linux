@@ -535,7 +535,7 @@ static inline void audit_log_capset(pid_t pid, const struct cred *new,
 extern int audit_n_rules;
 extern int audit_signals;
 #else
-#define audit_finish_fork(t)
+/*#define audit_finish_fork(t)
 #define audit_alloc(t) ({ 0; })
 #define audit_free(t) do { ; } while (0)
 #define audit_syscall_entry(ta,a,b,c,d,e) do { ; } while (0)
@@ -567,7 +567,7 @@ extern int audit_signals;
 #define audit_log_capset(pid, ncr, ocr) ((void)0)
 #define audit_ptrace(t) ((void)0)
 #define audit_n_rules 0
-#define audit_signals 0
+#define audit_signals 0*/
 #endif
 
 #ifdef CONFIG_AUDIT
@@ -612,7 +612,7 @@ extern int  audit_receive_filter(int type, int pid, int uid, int seq,
 				u32 sessionid, u32 sid);
 extern int audit_enabled;
 #else
-#define audit_log(c,g,t,f,...) do { ; } while (0)
+/*#define audit_log(c,g,t,f,...) do { ; } while (0)
 #define audit_log_start(c,g,t) ({ NULL; })
 #define audit_log_vformat(b,f,a) do { ; } while (0)
 #define audit_log_format(b,f,...) do { ; } while (0)
@@ -624,7 +624,7 @@ extern int audit_enabled;
 #define audit_log_untrustedstring(a,s) do { ; } while (0)
 #define audit_log_d_path(b, p, d) do { ; } while (0)
 #define audit_log_key(b, k) do { ; } while (0)
-#define audit_enabled 0
+#define audit_enabled 0*/
 #endif
 #endif
 #endif

@@ -36,7 +36,7 @@
 		"661:\n\tlock; "
 
 #else /* ! CONFIG_SMP */
-#define LOCK_PREFIX ""
+//#define LOCK_PREFIX ""
 #endif
 
 /* This must be included *after* the definition of LOCK_PREFIX */
@@ -132,8 +132,8 @@ static inline void alternatives_smp_switch(int smp) {}
 
 struct paravirt_patch_site;
 #ifdef CONFIG_PARAVIRT
-void apply_paravirt(struct paravirt_patch_site *start,
-		    struct paravirt_patch_site *end);
+/*void apply_paravirt(struct paravirt_patch_site *start,
+		    struct paravirt_patch_site *end);*/
 #else
 static inline void apply_paravirt(struct paravirt_patch_site *start,
 				  struct paravirt_patch_site *end)

@@ -30,7 +30,7 @@ static int __init bootonly(char *str)
 }
 __setup("smp-alt-boot", bootonly);
 #else
-#define smp_alt_once 1
+//#define smp_alt_once 1
 #endif
 
 static int __initdata_or_module debug_alternative;
@@ -52,14 +52,14 @@ static int __init setup_noreplace_smp(char *str)
 __setup("noreplace-smp", setup_noreplace_smp);
 
 #ifdef CONFIG_PARAVIRT
-static int __initdata_or_module noreplace_paravirt = 0;
+/*static int __initdata_or_module noreplace_paravirt = 0;
 
 static int __init setup_noreplace_paravirt(char *str)
 {
 	noreplace_paravirt = 1;
 	return 1;
 }
-__setup("noreplace-paravirt", setup_noreplace_paravirt);
+__setup("noreplace-paravirt", setup_noreplace_paravirt);*/
 #endif
 
 #define DPRINTK(fmt, args...) if (debug_alternative) \
@@ -69,7 +69,7 @@ __setup("noreplace-paravirt", setup_noreplace_paravirt);
 /* Use inline assembly to define this because the nops are defined
    as inline assembly strings in the include files and we cannot
    get them easily into strings. */
-asm("\t" __stringify(__INITRODATA_OR_MODULE) "\nintelnops: "
+/*asm("\t" __stringify(__INITRODATA_OR_MODULE) "\nintelnops: "
 	GENERIC_NOP1 GENERIC_NOP2 GENERIC_NOP3 GENERIC_NOP4 GENERIC_NOP5 GENERIC_NOP6
 	GENERIC_NOP7 GENERIC_NOP8
     "\t.previous");
@@ -85,7 +85,7 @@ intel_nops[ASM_NOP_MAX+1] = {
 	intelnops + 1 + 2 + 3 + 4 + 5,
 	intelnops + 1 + 2 + 3 + 4 + 5 + 6,
 	intelnops + 1 + 2 + 3 + 4 + 5 + 6 + 7,
-};
+};*/
 #endif
 
 #ifdef K8_NOP1
@@ -109,7 +109,7 @@ k8_nops[ASM_NOP_MAX+1] = {
 #endif
 
 #if defined(K7_NOP1) && !defined(CONFIG_X86_64)
-asm("\t" __stringify(__INITRODATA_OR_MODULE) "\nk7nops: "
+/*asm("\t" __stringify(__INITRODATA_OR_MODULE) "\nk7nops: "
 	K7_NOP1 K7_NOP2 K7_NOP3 K7_NOP4 K7_NOP5 K7_NOP6
 	K7_NOP7 K7_NOP8
     "\t.previous");
@@ -125,7 +125,7 @@ k7_nops[ASM_NOP_MAX+1] = {
 	k7nops + 1 + 2 + 3 + 4 + 5,
 	k7nops + 1 + 2 + 3 + 4 + 5 + 6,
 	k7nops + 1 + 2 + 3 + 4 + 5 + 6 + 7,
-};
+};*/
 #endif
 
 #ifdef P6_NOP1
@@ -161,7 +161,7 @@ static const unsigned char *const *__init_or_module find_nop_table(void)
 }
 
 #else /* CONFIG_X86_64 */
-
+/*
 static const unsigned char *const *__init_or_module find_nop_table(void)
 {
 	if (boot_cpu_has(X86_FEATURE_K8))
@@ -173,7 +173,7 @@ static const unsigned char *const *__init_or_module find_nop_table(void)
 	else
 		return intel_nops;
 }
-
+*/
 #endif /* CONFIG_X86_64 */
 
 /* Use this to add nops to a buffer, then text_poke the whole buffer. */
@@ -356,7 +356,7 @@ void alternatives_smp_switch(int smp)
 	 * If this still occurs then you should see a hang
 	 * or crash shortly after this line:
 	 */
-	printk("lockdep: fixing up alternatives.\n");
+	//printk("lockdep: fixing up alternatives.\n");
 #endif
 
 	if (noreplace_smp || smp_alt_once)
@@ -393,7 +393,7 @@ void alternatives_smp_switch(int smp)
 #endif
 
 #ifdef CONFIG_PARAVIRT
-void __init_or_module apply_paravirt(struct paravirt_patch_site *start,
+/*void __init_or_module apply_paravirt(struct paravirt_patch_site *start,
 				     struct paravirt_patch_site *end)
 {
 	struct paravirt_patch_site *p;
@@ -406,20 +406,20 @@ void __init_or_module apply_paravirt(struct paravirt_patch_site *start,
 		unsigned int used;
 
 		BUG_ON(p->len > MAX_PATCH_LEN);
-		/* prep the buffer with the original instructions */
+		* prep the buffer with the original instructions *
 		memcpy(insnbuf, p->instr, p->len);
 		used = pv_init_ops.patch(p->instrtype, p->clobbers, insnbuf,
 					 (unsigned long)p->instr, p->len);
 
 		BUG_ON(used > p->len);
 
-		/* Pad the rest with nops */
+		* Pad the rest with nops *
 		add_nops(insnbuf + used, p->len - used);
 		text_poke_early(p->instr, insnbuf, p->len);
 	}
 }
 extern struct paravirt_patch_site __start_parainstructions[],
-	__stop_parainstructions[];
+	__stop_parainstructions[];*/
 #endif	/* CONFIG_PARAVIRT */
 
 void __init alternative_instructions(void)

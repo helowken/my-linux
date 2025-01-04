@@ -36,11 +36,11 @@ static struct kmem_cache *cred_jar;
  * The common credentials for the initial task's thread group
  */
 #ifdef CONFIG_KEYS
-static struct thread_group_cred init_tgcred = {
+/*static struct thread_group_cred init_tgcred = {
 	.usage	= ATOMIC_INIT(2),
 	.tgid	= 0,
 	.lock	= SPIN_LOCK_UNLOCKED,
-};
+};*/
 #endif
 
 /*
@@ -67,14 +67,14 @@ struct cred init_cred = {
 static inline void set_cred_subscribers(struct cred *cred, int n)
 {
 #ifdef CONFIG_DEBUG_CREDENTIALS
-	atomic_set(&cred->subscribers, n);
+	//atomic_set(&cred->subscribers, n);
 #endif
 }
 
 static inline int read_cred_subscribers(const struct cred *cred)
 {
 #ifdef CONFIG_DEBUG_CREDENTIALS
-	return atomic_read(&cred->subscribers);
+	//return atomic_read(&cred->subscribers);
 #else
 	return 0;
 #endif
@@ -83,9 +83,9 @@ static inline int read_cred_subscribers(const struct cred *cred)
 static inline void alter_cred_subscribers(const struct cred *_cred, int n)
 {
 #ifdef CONFIG_DEBUG_CREDENTIALS
-	struct cred *cred = (struct cred *) _cred;
+	/*struct cred *cred = (struct cred *) _cred;
 
-	atomic_add(n, &cred->subscribers);
+	atomic_add(n, &cred->subscribers);*/
 #endif
 }
 
@@ -93,7 +93,7 @@ static inline void alter_cred_subscribers(const struct cred *_cred, int n)
  * Dispose of the shared task group credentials
  */
 #ifdef CONFIG_KEYS
-static void release_tgcred_rcu(struct rcu_head *rcu)
+/*static void release_tgcred_rcu(struct rcu_head *rcu)
 {
 	struct thread_group_cred *tgcred =
 		container_of(rcu, struct thread_group_cred, rcu);
@@ -103,7 +103,7 @@ static void release_tgcred_rcu(struct rcu_head *rcu)
 	key_put(tgcred->session_keyring);
 	key_put(tgcred->process_keyring);
 	kfree(tgcred);
-}
+}*/
 #endif
 
 /*
@@ -112,10 +112,10 @@ static void release_tgcred_rcu(struct rcu_head *rcu)
 static void release_tgcred(struct cred *cred)
 {
 #ifdef CONFIG_KEYS
-	struct thread_group_cred *tgcred = cred->tgcred;
+	/*struct thread_group_cred *tgcred = cred->tgcred;
 
 	if (atomic_dec_and_test(&tgcred->usage))
-		call_rcu(&tgcred->rcu, release_tgcred_rcu);
+		call_rcu(&tgcred->rcu, release_tgcred_rcu);*/
 #endif
 }
 
@@ -129,14 +129,14 @@ static void put_cred_rcu(struct rcu_head *rcu)
 	kdebug("put_cred_rcu(%p)", cred);
 
 #ifdef CONFIG_DEBUG_CREDENTIALS
-	if (cred->magic != CRED_MAGIC_DEAD ||
+	/*if (cred->magic != CRED_MAGIC_DEAD ||
 	    atomic_read(&cred->usage) != 0 ||
 	    read_cred_subscribers(cred) != 0)
 		panic("CRED: put_cred_rcu() sees %p with"
 		      " mag %x, put %p, usage %d, subscr %d\n",
 		      cred, cred->magic, cred->put_addr,
 		      atomic_read(&cred->usage),
-		      read_cred_subscribers(cred));
+		      read_cred_subscribers(cred));*/
 #else
 	if (atomic_read(&cred->usage) != 0)
 		panic("CRED: put_cred_rcu() sees %p with usage %d\n",
@@ -167,9 +167,9 @@ void __put_cred(struct cred *cred)
 
 	BUG_ON(atomic_read(&cred->usage) != 0);
 #ifdef CONFIG_DEBUG_CREDENTIALS
-	BUG_ON(read_cred_subscribers(cred) != 0);
+	/*BUG_ON(read_cred_subscribers(cred) != 0);
 	cred->magic = CRED_MAGIC_DEAD;
-	cred->put_addr = __builtin_return_address(0);
+	cred->put_addr = __builtin_return_address(0);*/
 #endif
 	BUG_ON(cred == current->cred);
 	BUG_ON(cred == current->real_cred);
@@ -222,12 +222,12 @@ struct cred *cred_alloc_blank(void)
 		return NULL;
 
 #ifdef CONFIG_KEYS
-	new->tgcred = kzalloc(sizeof(*new->tgcred), GFP_KERNEL);
+	/*new->tgcred = kzalloc(sizeof(*new->tgcred), GFP_KERNEL);
 	if (!new->tgcred) {
 		kmem_cache_free(cred_jar, new);
 		return NULL;
 	}
-	atomic_set(&new->tgcred->usage, 1);
+	atomic_set(&new->tgcred->usage, 1);*/
 #endif
 
 	atomic_set(&new->usage, 1);
@@ -236,7 +236,7 @@ struct cred *cred_alloc_blank(void)
 		goto error;
 
 #ifdef CONFIG_DEBUG_CREDENTIALS
-	new->magic = CRED_MAGIC;
+	//new->magic = CRED_MAGIC;
 #endif
 	return new;
 
@@ -282,13 +282,13 @@ struct cred *prepare_creds(void)
 	get_uid(new->user);
 
 #ifdef CONFIG_KEYS
-	key_get(new->thread_keyring);
+	/*key_get(new->thread_keyring);
 	key_get(new->request_key_auth);
-	atomic_inc(&new->tgcred->usage);
+	atomic_inc(&new->tgcred->usage);*/
 #endif
 
 #ifdef CONFIG_SECURITY
-	new->security = NULL;
+	//new->security = NULL;
 #endif
 
 	if (security_prepare_creds(new, old, GFP_KERNEL) < 0)
@@ -312,9 +312,9 @@ struct cred *prepare_exec_creds(void)
 	struct cred *new;
 
 #ifdef CONFIG_KEYS
-	tgcred = kmalloc(sizeof(*tgcred), GFP_KERNEL);
+	/*tgcred = kmalloc(sizeof(*tgcred), GFP_KERNEL);
 	if (!tgcred)
-		return NULL;
+		return NULL;*/
 #endif
 
 	new = prepare_creds();
@@ -325,22 +325,22 @@ struct cred *prepare_exec_creds(void)
 
 #ifdef CONFIG_KEYS
 	/* newly exec'd tasks don't get a thread keyring */
-	key_put(new->thread_keyring);
+	/*key_put(new->thread_keyring);
 	new->thread_keyring = NULL;
 
-	/* create a new per-thread-group creds for all this set of threads to
-	 * share */
+	* create a new per-thread-group creds for all this set of threads to
+	 * share *
 	memcpy(tgcred, new->tgcred, sizeof(struct thread_group_cred));
 
 	atomic_set(&tgcred->usage, 1);
 	spin_lock_init(&tgcred->lock);
 
-	/* inherit the session keyring; new process keyring */
+	* inherit the session keyring; new process keyring *
 	key_get(tgcred->session_keyring);
 	tgcred->process_keyring = NULL;
 
 	release_tgcred(new);
-	new->tgcred = tgcred;
+	new->tgcred = tgcred;*/
 #endif
 
 	return new;
@@ -352,14 +352,14 @@ struct cred *prepare_exec_creds(void)
 struct cred *prepare_usermodehelper_creds(void)
 {
 #ifdef CONFIG_KEYS
-	struct thread_group_cred *tgcred = NULL;
+	//struct thread_group_cred *tgcred = NULL;
 #endif
 	struct cred *new;
 
 #ifdef CONFIG_KEYS
-	tgcred = kzalloc(sizeof(*new->tgcred), GFP_ATOMIC);
+	/*tgcred = kzalloc(sizeof(*new->tgcred), GFP_ATOMIC);
 	if (!tgcred)
-		return NULL;
+		return NULL;*/
 #endif
 
 	new = kmem_cache_alloc(cred_jar, GFP_ATOMIC);
@@ -376,17 +376,17 @@ struct cred *prepare_usermodehelper_creds(void)
 	get_uid(new->user);
 
 #ifdef CONFIG_KEYS
-	new->thread_keyring = NULL;
+	/*new->thread_keyring = NULL;
 	new->request_key_auth = NULL;
 	new->jit_keyring = KEY_REQKEY_DEFL_DEFAULT;
 
 	atomic_set(&tgcred->usage, 1);
 	spin_lock_init(&tgcred->lock);
-	new->tgcred = tgcred;
+	new->tgcred = tgcred;*/
 #endif
 
 #ifdef CONFIG_SECURITY
-	new->security = NULL;
+	//new->security = NULL;
 #endif
 	if (security_prepare_creds(new, &init_cred, GFP_ATOMIC) < 0)
 		goto error;
@@ -412,7 +412,7 @@ error:
 int copy_creds(struct task_struct *p, unsigned long clone_flags)
 {
 #ifdef CONFIG_KEYS
-	struct thread_group_cred *tgcred;
+	//struct thread_group_cred *tgcred;
 #endif
 	struct cred *new;
 	int ret;
@@ -421,7 +421,7 @@ int copy_creds(struct task_struct *p, unsigned long clone_flags)
 
 	if (
 #ifdef CONFIG_KEYS
-		!p->cred->thread_keyring &&
+		//!p->cred->thread_keyring &&
 #endif
 		clone_flags & CLONE_THREAD
 	    ) {
@@ -448,16 +448,16 @@ int copy_creds(struct task_struct *p, unsigned long clone_flags)
 #ifdef CONFIG_KEYS
 	/* new threads get their own thread keyrings if their parent already
 	 * had one */
-	if (new->thread_keyring) {
+	/*if (new->thread_keyring) {
 		key_put(new->thread_keyring);
 		new->thread_keyring = NULL;
 		if (clone_flags & CLONE_THREAD)
 			install_thread_keyring_to_cred(new);
 	}
 
-	/* we share the process and session keyrings between all the threads in
+	* we share the process and session keyrings between all the threads in
 	 * a process - this is slightly icky as we violate COW credentials a
-	 * bit */
+	 * bit *
 	if (!(clone_flags & CLONE_THREAD)) {
 		tgcred = kmalloc(sizeof(*tgcred), GFP_KERNEL);
 		if (!tgcred) {
@@ -471,7 +471,7 @@ int copy_creds(struct task_struct *p, unsigned long clone_flags)
 
 		release_tgcred(new);
 		new->tgcred = tgcred;
-	}
+	}*/
 #endif
 
 	atomic_inc(&new->user->processes);
@@ -510,9 +510,9 @@ int commit_creds(struct cred *new)
 
 	BUG_ON(task->cred != old);
 #ifdef CONFIG_DEBUG_CREDENTIALS
-	BUG_ON(read_cred_subscribers(old) < 2);
+	/*BUG_ON(read_cred_subscribers(old) < 2);
 	validate_creds(old);
-	validate_creds(new);
+	validate_creds(new);*/
 #endif
 	BUG_ON(atomic_read(&new->usage) < 1);
 
@@ -589,7 +589,7 @@ void abort_creds(struct cred *new)
 	       read_cred_subscribers(new));
 
 #ifdef CONFIG_DEBUG_CREDENTIALS
-	BUG_ON(read_cred_subscribers(new) != 0);
+	//BUG_ON(read_cred_subscribers(new) != 0);
 #endif
 	BUG_ON(atomic_read(&new->usage) < 1);
 	put_cred(new);
@@ -700,15 +700,15 @@ struct cred *prepare_kernel_cred(struct task_struct *daemon)
 	get_group_info(new->group_info);
 
 #ifdef CONFIG_KEYS
-	atomic_inc(&init_tgcred.usage);
+	/*atomic_inc(&init_tgcred.usage);
 	new->tgcred = &init_tgcred;
 	new->request_key_auth = NULL;
 	new->thread_keyring = NULL;
-	new->jit_keyring = KEY_REQKEY_DEFL_THREAD_KEYRING;
+	new->jit_keyring = KEY_REQKEY_DEFL_THREAD_KEYRING;*/
 #endif
 
 #ifdef CONFIG_SECURITY
-	new->security = NULL;
+	//new->security = NULL;
 #endif
 	if (security_prepare_creds(new, old, GFP_KERNEL) < 0)
 		goto error;
@@ -781,7 +781,7 @@ int set_create_files_as(struct cred *new, struct inode *inode)
 EXPORT_SYMBOL(set_create_files_as);
 
 #ifdef CONFIG_DEBUG_CREDENTIALS
-
+/*
 bool creds_are_invalid(const struct cred *cred)
 {
 	if (cred->magic != CRED_MAGIC)
@@ -799,9 +799,9 @@ bool creds_are_invalid(const struct cred *cred)
 }
 EXPORT_SYMBOL(creds_are_invalid);
 
-/*
+*
  * dump invalid credentials
- */
+ *
 static void dump_invalid_creds(const struct cred *cred, const char *label,
 			       const struct task_struct *tsk)
 {
@@ -830,9 +830,9 @@ static void dump_invalid_creds(const struct cred *cred, const char *label,
 #endif
 }
 
-/*
+*
  * report use of invalid credentials
- */
+ *
 void __invalid_creds(const struct cred *cred, const char *file, unsigned line)
 {
 	printk(KERN_ERR "CRED: Invalid credentials\n");
@@ -842,9 +842,9 @@ void __invalid_creds(const struct cred *cred, const char *file, unsigned line)
 }
 EXPORT_SYMBOL(__invalid_creds);
 
-/*
+*
  * check the credentials on a process
- */
+ *
 void __validate_process_creds(struct task_struct *tsk,
 			      const char *file, unsigned line)
 {
@@ -874,9 +874,9 @@ invalid_creds:
 }
 EXPORT_SYMBOL(__validate_process_creds);
 
-/*
+*
  * check creds for do_exit()
- */
+ *
 void validate_creds_for_do_exit(struct task_struct *tsk)
 {
 	kdebug("validate_creds_for_do_exit(%p,%p{%d,%d})",
@@ -886,5 +886,5 @@ void validate_creds_for_do_exit(struct task_struct *tsk)
 
 	__validate_process_creds(tsk, __FILE__, __LINE__);
 }
-
+*/
 #endif /* CONFIG_DEBUG_CREDENTIALS */

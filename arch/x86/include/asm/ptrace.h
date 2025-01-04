@@ -160,7 +160,7 @@ static inline unsigned long regs_return_value(struct pt_regs *regs)
 static inline int user_mode(struct pt_regs *regs)
 {
 #ifdef CONFIG_X86_32
-	return (regs->cs & SEGMENT_RPL_MASK) == USER_RPL;
+	//return (regs->cs & SEGMENT_RPL_MASK) == USER_RPL;
 #else
 	return !!(regs->cs & 3);
 #endif
@@ -169,8 +169,8 @@ static inline int user_mode(struct pt_regs *regs)
 static inline int user_mode_vm(struct pt_regs *regs)
 {
 #ifdef CONFIG_X86_32
-	return ((regs->cs & SEGMENT_RPL_MASK) | (regs->flags & X86_VM_MASK)) >=
-		USER_RPL;
+	/*return ((regs->cs & SEGMENT_RPL_MASK) | (regs->flags & X86_VM_MASK)) >=
+		USER_RPL;*/
 #else
 	return user_mode(regs);
 #endif
@@ -179,7 +179,7 @@ static inline int user_mode_vm(struct pt_regs *regs)
 static inline int v8086_mode(struct pt_regs *regs)
 {
 #ifdef CONFIG_X86_32
-	return (regs->flags & X86_VM_MASK);
+	//return (regs->flags & X86_VM_MASK);
 #else
 	return 0;	/* No V86 mode support in long mode */
 #endif
@@ -195,7 +195,7 @@ static inline int v8086_mode(struct pt_regs *regs)
 static inline unsigned long kernel_stack_pointer(struct pt_regs *regs)
 {
 #ifdef CONFIG_X86_32
-	return (unsigned long)(&regs->sp);
+	//return (unsigned long)(&regs->sp);
 #else
 	return regs->sp;
 #endif
@@ -227,7 +227,7 @@ extern void user_enable_block_step(struct task_struct *);
 #ifdef CONFIG_X86_DEBUGCTLMSR
 #define arch_has_block_step()	(1)
 #else
-#define arch_has_block_step()	(boot_cpu_data.x86 >= 6)
+//#define arch_has_block_step()	(boot_cpu_data.x86 >= 6)
 #endif
 
 struct user_desc;
@@ -237,9 +237,9 @@ extern int do_set_thread_area(struct task_struct *p, int idx,
 			      struct user_desc __user *info, int can_allocate);
 
 #ifdef CONFIG_X86_PTRACE_BTS
-extern void ptrace_bts_untrace(struct task_struct *tsk);
+/*extern void ptrace_bts_untrace(struct task_struct *tsk);
 
-#define arch_ptrace_untrace(tsk)	ptrace_bts_untrace(tsk)
+#define arch_ptrace_untrace(tsk)	ptrace_bts_untrace(tsk)*/
 #endif /* CONFIG_X86_PTRACE_BTS */
 
 #endif /* __KERNEL__ */

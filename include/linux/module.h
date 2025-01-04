@@ -495,7 +495,7 @@ static inline int try_module_get(struct module *module)
 extern void module_put(struct module *module);
 
 #else /*!CONFIG_MODULE_UNLOAD*/
-static inline int try_module_get(struct module *module)
+/*static inline int try_module_get(struct module *module)
 {
 	return !module || module_is_live(module);
 }
@@ -507,7 +507,7 @@ static inline void __module_get(struct module *module)
 }
 #define symbol_put(x) do { } while(0)
 #define symbol_put_addr(p) do { } while(0)
-
+*/
 #endif /* CONFIG_MODULE_UNLOAD */
 int use_module(struct module *a, struct module *b);
 

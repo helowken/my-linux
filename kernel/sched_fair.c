@@ -96,7 +96,7 @@ static inline struct rq *rq_of(struct cfs_rq *cfs_rq)
 static inline struct task_struct *task_of(struct sched_entity *se)
 {
 #ifdef CONFIG_SCHED_DEBUG
-	WARN_ON_ONCE(!entity_is_task(se));
+	//WARN_ON_ONCE(!entity_is_task(se));
 #endif
 	return container_of(se, struct task_struct, se);
 }
@@ -193,7 +193,7 @@ find_matching_se(struct sched_entity **se, struct sched_entity **pse)
 }
 
 #else	/* !CONFIG_FAIR_GROUP_SCHED */
-
+/*
 static inline struct task_struct *task_of(struct sched_entity *se)
 {
 	return container_of(se, struct task_struct, se);
@@ -222,7 +222,7 @@ static inline struct cfs_rq *cfs_rq_of(struct sched_entity *se)
 	return &rq->cfs;
 }
 
-/* runqueue "owned" by this group */
+* runqueue "owned" by this group *
 static inline struct cfs_rq *group_cfs_rq(struct sched_entity *grp)
 {
 	return NULL;
@@ -251,7 +251,7 @@ static inline void
 find_matching_se(struct sched_entity **se, struct sched_entity **pse)
 {
 }
-
+*/
 #endif	/* CONFIG_FAIR_GROUP_SCHED */
 
 
@@ -386,7 +386,7 @@ static struct sched_entity *__pick_last_entity(struct cfs_rq *cfs_rq)
  */
 
 #ifdef CONFIG_SCHED_DEBUG
-int sched_nr_latency_handler(struct ctl_table *table, int write,
+/*int sched_nr_latency_handler(struct ctl_table *table, int write,
 		void __user *buffer, size_t *lenp,
 		loff_t *ppos)
 {
@@ -399,7 +399,7 @@ int sched_nr_latency_handler(struct ctl_table *table, int write,
 					sysctl_sched_min_granularity);
 
 	return 0;
-}
+}*/
 #endif
 
 /*
@@ -551,10 +551,10 @@ update_stats_wait_end(struct cfs_rq *cfs_rq, struct sched_entity *se)
 	schedstat_set(se->wait_sum, se->wait_sum +
 			rq_of(cfs_rq)->clock - se->wait_start);
 #ifdef CONFIG_SCHEDSTATS
-	if (entity_is_task(se)) {
+	/*if (entity_is_task(se)) {
 		trace_sched_stat_wait(task_of(se),
 			rq_of(cfs_rq)->clock - se->wait_start);
-	}
+	}*/
 #endif
 	schedstat_set(se->wait_start, 0);
 }
@@ -593,10 +593,10 @@ add_cfs_task_weight(struct cfs_rq *cfs_rq, unsigned long weight)
 	cfs_rq->task_weight += weight;
 }
 #else
-static inline void
+/*static inline void
 add_cfs_task_weight(struct cfs_rq *cfs_rq, unsigned long weight)
 {
-}
+}*/
 #endif
 
 static void
@@ -630,7 +630,7 @@ account_entity_dequeue(struct cfs_rq *cfs_rq, struct sched_entity *se)
 static void enqueue_sleeper(struct cfs_rq *cfs_rq, struct sched_entity *se)
 {
 #ifdef CONFIG_SCHEDSTATS
-	struct task_struct *tsk = NULL;
+	/*struct task_struct *tsk = NULL;
 
 	if (entity_is_task(se))
 		tsk = task_of(se);
@@ -671,11 +671,11 @@ static void enqueue_sleeper(struct cfs_rq *cfs_rq, struct sched_entity *se)
 				trace_sched_stat_iowait(tsk, delta);
 			}
 
-			/*
+			*
 			 * Blocking time is in units of nanosecs, so shift by
 			 * 20 to get a milliseconds-range estimation of the
 			 * amount of time that the task spent sleeping:
-			 */
+			 *
 			if (unlikely(prof_on == SLEEP_PROFILING)) {
 				profile_hits(SLEEP_PROFILING,
 						(void *)get_wchan(tsk),
@@ -683,20 +683,20 @@ static void enqueue_sleeper(struct cfs_rq *cfs_rq, struct sched_entity *se)
 			}
 			account_scheduler_latency(tsk, delta >> 10, 0);
 		}
-	}
+	}*/
 #endif
 }
 
 static void check_spread(struct cfs_rq *cfs_rq, struct sched_entity *se)
 {
 #ifdef CONFIG_SCHED_DEBUG
-	s64 d = se->vruntime - cfs_rq->min_vruntime;
+	/*s64 d = se->vruntime - cfs_rq->min_vruntime;
 
 	if (d < 0)
 		d = -d;
 
 	if (d > 3*sysctl_sched_latency)
-		schedstat_inc(cfs_rq, nr_spread_over);
+		schedstat_inc(cfs_rq, nr_spread_over);*/
 #endif
 }
 
@@ -800,14 +800,14 @@ dequeue_entity(struct cfs_rq *cfs_rq, struct sched_entity *se, int sleep)
 	update_stats_dequeue(cfs_rq, se);
 	if (sleep) {
 #ifdef CONFIG_SCHEDSTATS
-		if (entity_is_task(se)) {
+		/*if (entity_is_task(se)) {
 			struct task_struct *tsk = task_of(se);
 
 			if (tsk->state & TASK_INTERRUPTIBLE)
 				se->sleep_start = rq_of(cfs_rq)->clock;
 			if (tsk->state & TASK_UNINTERRUPTIBLE)
 				se->block_start = rq_of(cfs_rq)->clock;
-		}
+		}*/
 #endif
 	}
 
@@ -889,10 +889,10 @@ set_next_entity(struct cfs_rq *cfs_rq, struct sched_entity *se)
 	 * least twice that of our own weight (i.e. dont track it
 	 * when there are only lesser-weight tasks around):
 	 */
-	if (rq_of(cfs_rq)->load.weight >= 2*se->load.weight) {
+	/*if (rq_of(cfs_rq)->load.weight >= 2*se->load.weight) {
 		se->slice_max = max(se->slice_max,
 			se->sum_exec_runtime - se->prev_sum_exec_runtime);
-	}
+	}*/
 #endif
 	se->prev_sum_exec_runtime = se->sum_exec_runtime;
 }
@@ -1016,14 +1016,14 @@ static void hrtick_update(struct rq *rq)
 		hrtick_start_fair(rq, curr);
 }
 #else /* !CONFIG_SCHED_HRTICK */
-static inline void
+/*static inline void
 hrtick_start_fair(struct rq *rq, struct task_struct *p)
 {
 }
 
 static inline void hrtick_update(struct rq *rq)
 {
-}
+}*/
 #endif
 
 /*
@@ -1207,13 +1207,13 @@ static long effective_load(struct task_group *tg, int cpu,
 }
 
 #else
-
+/*
 static inline unsigned long effective_load(struct task_group *tg, int cpu,
 		unsigned long wl, unsigned long wg)
 {
 	return wl;
 }
-
+*/
 #endif
 
 static int wake_affine(struct sched_domain *sd, struct task_struct *p, int sync)
@@ -1913,7 +1913,7 @@ load_balance_fair(struct rq *this_rq, int this_cpu, struct rq *busiest,
 	return max_load_move - rem_load_move;
 }
 #else
-static unsigned long
+/*static unsigned long
 load_balance_fair(struct rq *this_rq, int this_cpu, struct rq *busiest,
 		  unsigned long max_load_move,
 		  struct sched_domain *sd, enum cpu_idle_type idle,
@@ -1922,7 +1922,7 @@ load_balance_fair(struct rq *this_rq, int this_cpu, struct rq *busiest,
 	return __load_balance_fair(this_rq, this_cpu, busiest,
 			max_load_move, sd, idle, all_pinned,
 			this_best_prio, &busiest->cfs);
-}
+}*/
 #endif
 
 static int
@@ -2130,7 +2130,7 @@ static const struct sched_class fair_sched_class = {
 };
 
 #ifdef CONFIG_SCHED_DEBUG
-static void print_cfs_stats(struct seq_file *m, int cpu)
+/*static void print_cfs_stats(struct seq_file *m, int cpu)
 {
 	struct cfs_rq *cfs_rq;
 
@@ -2138,5 +2138,5 @@ static void print_cfs_stats(struct seq_file *m, int cpu)
 	for_each_leaf_cfs_rq(cpu_rq(cpu), cfs_rq)
 		print_cfs_rq(m, cpu, cfs_rq);
 	rcu_read_unlock();
-}
+}*/
 #endif

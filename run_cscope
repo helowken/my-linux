@@ -80,5 +80,4 @@ ctags -I __THROW -I __THROWNL -I __attribute_pure__ -I __nonnull \
 	#--regex-c++="/^[ \\t]*EXPORT_SYMBOL[^\(]*\(([^)]+)\);/d/p,proto,/e" \
 
 
-rm -f $files
 

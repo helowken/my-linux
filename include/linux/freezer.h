@@ -64,7 +64,7 @@ extern bool freeze_task(struct task_struct *p, bool sig_only);
 extern void cancel_freezing(struct task_struct *p);
 
 #ifdef CONFIG_CGROUP_FREEZER
-extern int cgroup_freezing_or_frozen(struct task_struct *task);
+//extern int cgroup_freezing_or_frozen(struct task_struct *task);
 #else /* !CONFIG_CGROUP_FREEZER */
 static inline int cgroup_freezing_or_frozen(struct task_struct *task)
 {
@@ -164,7 +164,7 @@ static inline void set_freezable_with_signal(void)
 	__retval;							\
 })
 #else /* !CONFIG_FREEZER */
-static inline int frozen(struct task_struct *p) { return 0; }
+/*static inline int frozen(struct task_struct *p) { return 0; }
 static inline int freezing(struct task_struct *p) { return 0; }
 static inline void set_freeze_flag(struct task_struct *p) {}
 static inline void clear_freeze_flag(struct task_struct *p) {}
@@ -187,7 +187,7 @@ static inline void set_freezable_with_signal(void) {}
 
 #define wait_event_freezable_timeout(wq, condition, timeout)		\
 		wait_event_interruptible_timeout(wq, condition, timeout)
-
+*/
 #endif /* !CONFIG_FREEZER */
 
 #endif	/* FREEZER_H_INCLUDED */

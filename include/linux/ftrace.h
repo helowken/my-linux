@@ -15,7 +15,7 @@
 #include <asm/ftrace.h>
 
 #ifdef CONFIG_FUNCTION_TRACER
-
+/*
 extern int ftrace_enabled;
 extern int
 ftrace_enable_sysctl(struct ctl_table *table, int write,
@@ -31,56 +31,56 @@ struct ftrace_ops {
 
 extern int function_trace_stop;
 
-/*
+*
  * Type of the current tracing.
- */
+ *
 enum ftrace_tracing_type_t {
-	FTRACE_TYPE_ENTER = 0, /* Hook the call of the function */
-	FTRACE_TYPE_RETURN,	/* Hook the return of the function */
+	FTRACE_TYPE_ENTER = 0, * Hook the call of the function *
+	FTRACE_TYPE_RETURN,	* Hook the return of the function *
 };
 
-/* Current tracing type, default is FTRACE_TYPE_ENTER */
+* Current tracing type, default is FTRACE_TYPE_ENTER *
 extern enum ftrace_tracing_type_t ftrace_tracing_type;
 
-/**
+**
  * ftrace_stop - stop function tracer.
  *
  * A quick way to stop the function tracer. Note this an on off switch,
  * it is not something that is recursive like preempt_disable.
  * This does not disable the calling of mcount, it only stops the
  * calling of functions from mcount.
- */
+ *
 static inline void ftrace_stop(void)
 {
 	function_trace_stop = 1;
 }
 
-/**
+**
  * ftrace_start - start the function tracer.
  *
  * This function is the inverse of ftrace_stop. This does not enable
  * the function tracing if the function tracer is disabled. This only
  * sets the function tracer flag to continue calling the functions
  * from mcount.
- */
+ *
 static inline void ftrace_start(void)
 {
 	function_trace_stop = 0;
 }
 
-/*
+*
  * The ftrace_ops must be a static and should also
  * be read_mostly.  These functions do modify read_mostly variables
  * so use them sparely. Never free an ftrace_op or modify the
  * next pointer after it has been registered. Even after unregistering
  * it, the next pointer may still be used internally.
- */
+ *
 int register_ftrace_function(struct ftrace_ops *ops);
 int unregister_ftrace_function(struct ftrace_ops *ops);
 void clear_ftrace_function(void);
 
 extern void ftrace_stub(unsigned long a0, unsigned long a1);
-
+*/
 #else /* !CONFIG_FUNCTION_TRACER */
 # define register_ftrace_function(ops) do { } while (0)
 # define unregister_ftrace_function(ops) do { } while (0)
@@ -91,11 +91,11 @@ static inline void ftrace_start(void) { }
 #endif /* CONFIG_FUNCTION_TRACER */
 
 #ifdef CONFIG_STACK_TRACER
-extern int stack_tracer_enabled;
+/*extern int stack_tracer_enabled;
 int
 stack_trace_sysctl(struct ctl_table *table, int write,
 		   void __user *buffer, size_t *lenp,
-		   loff_t *ppos);
+		   loff_t *ppos);*/
 #endif
 
 struct ftrace_func_command {
@@ -106,7 +106,7 @@ struct ftrace_func_command {
 };
 
 #ifdef CONFIG_DYNAMIC_FTRACE
-
+/*
 int ftrace_arch_code_modify_prepare(void);
 int ftrace_arch_code_modify_post_process(void);
 
@@ -146,7 +146,7 @@ enum {
 
 struct dyn_ftrace {
 	union {
-		unsigned long		ip; /* address of mcount call-site */
+		unsigned long		ip; * address of mcount call-site *
 		struct dyn_ftrace	*freelist;
 	};
 	union {
@@ -162,7 +162,7 @@ void ftrace_set_filter(unsigned char *buf, int len, int reset);
 int register_ftrace_command(struct ftrace_func_command *cmd);
 int unregister_ftrace_command(struct ftrace_func_command *cmd);
 
-/* defined in arch */
+* defined in arch *
 extern int ftrace_ip_converted(unsigned long ip);
 extern int ftrace_dyn_arch_init(void *data);
 extern int ftrace_update_ftrace_func(ftrace_func_t func);
@@ -182,7 +182,7 @@ static inline int ftrace_enable_ftrace_graph_caller(void) { return 0; }
 static inline int ftrace_disable_ftrace_graph_caller(void) { return 0; }
 #endif
 
-/**
+**
  * ftrace_make_nop - convert code into nop
  * @mod: module structure if called by module load initialization
  * @rec: the mcount call site record
@@ -202,11 +202,11 @@ static inline int ftrace_disable_ftrace_graph_caller(void) { return 0; }
  *  -EINVAL on a failed compare of the contents
  *  -EPERM  on error writing to the location
  * Any other value will be considered a failure.
- */
+ *
 extern int ftrace_make_nop(struct module *mod,
 			   struct dyn_ftrace *rec, unsigned long addr);
 
-/**
+**
  * ftrace_make_call - convert a nop call site into a call to addr
  * @rec: the mcount call site record
  * @addr: the address that the call site should call
@@ -225,16 +225,16 @@ extern int ftrace_make_nop(struct module *mod,
  *  -EINVAL on a failed compare of the contents
  *  -EPERM  on error writing to the location
  * Any other value will be considered a failure.
- */
+ *
 extern int ftrace_make_call(struct dyn_ftrace *rec, unsigned long addr);
 
-/* May be defined in arch */
+* May be defined in arch *
 extern int ftrace_arch_read_dyn_info(char *buf, int size);
 
 extern int skip_trace(unsigned long ip);
 
 extern void ftrace_disable_daemon(void);
-extern void ftrace_enable_daemon(void);
+extern void ftrace_enable_daemon(void);*/
 #else
 # define skip_trace(ip)				({ 0; })
 # define ftrace_force_update()			({ 0; })
@@ -258,7 +258,7 @@ void ftrace_kill(void);
 static inline void tracer_disable(void)
 {
 #ifdef CONFIG_FUNCTION_TRACER
-	ftrace_enabled = 0;
+	//ftrace_enabled = 0;
 #endif
 }
 
@@ -270,9 +270,9 @@ static inline void tracer_disable(void)
 static inline int __ftrace_enabled_save(void)
 {
 #ifdef CONFIG_FUNCTION_TRACER
-	int saved_ftrace_enabled = ftrace_enabled;
+	/*int saved_ftrace_enabled = ftrace_enabled;
 	ftrace_enabled = 0;
-	return saved_ftrace_enabled;
+	return saved_ftrace_enabled;*/
 #else
 	return 0;
 #endif
@@ -281,7 +281,7 @@ static inline int __ftrace_enabled_save(void)
 static inline void __ftrace_enabled_restore(int enabled)
 {
 #ifdef CONFIG_FUNCTION_TRACER
-	ftrace_enabled = enabled;
+	//ftrace_enabled = enabled;
 #endif
 }
 
@@ -295,34 +295,34 @@ static inline void __ftrace_enabled_restore(int enabled)
 #  define CALLER_ADDR5 ((unsigned long)__builtin_return_address(5))
 #  define CALLER_ADDR6 ((unsigned long)__builtin_return_address(6))
 # else
-#  define CALLER_ADDR0 ((unsigned long)__builtin_return_address(0))
+/*#  define CALLER_ADDR0 ((unsigned long)__builtin_return_address(0))
 #  define CALLER_ADDR1 0UL
 #  define CALLER_ADDR2 0UL
 #  define CALLER_ADDR3 0UL
 #  define CALLER_ADDR4 0UL
 #  define CALLER_ADDR5 0UL
-#  define CALLER_ADDR6 0UL
+#  define CALLER_ADDR6 0UL*/
 # endif
 #endif /* ifndef HAVE_ARCH_CALLER_ADDR */
 
 #ifdef CONFIG_IRQSOFF_TRACER
-  extern void time_hardirqs_on(unsigned long a0, unsigned long a1);
-  extern void time_hardirqs_off(unsigned long a0, unsigned long a1);
+  //extern void time_hardirqs_on(unsigned long a0, unsigned long a1);
+  //extern void time_hardirqs_off(unsigned long a0, unsigned long a1);
 #else
 # define time_hardirqs_on(a0, a1)		do { } while (0)
 # define time_hardirqs_off(a0, a1)		do { } while (0)
 #endif
 
 #ifdef CONFIG_PREEMPT_TRACER
-  extern void trace_preempt_on(unsigned long a0, unsigned long a1);
-  extern void trace_preempt_off(unsigned long a0, unsigned long a1);
+  //extern void trace_preempt_on(unsigned long a0, unsigned long a1);
+  //extern void trace_preempt_off(unsigned long a0, unsigned long a1);
 #else
 # define trace_preempt_on(a0, a1)		do { } while (0)
 # define trace_preempt_off(a0, a1)		do { } while (0)
 #endif
 
 #ifdef CONFIG_FTRACE_MCOUNT_RECORD
-extern void ftrace_init(void);
+//extern void ftrace_init(void);
 #else
 static inline void ftrace_init(void) { }
 #endif
@@ -350,13 +350,13 @@ struct ftrace_graph_ret {
 #ifdef CONFIG_FUNCTION_GRAPH_TRACER
 
 /* for init task */
-#define INIT_FTRACE_GRAPH		.ret_stack = NULL,
+/*#define INIT_FTRACE_GRAPH		.ret_stack = NULL,
 
-/*
+*
  * Stack of return addresses for functions
  * of a thread.
  * Used in struct thread_info
- */
+ *
 struct ftrace_ret_stack {
 	unsigned long ret;
 	unsigned long func;
@@ -365,46 +365,46 @@ struct ftrace_ret_stack {
 	unsigned long fp;
 };
 
-/*
+*
  * Primary handler of a function return.
  * It relays on ftrace_return_to_handler.
  * Defined in entry_32/64.S
- */
+ *
 extern void return_to_handler(void);
 
 extern int
 ftrace_push_return_trace(unsigned long ret, unsigned long func, int *depth,
 			 unsigned long frame_pointer);
 
-/*
+*
  * Sometimes we don't want to trace a function with the function
  * graph tracer but we want them to keep traced by the usual function
  * tracer if the function graph tracer is not configured.
- */
+ *
 #define __notrace_funcgraph		notrace
 
-/*
+*
  * We want to which function is an entrypoint of a hardirq.
  * That will help us to put a signal on output.
- */
+ *
 #define __irq_entry		 __attribute__((__section__(".irqentry.text")))
 
-/* Limits of hardirq entrypoints */
+* Limits of hardirq entrypoints *
 extern char __irqentry_text_start[];
 extern char __irqentry_text_end[];
 
 #define FTRACE_RETFUNC_DEPTH 50
 #define FTRACE_RETSTACK_ALLOC_SIZE 32
-/* Type of the callback handlers for tracing function graph*/
-typedef void (*trace_func_graph_ret_t)(struct ftrace_graph_ret *); /* return */
-typedef int (*trace_func_graph_ent_t)(struct ftrace_graph_ent *); /* entry */
+* Type of the callback handlers for tracing function graph*
+typedef void (*trace_func_graph_ret_t)(struct ftrace_graph_ret *); * return *
+typedef int (*trace_func_graph_ent_t)(struct ftrace_graph_ent *); * entry *
 
 extern int register_ftrace_graph(trace_func_graph_ret_t retfunc,
 				trace_func_graph_ent_t entryfunc);
 
 extern void ftrace_graph_stop(void);
 
-/* The current handlers in use */
+* The current handlers in use *
 extern trace_func_graph_ret_t ftrace_graph_return;
 extern trace_func_graph_ent_t ftrace_graph_entry;
 
@@ -426,7 +426,7 @@ static inline void pause_graph_tracing(void)
 static inline void unpause_graph_tracing(void)
 {
 	atomic_dec(&current->tracing_graph_pause);
-}
+}*/
 #else /* !CONFIG_FUNCTION_GRAPH_TRACER */
 
 #define __notrace_funcgraph
@@ -448,7 +448,7 @@ static inline void unpause_graph_tracing(void) { }
 #ifdef CONFIG_TRACING
 
 /* flags for current->trace */
-enum {
+/*enum {
 	TSK_TRACE_FL_TRACE_BIT	= 0,
 	TSK_TRACE_FL_GRAPH_BIT	= 1,
 };
@@ -492,7 +492,7 @@ extern int ftrace_dump_on_oops;
 #ifdef CONFIG_PREEMPT
 #define INIT_TRACE_RECURSION		.trace_recursion = 0,
 #endif
-
+*/
 #endif /* CONFIG_TRACING */
 
 #ifndef INIT_TRACE_RECURSION
@@ -501,8 +501,8 @@ extern int ftrace_dump_on_oops;
 
 #ifdef CONFIG_HW_BRANCH_TRACER
 
-void trace_hw_branch(u64 from, u64 to);
-void trace_hw_branch_oops(void);
+//void trace_hw_branch(u64 from, u64 to);
+//void trace_hw_branch_oops(void);
 
 #else /* CONFIG_HW_BRANCH_TRACER */
 

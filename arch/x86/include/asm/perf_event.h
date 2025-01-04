@@ -101,8 +101,8 @@ extern void perf_events_lapic_init(void);
 #define PERF_EVENT_INDEX_OFFSET			0
 
 #else
-static inline void init_hw_perf_events(void)		{ }
-static inline void perf_events_lapic_init(void)	{ }
+//static inline void init_hw_perf_events(void)		{ }
+//static inline void perf_events_lapic_init(void)	{ }
 #endif
 
 #endif /* _ASM_X86_PERF_EVENT_H */

@@ -18,6 +18,7 @@
 
 #ifdef CONFIG_X86_32
 /*
+*
  *	B step AMD K6 before B 9730xxxx have hardware bugs that can cause
  *	misexecution of code under Linux. Owners of such processors should
  *	contact AMD for precise details and a CPU swap.
@@ -28,20 +29,20 @@
  *	The following test is erm.. interesting. AMD neglected to up
  *	the chip setting when fixing the bug but they also tweaked some
  *	performance at the same time..
- */
+ *
 
 extern void vide(void);
 __asm__(".align 4\nvide: ret");
 
 static void __cpuinit init_amd_k5(struct cpuinfo_x86 *c)
 {
-/*
+*
  * General Systems BIOSen alias the cpu frequency registers
  * of the Elan at 0x000df000. Unfortuantly, one of the Linux
  * drivers subsequently pokes it, and changes the CPU speed.
  * Workaround : Remove the unneeded alias.
- */
-#define CBAR		(0xfffc) /* Configuration Base Address  (32-bit) */
+ *
+#define CBAR		(0xfffc) * Configuration Base Address  (32-bit) *
 #define CBAR_ENB	(0x80000000)
 #define CBAR_KEY	(0X000000CB)
 	if (c->x86_model == 9 || c->x86_model == 10) {
@@ -57,7 +58,7 @@ static void __cpuinit init_amd_k6(struct cpuinfo_x86 *c)
 	int mbytes = num_physpages >> (20-PAGE_SHIFT);
 
 	if (c->x86_model < 6) {
-		/* Based on AMD doc 20734R - June 2000 */
+		* Based on AMD doc 20734R - June 2000 *
 		if (c->x86_model == 0) {
 			clear_cpu_cap(c, X86_FEATURE_APIC);
 			set_cpu_cap(c, X86_FEATURE_PGE);
@@ -73,10 +74,10 @@ static void __cpuinit init_amd_k6(struct cpuinfo_x86 *c)
 
 		printk(KERN_INFO "AMD K6 stepping B detected - ");
 
-		/*
+		*
 		 * It looks like AMD fixed the 2.6.2 bug and improved indirect
 		 * calls at the same time.
-		 */
+		 *
 
 		n = K6_BUG_LOOP;
 		f_vide = vide;
@@ -94,10 +95,10 @@ static void __cpuinit init_amd_k6(struct cpuinfo_x86 *c)
 		printk(KERN_INFO "Please see http://membres.lycos.fr/poulot/k6bug.html\n");
 	}
 
-	/* K6 with old style WHCR */
+	* K6 with old style WHCR *
 	if (c->x86_model < 8 ||
 	   (c->x86_model == 8 && c->x86_mask < 8)) {
-		/* We can only write allocate on the low 508Mb */
+		* We can only write allocate on the low 508Mb *
 		if (mbytes > 508)
 			mbytes = 508;
 
@@ -117,7 +118,7 @@ static void __cpuinit init_amd_k6(struct cpuinfo_x86 *c)
 
 	if ((c->x86_model == 8 && c->x86_mask > 7) ||
 	     c->x86_model == 9 || c->x86_model == 13) {
-		/* The more serious chips .. */
+		* The more serious chips .. *
 
 		if (mbytes > 4092)
 			mbytes = 4092;
@@ -138,8 +139,8 @@ static void __cpuinit init_amd_k6(struct cpuinfo_x86 *c)
 	}
 
 	if (c->x86_model == 10) {
-		/* AMD Geode LX is model 10 */
-		/* placeholder for any needed mods */
+		* AMD Geode LX is model 10 *
+		* placeholder for any needed mods *
 		return;
 	}
 }
@@ -147,42 +148,42 @@ static void __cpuinit init_amd_k6(struct cpuinfo_x86 *c)
 static void __cpuinit amd_k7_smp_check(struct cpuinfo_x86 *c)
 {
 #ifdef CONFIG_SMP
-	/* calling is from identify_secondary_cpu() ? */
+	* calling is from identify_secondary_cpu() ? *
 	if (c->cpu_index == boot_cpu_id)
 		return;
 
-	/*
+	*
 	 * Certain Athlons might work (for various values of 'work') in SMP
 	 * but they are not certified as MP capable.
-	 */
-	/* Athlon 660/661 is valid. */
+	 *
+	* Athlon 660/661 is valid. *
 	if ((c->x86_model == 6) && ((c->x86_mask == 0) ||
 	    (c->x86_mask == 1)))
 		goto valid_k7;
 
-	/* Duron 670 is valid */
+	* Duron 670 is valid *
 	if ((c->x86_model == 7) && (c->x86_mask == 0))
 		goto valid_k7;
 
-	/*
+	*
 	 * Athlon 662, Duron 671, and Athlon >model 7 have capability
 	 * bit. It's worth noting that the A5 stepping (662) of some
 	 * Athlon XP's have the MP bit set.
 	 * See http://www.heise.de/newsticker/data/jow-18.10.01-000 for
 	 * more.
-	 */
+	 *
 	if (((c->x86_model == 6) && (c->x86_mask >= 2)) ||
 	    ((c->x86_model == 7) && (c->x86_mask >= 1)) ||
 	     (c->x86_model > 7))
 		if (cpu_has_mp)
 			goto valid_k7;
 
-	/* If we get here, not a certified SMP capable AMD system. */
+	* If we get here, not a certified SMP capable AMD system. *
 
-	/*
+	*
 	 * Don't taint if we are running SMP kernel on a single non-MP
 	 * approved Athlon
-	 */
+	 *
 	WARN_ONCE(1, "WARNING: This combination of AMD"
 		" processors is not suitable for SMP.\n");
 	if (!test_taint(TAINT_UNSAFE_SMP))
@@ -197,11 +198,11 @@ static void __cpuinit init_amd_k7(struct cpuinfo_x86 *c)
 {
 	u32 l, h;
 
-	/*
+	*
 	 * Bit 15 of Athlon specific MSR 15, needs to be 0
 	 * to enable SSE on Palomino/Morgan/Barton CPU's.
 	 * If the BIOS didn't enable it already, enable it here.
-	 */
+	 *
 	if (c->x86_model >= 6 && c->x86_model <= 10) {
 		if (!cpu_has(c, X86_FEATURE_XMM)) {
 			printk(KERN_INFO "Enabling disabled K7/SSE Support.\n");
@@ -212,11 +213,11 @@ static void __cpuinit init_amd_k7(struct cpuinfo_x86 *c)
 		}
 	}
 
-	/*
+	*
 	 * It's been determined by AMD that Athlons since model 8 stepping 1
 	 * are more robust with CLK_CTL set to 200xxxxx instead of 600xxxxx
 	 * As per AMD technical note 27212 0.2
-	 */
+	 *
 	if ((c->x86_model == 8 && c->x86_mask >= 1) || (c->x86_model > 8)) {
 		rdmsr(MSR_K7_CLK_CTL, l, h);
 		if ((l & 0xfff00000) != 0x20000000) {
@@ -230,7 +231,7 @@ static void __cpuinit init_amd_k7(struct cpuinfo_x86 *c)
 	set_cpu_cap(c, X86_FEATURE_K7);
 
 	amd_k7_smp_check(c);
-}
+}*/
 #endif
 
 #if defined(CONFIG_NUMA) && defined(CONFIG_X86_64)
@@ -521,7 +522,7 @@ static void __cpuinit init_amd(struct cpuinfo_x86 *c)
 	}
 
 #ifdef CONFIG_X86_32
-	detect_ht(c);
+	//detect_ht(c);
 #endif
 
 	if (c->extended_cpuid_level >= 0x80000006) {
@@ -570,21 +571,21 @@ static void __cpuinit init_amd(struct cpuinfo_x86 *c)
 }
 
 #ifdef CONFIG_X86_32
-static unsigned int __cpuinit amd_size_cache(struct cpuinfo_x86 *c,
+/*static unsigned int __cpuinit amd_size_cache(struct cpuinfo_x86 *c,
 							unsigned int size)
 {
-	/* AMD errata T13 (order #21922) */
+	* AMD errata T13 (order #21922) *
 	if ((c->x86 == 6)) {
-		/* Duron Rev A0 */
+		* Duron Rev A0 *
 		if (c->x86_model == 3 && c->x86_mask == 0)
 			size = 64;
-		/* Tbird rev A1/A2 */
+		* Tbird rev A1/A2 *
 		if (c->x86_model == 4 &&
 			(c->x86_mask == 0 || c->x86_mask == 1))
 			size = 256;
 	}
 	return size;
-}
+}*/
 #endif
 
 static const struct cpu_dev __cpuinitconst amd_cpu_dev = {

@@ -828,7 +828,7 @@ extern void perf_output_end(struct perf_output_handle *handle);
 extern void perf_output_copy(struct perf_output_handle *handle,
 			     const void *buf, unsigned int len);
 #else
-static inline void
+/*static inline void
 perf_event_task_sched_in(struct task_struct *task, int cpu)		{ }
 static inline void
 perf_event_task_sched_out(struct task_struct *task,
@@ -853,7 +853,7 @@ static inline void perf_event_mmap(struct vm_area_struct *vma)		{ }
 static inline void perf_event_comm(struct task_struct *tsk)		{ }
 static inline void perf_event_fork(struct task_struct *tsk)		{ }
 static inline void perf_event_init(void)				{ }
-
+*/
 #endif
 
 #define perf_output_put(handle, x) \

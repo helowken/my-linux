@@ -164,7 +164,7 @@ static inline void __save_init_fpu(struct task_struct *tsk)
 }
 
 #else  /* CONFIG_X86_32 */
-
+/*
 #ifdef CONFIG_MATH_EMULATION
 extern void finit_task(struct task_struct *tsk);
 #else
@@ -178,13 +178,13 @@ static inline void tolerant_fwait(void)
 	asm volatile("fnclex ; fwait");
 }
 
-/* perform fxrstor iff the processor has extended states, otherwise frstor */
+* perform fxrstor iff the processor has extended states, otherwise frstor *
 static inline int fxrstor_checking(struct i387_fxsave_struct *fx)
 {
-	/*
+	*
 	 * The "nop" is needed to make the instructions the same
 	 * length.
-	 */
+	 *
 	alternative_input(
 		"nop ; frstor %1",
 		"fxrstor %1",
@@ -194,18 +194,18 @@ static inline int fxrstor_checking(struct i387_fxsave_struct *fx)
 	return 0;
 }
 
-/* We need a safe address that is cheap to find and that is already
+* We need a safe address that is cheap to find and that is already
    in L1 during context switch. The best choices are unfortunately
-   different for UP and SMP */
+   different for UP and SMP *
 #ifdef CONFIG_SMP
 #define safe_address (__per_cpu_offset[0])
 #else
 #define safe_address (kstat_cpu(0).cpustat.user)
 #endif
 
-/*
+*
  * These must be called with preempt disabled
- */
+ *
 static inline void __save_init_fpu(struct task_struct *tsk)
 {
 	if (task_thread_info(tsk)->status & TS_XSAVE) {
@@ -214,23 +214,23 @@ static inline void __save_init_fpu(struct task_struct *tsk)
 
 		xsave(tsk);
 
-		/*
+		*
 		 * xsave header may indicate the init state of the FP.
-		 */
+		 *
 		if (!(xstate->xsave_hdr.xstate_bv & XSTATE_FP))
 			goto end;
 
 		if (unlikely(fx->swd & X87_FSW_ES))
 			asm volatile("fnclex");
 
-		/*
+		*
 		 * we can do a simple return here or be paranoid :)
-		 */
+		 *
 		goto clear_state;
 	}
 
-	/* Use more nops than strictly needed in case the compiler
-	   varies code */
+	* Use more nops than strictly needed in case the compiler
+	   varies code *
 	alternative_input(
 		"fnsave %[fx] ;fwait;" GENERIC_NOP8 GENERIC_NOP4,
 		"fxsave %[fx]\n"
@@ -239,19 +239,19 @@ static inline void __save_init_fpu(struct task_struct *tsk)
 		[fx] "m" (tsk->thread.xstate->fxsave),
 		[fsw] "m" (tsk->thread.xstate->fxsave.swd) : "memory");
 clear_state:
-	/* AMD K7/K8 CPUs don't save/restore FDP/FIP/FOP unless an exception
+	* AMD K7/K8 CPUs don't save/restore FDP/FIP/FOP unless an exception
 	   is pending.  Clear the x87 state here by setting it to fixed
-	   values. safe_address is a random variable that should be in L1 */
+	   values. safe_address is a random variable that should be in L1 *
 	alternative_input(
 		GENERIC_NOP8 GENERIC_NOP2,
-		"emms\n\t"	  	/* clear stack tags */
-		"fildl %[addr]", 	/* set F?P to defined value */
+		"emms\n\t"	  	* clear stack tags *
+		"fildl %[addr]", 	* set F?P to defined value *
 		X86_FEATURE_FXSAVE_LEAK,
 		[addr] "m" (safe_address));
 end:
 	task_thread_info(tsk)->status &= ~TS_USEDFPU;
 }
-
+*/
 #endif	/* CONFIG_X86_64 */
 
 static inline int restore_fpu_checking(struct task_struct *tsk)
@@ -357,7 +357,7 @@ static inline void save_init_fpu(struct task_struct *tsk)
 /*
  * These disable preemption on their own and are safe
  */
-static inline void save_init_fpu(struct task_struct *tsk)
+/*static inline void save_init_fpu(struct task_struct *tsk)
 {
 	preempt_disable();
 	__save_init_fpu(tsk);
@@ -378,7 +378,7 @@ static inline void clear_fpu(struct task_struct *tsk)
 	__clear_fpu(tsk);
 	preempt_enable();
 }
-
+*/
 #endif	/* CONFIG_X86_64 */
 
 /*

@@ -143,7 +143,7 @@ extern int copy_semundo(unsigned long clone_flags, struct task_struct *tsk);
 extern void exit_sem(struct task_struct *tsk);
 
 #else
-static inline int copy_semundo(unsigned long clone_flags, struct task_struct *tsk)
+/*static inline int copy_semundo(unsigned long clone_flags, struct task_struct *tsk)
 {
 	return 0;
 }
@@ -151,7 +151,7 @@ static inline int copy_semundo(unsigned long clone_flags, struct task_struct *ts
 static inline void exit_sem(struct task_struct *tsk)
 {
 	return;
-}
+}*/
 #endif
 
 #endif /* __KERNEL__ */

@@ -54,7 +54,7 @@ static inline void task_blk_io_accounting_add(struct task_io_accounting *dst,
 }
 
 #else
-
+/*
 static inline void task_io_account_read(size_t bytes)
 {
 }
@@ -85,7 +85,7 @@ static inline void task_blk_io_accounting_add(struct task_io_accounting *dst,
 						struct task_io_accounting *src)
 {
 }
-
+*/
 #endif /* CONFIG_TASK_IO_ACCOUNTING */
 
 #ifdef CONFIG_TASK_XACCT
@@ -98,10 +98,10 @@ static inline void task_chr_io_accounting_add(struct task_io_accounting *dst,
 	dst->syscw += src->syscw;
 }
 #else
-static inline void task_chr_io_accounting_add(struct task_io_accounting *dst,
+/*static inline void task_chr_io_accounting_add(struct task_io_accounting *dst,
 						struct task_io_accounting *src)
 {
-}
+}*/
 #endif /* CONFIG_TASK_XACCT */
 
 static inline void task_io_accounting_add(struct task_io_accounting *dst,

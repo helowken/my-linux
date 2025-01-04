@@ -120,13 +120,13 @@ extern int mce_p5_enabled;
 #ifdef CONFIG_X86_MCE
 void mcheck_init(struct cpuinfo_x86 *c);
 #else
-static inline void mcheck_init(struct cpuinfo_x86 *c) {}
+//static inline void mcheck_init(struct cpuinfo_x86 *c) {}
 #endif
 
 #ifdef CONFIG_X86_ANCIENT_MCE
-void intel_p5_mcheck_init(struct cpuinfo_x86 *c);
+/*void intel_p5_mcheck_init(struct cpuinfo_x86 *c);
 void winchip_mcheck_init(struct cpuinfo_x86 *c);
-static inline void enable_p5_mce(void) { mce_p5_enabled = 1; }
+static inline void enable_p5_mce(void) { mce_p5_enabled = 1; }*/
 #else
 static inline void intel_p5_mcheck_init(struct cpuinfo_x86 *c) {}
 static inline void winchip_mcheck_init(struct cpuinfo_x86 *c) {}
@@ -155,15 +155,15 @@ void cmci_reenable(void);
 void cmci_rediscover(int dying);
 void cmci_recheck(void);
 #else
-static inline void mce_intel_feature_init(struct cpuinfo_x86 *c) { }
+/*static inline void mce_intel_feature_init(struct cpuinfo_x86 *c) { }
 static inline void cmci_clear(void) {}
 static inline void cmci_reenable(void) {}
 static inline void cmci_rediscover(int dying) {}
-static inline void cmci_recheck(void) {}
+static inline void cmci_recheck(void) {}*/
 #endif
 
 #ifdef CONFIG_X86_MCE_AMD
-void mce_amd_feature_init(struct cpuinfo_x86 *c);
+//void mce_amd_feature_init(struct cpuinfo_x86 *c);
 #else
 static inline void mce_amd_feature_init(struct cpuinfo_x86 *c) { }
 #endif
