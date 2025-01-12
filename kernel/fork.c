@@ -1118,7 +1118,7 @@ static struct task_struct *copy_process(unsigned long clone_flags,
 	p->softirq_context = 0;*/
 #endif
 #ifdef CONFIG_LOCKDEP
-	/*p->lockdep_depth = 0; /* no locks held yet */
+	/*p->lockdep_depth = 0; * no locks held yet *
 	p->curr_chain_key = 0;
 	p->lockdep_recursion = 0;*/
 #endif

@@ -128,12 +128,12 @@ extern void acct_collect(long exitcode, int group_dead);
 extern void acct_process(void);
 extern void acct_exit_ns(struct pid_namespace *);
 #else
-#define acct_auto_close_mnt(x)	do { } while (0)
+/*#define acct_auto_close_mnt(x)	do { } while (0)
 #define acct_auto_close(x)	do { } while (0)
 #define acct_init_pacct(x)	do { } while (0)
 #define acct_collect(x,y)	do { } while (0)
 #define acct_process()		do { } while (0)
-#define acct_exit_ns(ns)	do { } while (0)
+#define acct_exit_ns(ns)	do { } while (0)*/
 #endif
 
 /*
@@ -152,13 +152,13 @@ extern void acct_exit_ns(struct pid_namespace *);
 #define AHZ		100
 typedef struct acct_v3 acct_t;
 #else
-#ifdef CONFIG_M68K
+/*#ifdef CONFIG_M68K
 #define ACCT_VERSION	1
 #else
 #define ACCT_VERSION	2
 #endif
 #define AHZ		(USER_HZ)
-typedef struct acct acct_t;
+typedef struct acct acct_t;*/
 #endif
 
 #else

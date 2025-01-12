@@ -127,17 +127,17 @@ request_irq(unsigned int irq, irq_handler_t handler, unsigned long flags,
 
 extern void exit_irq_thread(void);
 #else
-
+/*
 extern int __must_check
 request_irq(unsigned int irq, irq_handler_t handler, unsigned long flags,
 	    const char *name, void *dev);
 
-/*
+*
  * Special function to avoid ifdeffery in kernel/irq/devres.c which
  * gets magically built by GENERIC_HARDIRQS=n architectures (sparc,
  * m68k). I really love these $@%#!* obvious Makefile references:
  * ../../../kernel/irq/devres.o
- */
+ *
 static inline int __must_check
 request_threaded_irq(unsigned int irq, irq_handler_t handler,
 		     irq_handler_t thread_fn,
@@ -146,7 +146,7 @@ request_threaded_irq(unsigned int irq, irq_handler_t handler,
 	return request_irq(irq, handler, flags, name, dev);
 }
 
-static inline void exit_irq_thread(void) { }
+static inline void exit_irq_thread(void) { }*/
 #endif
 
 extern void free_irq(unsigned int, void *);
@@ -182,7 +182,7 @@ extern void devm_free_irq(struct device *dev, unsigned int irq, void *dev_id);
  * irqs-off latencies.
  */
 #ifdef CONFIG_LOCKDEP
-# define local_irq_enable_in_hardirq()	do { } while (0)
+//# define local_irq_enable_in_hardirq()	do { } while (0)
 #else
 # define local_irq_enable_in_hardirq()	local_irq_enable()
 #endif
@@ -198,12 +198,12 @@ extern void resume_device_irqs(void);
 #ifdef CONFIG_PM_SLEEP
 extern int check_wakeup_irqs(void);
 #else
-static inline int check_wakeup_irqs(void) { return 0; }
+//static inline int check_wakeup_irqs(void) { return 0; }
 #endif
 #else
-static inline void suspend_device_irqs(void) { };
+/*static inline void suspend_device_irqs(void) { };
 static inline void resume_device_irqs(void) { };
-static inline int check_wakeup_irqs(void) { return 0; }
+static inline int check_wakeup_irqs(void) { return 0; }*/
 #endif
 
 #if defined(CONFIG_SMP) && defined(CONFIG_GENERIC_HARDIRQS)
@@ -215,7 +215,7 @@ extern int irq_can_set_affinity(unsigned int irq);
 extern int irq_select_affinity(unsigned int irq);
 
 #else /* CONFIG_SMP */
-
+/*
 static inline int irq_set_affinity(unsigned int irq, const struct cpumask *m)
 {
 	return -EINVAL;
@@ -227,7 +227,7 @@ static inline int irq_can_set_affinity(unsigned int irq)
 }
 
 static inline int irq_select_affinity(unsigned int irq)  { return 0; }
-
+*/
 #endif /* CONFIG_SMP && CONFIG_GENERIC_HARDIRQS */
 
 #ifdef CONFIG_GENERIC_HARDIRQS
@@ -246,7 +246,7 @@ static inline void disable_irq_nosync_lockdep(unsigned int irq)
 {
 	disable_irq_nosync(irq);
 #ifdef CONFIG_LOCKDEP
-	local_irq_disable();
+	//local_irq_disable();
 #endif
 }
 
@@ -254,7 +254,7 @@ static inline void disable_irq_nosync_lockdep_irqsave(unsigned int irq, unsigned
 {
 	disable_irq_nosync(irq);
 #ifdef CONFIG_LOCKDEP
-	local_irq_save(*flags);
+	//local_irq_save(*flags);
 #endif
 }
 
@@ -262,14 +262,14 @@ static inline void disable_irq_lockdep(unsigned int irq)
 {
 	disable_irq(irq);
 #ifdef CONFIG_LOCKDEP
-	local_irq_disable();
+	//local_irq_disable();
 #endif
 }
 
 static inline void enable_irq_lockdep(unsigned int irq)
 {
 #ifdef CONFIG_LOCKDEP
-	local_irq_enable();
+	//local_irq_enable();
 #endif
 	enable_irq(irq);
 }
@@ -277,7 +277,7 @@ static inline void enable_irq_lockdep(unsigned int irq)
 static inline void enable_irq_lockdep_irqrestore(unsigned int irq, unsigned long *flags)
 {
 #ifdef CONFIG_LOCKDEP
-	local_irq_restore(*flags);
+	//local_irq_restore(*flags);
 #endif
 	enable_irq(irq);
 }
@@ -301,7 +301,7 @@ static inline int disable_irq_wake(unsigned int irq)
  * validator need to define the methods below in their asm/irq.h
  * files, under an #ifdef CONFIG_LOCKDEP section.
  */
-#ifndef CONFIG_LOCKDEP
+/*#ifndef CONFIG_LOCKDEP
 #  define disable_irq_nosync_lockdep(irq)	disable_irq_nosync(irq)
 #  define disable_irq_nosync_lockdep_irqsave(irq, flags) \
 						disable_irq_nosync(irq)
@@ -319,12 +319,12 @@ static inline int enable_irq_wake(unsigned int irq)
 static inline int disable_irq_wake(unsigned int irq)
 {
 	return 0;
-}
+}*/
 #endif /* CONFIG_GENERIC_HARDIRQS */
 
 #ifndef __ARCH_SET_SOFTIRQ_PENDING
-#define set_softirq_pending(x) (local_softirq_pending() = (x))
-#define or_softirq_pending(x)  (local_softirq_pending() |= (x))
+//#define set_softirq_pending(x) (local_softirq_pending() = (x))
+//#define or_softirq_pending(x)  (local_softirq_pending() |= (x))
 #endif
 
 /* Some architectures might implement lazy enabling/disabling of
@@ -461,9 +461,9 @@ static inline void tasklet_unlock_wait(struct tasklet_struct *t)
 	while (test_bit(TASKLET_STATE_RUN, &(t)->state)) { barrier(); }
 }
 #else
-#define tasklet_trylock(t) 1
+/*#define tasklet_trylock(t) 1
 #define tasklet_unlock_wait(t) do { } while (0)
-#define tasklet_unlock(t) do { } while (0)
+#define tasklet_unlock(t) do { } while (0)*/
 #endif
 
 extern void __tasklet_schedule(struct tasklet_struct *t);
@@ -581,7 +581,7 @@ void tasklet_hrtimer_cancel(struct tasklet_hrtimer *ttimer)
  */
 
 #if defined(CONFIG_GENERIC_HARDIRQS) && !defined(CONFIG_GENERIC_IRQ_PROBE) 
-static inline unsigned long probe_irq_on(void)
+/*static inline unsigned long probe_irq_on(void)
 {
 	return 0;
 }
@@ -592,7 +592,7 @@ static inline int probe_irq_off(unsigned long val)
 static inline unsigned int probe_irq_mask(unsigned long val)
 {
 	return 0;
-}
+}*/
 #else
 extern unsigned long probe_irq_on(void);	/* returns 0 on failure */
 extern int probe_irq_off(unsigned long);	/* returns 0 or negative on failure */
@@ -603,13 +603,13 @@ extern unsigned int probe_irq_mask(unsigned long);	/* returns mask of ISA interr
 /* Initialize /proc/irq/ */
 extern void init_irq_proc(void);
 #else
-static inline void init_irq_proc(void)
+/*static inline void init_irq_proc(void)
 {
-}
+}*/
 #endif
 
 #if defined(CONFIG_GENERIC_HARDIRQS) && defined(CONFIG_DEBUG_SHIRQ)
-extern void debug_poll_all_shared_irqs(void);
+//extern void debug_poll_all_shared_irqs(void);
 #else
 static inline void debug_poll_all_shared_irqs(void) { }
 #endif

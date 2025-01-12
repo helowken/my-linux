@@ -14,7 +14,7 @@
 #ifdef CONFIG_IA32_EMULATION
 # define AT_VECTOR_SIZE_ARCH 2
 #else
-# define AT_VECTOR_SIZE_ARCH 1
+//# define AT_VECTOR_SIZE_ARCH 1
 #endif
 
 struct task_struct; /* one of the stranger aspects of C forward declarations */
@@ -25,7 +25,7 @@ void __switch_to_xtra(struct task_struct *prev_p, struct task_struct *next_p,
 		      struct tss_struct *tss);
 
 #ifdef CONFIG_X86_32
-
+/*
 #ifdef CONFIG_CC_STACKPROTECTOR
 #define __switch_canary							\
 	"movl %P[task_canary](%[next]), %%ebx\n\t"			\
@@ -34,68 +34,68 @@ void __switch_to_xtra(struct task_struct *prev_p, struct task_struct *next_p,
 	, [stack_canary] "=m" (per_cpu_var(stack_canary.canary))
 #define __switch_canary_iparam						\
 	, [task_canary] "i" (offsetof(struct task_struct, stack_canary))
-#else	/* CC_STACKPROTECTOR */
+#else	* CC_STACKPROTECTOR *
 #define __switch_canary
 #define __switch_canary_oparam
 #define __switch_canary_iparam
-#endif	/* CC_STACKPROTECTOR */
+#endif	* CC_STACKPROTECTOR *
 
-/*
+*
  * Saving eflags is important. It switches not only IOPL between tasks,
  * it also protects other tasks from NT leaking through sysenter etc.
- */
+ *
 #define switch_to(prev, next, last)					\
 do {									\
-	/*								\
+	*								\
 	 * Context-switching clobbers all registers, so we clobber	\
 	 * them explicitly, via unused output variables.		\
 	 * (EAX and EBP is not listed because EBP is saved/restored	\
 	 * explicitly for wchan access and EAX is the return value of	\
 	 * __switch_to())						\
-	 */								\
+	 *								
 	unsigned long ebx, ecx, edx, esi, edi;				\
 									\
-	asm volatile("pushfl\n\t"		/* save    flags */	\
-		     "pushl %%ebp\n\t"		/* save    EBP   */	\
-		     "movl %%esp,%[prev_sp]\n\t"	/* save    ESP   */ \
-		     "movl %[next_sp],%%esp\n\t"	/* restore ESP   */ \
-		     "movl $1f,%[prev_ip]\n\t"	/* save    EIP   */	\
-		     "pushl %[next_ip]\n\t"	/* restore EIP   */	\
+	asm volatile("pushfl\n\t"		* save    flags *	\
+		     "pushl %%ebp\n\t"		* save    EBP   *	\
+		     "movl %%esp,%[prev_sp]\n\t"	* save    ESP   * \
+		     "movl %[next_sp],%%esp\n\t"	* restore ESP   * \
+		     "movl $1f,%[prev_ip]\n\t"	* save    EIP   *	\
+		     "pushl %[next_ip]\n\t"	* restore EIP   *	\
 		     __switch_canary					\
-		     "jmp __switch_to\n"	/* regparm call  */	\
+		     "jmp __switch_to\n"	* regparm call  *	\
 		     "1:\t"						\
-		     "popl %%ebp\n\t"		/* restore EBP   */	\
-		     "popfl\n"			/* restore flags */	\
+		     "popl %%ebp\n\t"		* restore EBP   *	\
+		     "popfl\n"			* restore flags *	\
 									\
-		     /* output parameters */				\
+		     * output parameters *				\
 		     : [prev_sp] "=m" (prev->thread.sp),		\
 		       [prev_ip] "=m" (prev->thread.ip),		\
 		       "=a" (last),					\
 									\
-		       /* clobbered output registers: */		\
+		       * clobbered output registers: *		\
 		       "=b" (ebx), "=c" (ecx), "=d" (edx),		\
 		       "=S" (esi), "=D" (edi)				\
 		       							\
 		       __switch_canary_oparam				\
 									\
-		       /* input parameters: */				\
+		       * input parameters: *				\
 		     : [next_sp]  "m" (next->thread.sp),		\
 		       [next_ip]  "m" (next->thread.ip),		\
 		       							\
-		       /* regparm parameters for __switch_to(): */	\
+		       * regparm parameters for __switch_to(): *	\
 		       [prev]     "a" (prev),				\
 		       [next]     "d" (next)				\
 									\
 		       __switch_canary_iparam				\
 									\
-		     : /* reloaded segment registers */			\
+		     : * reloaded segment registers *			\
 			"memory");					\
 } while (0)
 
-/*
+*
  * disable hlt during certain critical i/o operations
- */
-#define HAVE_DISABLE_HLT
+ *
+#define HAVE_DISABLE_HLT*/
 #else
 #define __SAVE(reg, offset) "movq %%" #reg ",(14-" #offset ")*8(%%rsp)\n\t"
 #define __RESTORE(reg, offset) "movq (14-" #offset ")*8(%%rsp),%%" #reg "\n\t"
@@ -109,13 +109,13 @@ do {									\
 	  "r12", "r13", "r14", "r15"
 
 #ifdef CONFIG_CC_STACKPROTECTOR
-#define __switch_canary							  \
+/*#define __switch_canary							  \
 	"movq %P[task_canary](%%rsi),%%r8\n\t"				  \
 	"movq %%r8,"__percpu_arg([gs_canary])"\n\t"
 #define __switch_canary_oparam						  \
 	, [gs_canary] "=m" (per_cpu_var(irq_stack_union.stack_canary))
 #define __switch_canary_iparam						  \
-	, [task_canary] "i" (offsetof(struct task_struct, stack_canary))
+	, [task_canary] "i" (offsetof(struct task_struct, stack_canary))*/
 #else	/* CC_STACKPROTECTOR */
 #define __switch_canary
 #define __switch_canary_oparam
@@ -181,19 +181,19 @@ extern void native_load_gs_index(unsigned);
  * x86_32 user gs accessors.
  */
 #ifdef CONFIG_X86_32
-#ifdef CONFIG_X86_32_LAZY_GS
+/*#ifdef CONFIG_X86_32_LAZY_GS
 #define get_user_gs(regs)	(u16)({unsigned long v; savesegment(gs, v); v;})
 #define set_user_gs(regs, v)	loadsegment(gs, (unsigned long)(v))
 #define task_user_gs(tsk)	((tsk)->thread.gs)
 #define lazy_save_gs(v)		savesegment(gs, (v))
 #define lazy_load_gs(v)		loadsegment(gs, (v))
-#else	/* X86_32_LAZY_GS */
+#else	* X86_32_LAZY_GS *
 #define get_user_gs(regs)	(u16)((regs)->gs)
 #define set_user_gs(regs, v)	do { (regs)->gs = (v); } while (0)
 #define task_user_gs(tsk)	(task_pt_regs(tsk)->gs)
 #define lazy_save_gs(v)		do { } while (0)
 #define lazy_load_gs(v)		do { } while (0)
-#endif	/* X86_32_LAZY_GS */
+#endif	* X86_32_LAZY_GS */
 #endif	/* X86_32 */
 
 static inline unsigned long get_limit(unsigned long segment)
@@ -266,10 +266,10 @@ static inline unsigned long native_read_cr4_safe(void)
 	/* This could fault if %cr4 does not exist. In x86_64, a cr4 always
 	 * exists, so it will never fail. */
 #ifdef CONFIG_X86_32
-	asm volatile("1: mov %%cr4, %0\n"
+	/*asm volatile("1: mov %%cr4, %0\n"
 		     "2:\n"
 		     _ASM_EXTABLE(1b, 2b)
-		     : "=r" (val), "=m" (__force_order) : "0" (0));
+		     : "=r" (val), "=m" (__force_order) : "0" (0));*/
 #else
 	val = native_read_cr4();
 #endif
@@ -301,7 +301,7 @@ static inline void native_wbinvd(void)
 }
 
 #ifdef CONFIG_PARAVIRT
-#include <asm/paravirt.h>
+//#include <asm/paravirt.h>
 #else
 #define read_cr0()	(native_read_cr0())
 #define write_cr0(x)	(native_write_cr0(x))
@@ -357,9 +357,9 @@ void stop_this_cpu(void *dummy);
  * Some non-Intel clones support out of order store. wmb() ceases to be a
  * nop for these.
  */
-#define mb() alternative("lock; addl $0,0(%%esp)", "mfence", X86_FEATURE_XMM2)
+/*#define mb() alternative("lock; addl $0,0(%%esp)", "mfence", X86_FEATURE_XMM2)
 #define rmb() alternative("lock; addl $0,0(%%esp)", "lfence", X86_FEATURE_XMM2)
-#define wmb() alternative("lock; addl $0,0(%%esp)", "sfence", X86_FEATURE_XMM)
+#define wmb() alternative("lock; addl $0,0(%%esp)", "sfence", X86_FEATURE_XMM)*/
 #else
 #define mb() 	asm volatile("mfence":::"memory")
 #define rmb()	asm volatile("lfence":::"memory")
@@ -423,23 +423,23 @@ void stop_this_cpu(void *dummy);
 #ifdef CONFIG_SMP
 #define smp_mb()	mb()
 #ifdef CONFIG_X86_PPRO_FENCE
-# define smp_rmb()	rmb()
+//# define smp_rmb()	rmb()
 #else
 # define smp_rmb()	barrier()
 #endif
 #ifdef CONFIG_X86_OOSTORE
-# define smp_wmb() 	wmb()
+//# define smp_wmb() 	wmb()
 #else
 # define smp_wmb()	barrier()
 #endif
 #define smp_read_barrier_depends()	read_barrier_depends()
 #define set_mb(var, value) do { (void)xchg(&var, value); } while (0)
 #else
-#define smp_mb()	barrier()
+/*#define smp_mb()	barrier()
 #define smp_rmb()	barrier()
 #define smp_wmb()	barrier()
 #define smp_read_barrier_depends()	do { } while (0)
-#define set_mb(var, value) do { var = value; barrier(); } while (0)
+#define set_mb(var, value) do { var = value; barrier(); } while (0)*/
 #endif
 
 /*

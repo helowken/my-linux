@@ -53,7 +53,7 @@ static inline void put_pid_ns(struct pid_namespace *ns)
 }
 
 #else /* !CONFIG_PID_NS */
-#include <linux/err.h>
+/*#include <linux/err.h>
 
 static inline struct pid_namespace *get_pid_ns(struct pid_namespace *ns)
 {
@@ -76,7 +76,7 @@ static inline void put_pid_ns(struct pid_namespace *ns)
 static inline void zap_pid_ns_processes(struct pid_namespace *ns)
 {
 	BUG();
-}
+}*/
 #endif /* CONFIG_PID_NS */
 
 extern struct pid_namespace *task_active_pid_ns(struct task_struct *tsk);

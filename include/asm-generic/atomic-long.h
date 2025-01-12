@@ -137,7 +137,7 @@ static inline long atomic_long_add_unless(atomic_long_t *l, long a, long u)
 	(atomic64_xchg((atomic64_t *)(v), (new)))
 
 #else  /*  BITS_PER_LONG == 64  */
-
+/*
 typedef atomic_t atomic_long_t;
 
 #define ATOMIC_LONG_INIT(i)	ATOMIC_INIT(i)
@@ -252,7 +252,7 @@ static inline long atomic_long_add_unless(atomic_long_t *l, long a, long u)
 	(atomic_cmpxchg((atomic_t *)(l), (old), (new)))
 #define atomic_long_xchg(v, new) \
 	(atomic_xchg((atomic_t *)(v), (new)))
-
+*/
 #endif  /*  BITS_PER_LONG == 64  */
 
 #endif  /*  _ASM_GENERIC_ATOMIC_LONG_H  */

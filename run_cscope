@@ -63,7 +63,8 @@ time cscope -q -k -b -i cscope.files
 # --regex-c is for "extern ..." and the kinds of it is "r" which is not included in c/c++ kinds
 #xargs -a $files 
 ctags -I __THROW -I __THROWNL -I __attribute_pure__ -I __nonnull \
-	-I __attribute__ -I __wur -I __weak_alias -I __read_mostly -I EXPORT_SYMBOL+ \
+	-I __attribute__ -I __wur -I __weak_alias -I __read_mostly \
+	-I EXPORT_SYMBOL+ -I EXPORT_SYMBOL_GPL+ \
 	--file-scope=yes \
 	--langmap=c:+.h,Asm:+.asm \
 	--languages=c,c++,Asm \

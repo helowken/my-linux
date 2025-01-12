@@ -508,7 +508,7 @@ extern void tty_audit_push(struct tty_struct *tty);
 extern void tty_audit_push_task(struct task_struct *tsk,
 					uid_t loginuid, u32 sessionid);
 #else
-static inline void tty_audit_add_data(struct tty_struct *tty,
+/*static inline void tty_audit_add_data(struct tty_struct *tty,
 				      unsigned char *data, size_t size)
 {
 }
@@ -527,7 +527,7 @@ static inline void tty_audit_push(struct tty_struct *tty)
 static inline void tty_audit_push_task(struct task_struct *tsk,
 					uid_t loginuid, u32 sessionid)
 {
-}
+}*/
 #endif
 
 /* tty_ioctl.c */

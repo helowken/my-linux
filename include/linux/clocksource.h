@@ -286,14 +286,14 @@ extern void
 update_vsyscall(struct timespec *ts, struct clocksource *c, u32 mult);
 extern void update_vsyscall_tz(void);
 #else
-static inline void
+/*static inline void
 update_vsyscall(struct timespec *ts, struct clocksource *c, u32 mult)
 {
 }
 
 static inline void update_vsyscall_tz(void)
 {
-}
+}*/
 #endif
 
 extern void timekeeping_notify(struct clocksource *clock);

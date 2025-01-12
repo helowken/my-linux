@@ -1,0 +1,19 @@
+#!/bin/bash
+
+if [ -z "$1" ]; then
+	echo "Usage: $0 file"
+	exit 1
+fi
+
+infile=$1
+tmpfile=/tmp/xxx
+name=$(basename $infile)
+outfile=/tmp/${name%%.*}_E
+
+touch $infile
+make -j6 V=1 >$tmpfile
+
+rs=$(grep $name $tmpfile)
+rs="${rs%%-c -o *}"
+rs=$(echo $rs -E -o $outfile $infile)
+eval $rs

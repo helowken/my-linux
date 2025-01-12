@@ -4,7 +4,7 @@
  * bump this up when changing the output format or the meaning of an existing
  * format, so that tools can adapt (or abort)
  */
-#define SCHEDSTAT_VERSION 15
+/*#define SCHEDSTAT_VERSION 15
 
 static int show_schedstat(struct seq_file *seq, void *v)
 {
@@ -24,7 +24,7 @@ static int show_schedstat(struct seq_file *seq, void *v)
 		int dcount = 0;
 #endif
 
-		/* runqueue-specific stats */
+		* runqueue-specific stats *
 		seq_printf(seq,
 		    "cpu%d %u %u %u %u %u %u %llu %llu %lu",
 		    cpu, rq->yld_count,
@@ -36,7 +36,7 @@ static int show_schedstat(struct seq_file *seq, void *v)
 		seq_printf(seq, "\n");
 
 #ifdef CONFIG_SMP
-		/* domain-specific stats */
+		* domain-specific stats *
 		preempt_disable();
 		for_each_domain(cpu, sd) {
 			enum cpu_idle_type itype;
@@ -104,9 +104,9 @@ static int __init proc_schedstat_init(void)
 }
 module_init(proc_schedstat_init);
 
-/*
+*
  * Expects runqueue lock to be held for atomicity of update
- */
+ *
 static inline void
 rq_sched_info_arrive(struct rq *rq, unsigned long long delta)
 {
@@ -116,9 +116,9 @@ rq_sched_info_arrive(struct rq *rq, unsigned long long delta)
 	}
 }
 
-/*
+*
  * Expects runqueue lock to be held for atomicity of update
- */
+ *
 static inline void
 rq_sched_info_depart(struct rq *rq, unsigned long long delta)
 {
@@ -134,7 +134,7 @@ rq_sched_info_dequeued(struct rq *rq, unsigned long long delta)
 }
 # define schedstat_inc(rq, field)	do { (rq)->field++; } while (0)
 # define schedstat_add(rq, field, amt)	do { (rq)->field += (amt); } while (0)
-# define schedstat_set(var, val)	do { var = (val); } while (0)
+# define schedstat_set(var, val)	do { var = (val); } while (0)*/
 #else /* !CONFIG_SCHEDSTATS */
 static inline void
 rq_sched_info_arrive(struct rq *rq, unsigned long long delta)
@@ -270,10 +270,10 @@ sched_info_switch(struct task_struct *prev, struct task_struct *next)
 		__sched_info_switch(prev, next);
 }
 #else
-#define sched_info_queued(t)			do { } while (0)
+/*#define sched_info_queued(t)			do { } while (0)
 #define sched_info_reset_dequeued(t)	do { } while (0)
 #define sched_info_dequeued(t)			do { } while (0)
-#define sched_info_switch(t, next)		do { } while (0)
+#define sched_info_switch(t, next)		do { } while (0)*/
 #endif /* CONFIG_SCHEDSTATS || CONFIG_TASK_DELAY_ACCT */
 
 /*
