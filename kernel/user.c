@@ -97,8 +97,8 @@ static int sched_create_user(struct user_struct *up)
 
 #else	/* CONFIG_USER_SCHED */
 
-static void sched_destroy_user(struct user_struct *up) { }
-static int sched_create_user(struct user_struct *up) { return 0; }
+//static void sched_destroy_user(struct user_struct *up) { }
+//static int sched_create_user(struct user_struct *up) { return 0; }
 
 #endif	/* CONFIG_USER_SCHED */
 
@@ -336,7 +336,7 @@ static void free_user(struct user_struct *up, unsigned long flags)
 }
 
 #else	/* CONFIG_USER_SCHED && CONFIG_SYSFS */
-
+/*
 static struct user_struct *uid_hash_find(uid_t uid, struct hlist_head *hashent)
 {
 	struct user_struct *user;
@@ -357,10 +357,10 @@ static inline int uids_user_create(struct user_struct *up) { return 0; }
 static inline void uids_mutex_lock(void) { }
 static inline void uids_mutex_unlock(void) { }
 
-/* IRQs are disabled and uidhash_lock is held upon function entry.
+* IRQs are disabled and uidhash_lock is held upon function entry.
  * IRQ state (as stored in flags) is restored and uidhash_lock released
  * upon function exit.
- */
+ *
 static void free_user(struct user_struct *up, unsigned long flags)
 {
 	uid_hash_remove(up);
@@ -370,7 +370,7 @@ static void free_user(struct user_struct *up, unsigned long flags)
 	key_put(up->session_keyring);
 	kmem_cache_free(uid_cachep, up);
 }
-
+*/
 #endif
 
 #if defined(CONFIG_RT_GROUP_SCHED) && defined(CONFIG_USER_SCHED)
@@ -385,10 +385,10 @@ int task_can_switch_user(struct user_struct *up, struct task_struct *tsk)
 
 }
 #else
-int task_can_switch_user(struct user_struct *up, struct task_struct *tsk)
+/*int task_can_switch_user(struct user_struct *up, struct task_struct *tsk)
 {
 	return 1;
-}
+}*/
 #endif
 
 /*

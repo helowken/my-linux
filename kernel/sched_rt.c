@@ -10,7 +10,7 @@
 static inline struct task_struct *rt_task_of(struct sched_rt_entity *rt_se)
 {
 #ifdef CONFIG_SCHED_DEBUG
-	WARN_ON_ONCE(!rt_entity_is_task(rt_se));
+	//WARN_ON_ONCE(!rt_entity_is_task(rt_se));
 #endif
 	return container_of(rt_se, struct task_struct, rt);
 }
@@ -26,7 +26,7 @@ static inline struct rt_rq *rt_rq_of_se(struct sched_rt_entity *rt_se)
 }
 
 #else /* CONFIG_RT_GROUP_SCHED */
-
+/*
 #define rt_entity_is_task(rt_se) (1)
 
 static inline struct task_struct *rt_task_of(struct sched_rt_entity *rt_se)
@@ -46,7 +46,7 @@ static inline struct rt_rq *rt_rq_of_se(struct sched_rt_entity *rt_se)
 
 	return &rq->rt;
 }
-
+*/
 #endif /* CONFIG_RT_GROUP_SCHED */
 
 #ifdef CONFIG_SMP
@@ -142,7 +142,7 @@ static inline int has_pushable_tasks(struct rq *rq)
 }
 
 #else
-
+/*
 static inline void enqueue_pushable_task(struct rq *rq, struct task_struct *p)
 {
 }
@@ -160,7 +160,7 @@ static inline
 void dec_rt_migration(struct sched_rt_entity *rt_se, struct rt_rq *rt_rq)
 {
 }
-
+*/
 #endif /* CONFIG_SMP */
 
 static inline int on_rt_rq(struct sched_rt_entity *rt_se)
@@ -241,10 +241,10 @@ static inline const struct cpumask *sched_rt_period_mask(void)
 	return cpu_rq(smp_processor_id())->rd->span;
 }
 #else
-static inline const struct cpumask *sched_rt_period_mask(void)
+/*static inline const struct cpumask *sched_rt_period_mask(void)
 {
 	return cpu_online_mask;
-}
+}*/
 #endif
 
 static inline
@@ -259,7 +259,7 @@ static inline struct rt_bandwidth *sched_rt_bandwidth(struct rt_rq *rt_rq)
 }
 
 #else /* !CONFIG_RT_GROUP_SCHED */
-
+/*
 static inline u64 sched_rt_runtime(struct rt_rq *rt_rq)
 {
 	return rt_rq->rt_runtime;
@@ -311,7 +311,7 @@ static inline struct rt_bandwidth *sched_rt_bandwidth(struct rt_rq *rt_rq)
 {
 	return &def_rt_bandwidth;
 }
-
+*/
 #endif /* CONFIG_RT_GROUP_SCHED */
 
 #ifdef CONFIG_SMP
@@ -504,10 +504,10 @@ static int balance_runtime(struct rt_rq *rt_rq)
 	return more;
 }
 #else /* !CONFIG_SMP */
-static inline int balance_runtime(struct rt_rq *rt_rq)
+/*static inline int balance_runtime(struct rt_rq *rt_rq)
 {
 	return 0;
-}
+}*/
 #endif /* CONFIG_SMP */
 
 static int do_sched_rt_period_timer(struct rt_bandwidth *rt_b, int overrun)
@@ -691,12 +691,12 @@ dec_rt_prio_smp(struct rt_rq *rt_rq, int prio, int prev_prio)
 }
 
 #else /* CONFIG_SMP */
-
+/*
 static inline
 void inc_rt_prio_smp(struct rt_rq *rt_rq, int prio, int prev_prio) {}
 static inline
 void dec_rt_prio_smp(struct rt_rq *rt_rq, int prio, int prev_prio) {}
-
+*/
 #endif /* CONFIG_SMP */
 
 #if defined CONFIG_SMP || defined CONFIG_RT_GROUP_SCHED
@@ -738,10 +738,10 @@ dec_rt_prio(struct rt_rq *rt_rq, int prio)
 }
 
 #else
-
+/*
 static inline void inc_rt_prio(struct rt_rq *rt_rq, int prio) {}
 static inline void dec_rt_prio(struct rt_rq *rt_rq, int prio) {}
-
+*/
 #endif /* CONFIG_SMP || CONFIG_RT_GROUP_SCHED */
 
 #ifdef CONFIG_RT_GROUP_SCHED
@@ -766,7 +766,7 @@ dec_rt_group(struct sched_rt_entity *rt_se, struct rt_rq *rt_rq)
 }
 
 #else /* CONFIG_RT_GROUP_SCHED */
-
+/*
 static void
 inc_rt_group(struct sched_rt_entity *rt_se, struct rt_rq *rt_rq)
 {
@@ -775,7 +775,7 @@ inc_rt_group(struct sched_rt_entity *rt_se, struct rt_rq *rt_rq)
 
 static inline
 void dec_rt_group(struct sched_rt_entity *rt_se, struct rt_rq *rt_rq) {}
-
+*/
 #endif /* CONFIG_RT_GROUP_SCHED */
 
 static inline
@@ -1665,8 +1665,8 @@ static void prio_changed_rt(struct rq *rq, struct task_struct *p,
 			resched_task(p);
 #else
 		/* For UP simply resched on drop of prio */
-		if (oldprio < p->prio)
-			resched_task(p);
+		/*if (oldprio < p->prio)
+			resched_task(p);*/
 #endif /* CONFIG_SMP */
 	} else {
 		/*
@@ -1783,7 +1783,7 @@ static const struct sched_class rt_sched_class = {
 };
 
 #ifdef CONFIG_SCHED_DEBUG
-extern void print_rt_rq(struct seq_file *m, int cpu, struct rt_rq *rt_rq);
+/*extern void print_rt_rq(struct seq_file *m, int cpu, struct rt_rq *rt_rq);
 
 static void print_rt_stats(struct seq_file *m, int cpu)
 {
@@ -1793,6 +1793,6 @@ static void print_rt_stats(struct seq_file *m, int cpu)
 	for_each_leaf_rt_rq(rt_rq, cpu_rq(cpu))
 		print_rt_rq(m, cpu, rt_rq);
 	rcu_read_unlock();
-}
+}*/
 #endif /* CONFIG_SCHED_DEBUG */
 

@@ -143,9 +143,9 @@ static inline unsigned long __raw_local_irq_save(void)
 	sysexit
 
 #else
-#define INTERRUPT_RETURN		iret
+/*#define INTERRUPT_RETURN		iret
 #define ENABLE_INTERRUPTS_SYSEXIT	sti; sysexit
-#define GET_CR0_INTO_EAX		movl %cr0, %eax
+#define GET_CR0_INTO_EAX		movl %cr0, %eax*/
 #endif
 
 
@@ -185,7 +185,7 @@ static inline int raw_irqs_disabled(void)
 	TRACE_IRQS_OFF;
 
 #else
-#define ARCH_LOCKDEP_SYS_EXIT			\
+/*#define ARCH_LOCKDEP_SYS_EXIT			\
 	pushl %eax;				\
 	pushl %ecx;				\
 	pushl %edx;				\
@@ -194,19 +194,19 @@ static inline int raw_irqs_disabled(void)
 	popl %ecx;				\
 	popl %eax;
 
-#define ARCH_LOCKDEP_SYS_EXIT_IRQ
+#define ARCH_LOCKDEP_SYS_EXIT_IRQ*/
 #endif
 
 #ifdef CONFIG_TRACE_IRQFLAGS
-#  define TRACE_IRQS_ON		call trace_hardirqs_on_thunk;
-#  define TRACE_IRQS_OFF	call trace_hardirqs_off_thunk;
+//#  define TRACE_IRQS_ON		call trace_hardirqs_on_thunk;
+//#  define TRACE_IRQS_OFF	call trace_hardirqs_off_thunk;
 #else
 #  define TRACE_IRQS_ON
 #  define TRACE_IRQS_OFF
 #endif
 #ifdef CONFIG_DEBUG_LOCK_ALLOC
-#  define LOCKDEP_SYS_EXIT	ARCH_LOCKDEP_SYS_EXIT
-#  define LOCKDEP_SYS_EXIT_IRQ	ARCH_LOCKDEP_SYS_EXIT_IRQ
+//#  define LOCKDEP_SYS_EXIT	ARCH_LOCKDEP_SYS_EXIT
+//#  define LOCKDEP_SYS_EXIT_IRQ	ARCH_LOCKDEP_SYS_EXIT_IRQ
 # else
 #  define LOCKDEP_SYS_EXIT
 #  define LOCKDEP_SYS_EXIT_IRQ

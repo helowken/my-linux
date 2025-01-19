@@ -281,24 +281,24 @@ extern void hrtimer_peek_ahead_timers(void);
 # define KTIME_MONOTONIC_RES	KTIME_HIGH_RES
 
 #else
-
+/*
 # define MONOTONIC_RES_NSEC	LOW_RES_NSEC
 # define KTIME_MONOTONIC_RES	KTIME_LOW_RES
 
-/*
+*
  * clock_was_set() is a NOP for non- high-resolution systems. The
  * time-sorted order guarantees that a timer does not expire early and
  * is expired in the next softirq when the clock was advanced.
- */
+ *
 static inline void clock_was_set(void) { }
 static inline void hrtimer_peek_ahead_timers(void) { }
 
 static inline void hres_timers_resume(void) { }
 
-/*
+*
  * In non high resolution mode the time reference is taken from
  * the base softirq time variable.
- */
+ *
 static inline ktime_t hrtimer_cb_get_time(struct hrtimer *timer)
 {
 	return timer->base->softirq_time;
@@ -307,7 +307,7 @@ static inline ktime_t hrtimer_cb_get_time(struct hrtimer *timer)
 static inline int hrtimer_is_hres_active(struct hrtimer *timer)
 {
 	return 0;
-}
+}*/
 #endif
 
 extern ktime_t ktime_get(void);
@@ -324,10 +324,10 @@ extern void hrtimer_init(struct hrtimer *timer, clockid_t which_clock,
 			 enum hrtimer_mode mode);
 
 #ifdef CONFIG_DEBUG_OBJECTS_TIMERS
-extern void hrtimer_init_on_stack(struct hrtimer *timer, clockid_t which_clock,
+/*extern void hrtimer_init_on_stack(struct hrtimer *timer, clockid_t which_clock,
 				  enum hrtimer_mode mode);
 
-extern void destroy_hrtimer_on_stack(struct hrtimer *timer);
+extern void destroy_hrtimer_on_stack(struct hrtimer *timer);*/
 #else
 static inline void hrtimer_init_on_stack(struct hrtimer *timer,
 					 clockid_t which_clock,
@@ -432,7 +432,7 @@ extern void hrtimer_run_pending(void);
 extern void __init hrtimers_init(void);
 
 #if BITS_PER_LONG < 64
-extern u64 ktime_divns(const ktime_t kt, s64 div);
+//extern u64 ktime_divns(const ktime_t kt, s64 div);
 #else /* BITS_PER_LONG < 64 */
 # define ktime_divns(kt, div)		(u64)((kt).tv64 / (div))
 #endif
@@ -444,7 +444,7 @@ extern void sysrq_timer_list_show(void);
  * Timer-statistics info:
  */
 #ifdef CONFIG_TIMER_STATS
-
+/*
 extern void timer_stats_update_stats(void *timer, pid_t pid, void *startf,
 				     void *timerf, char *comm,
 				     unsigned int timer_flag);
@@ -468,7 +468,7 @@ static inline void timer_stats_hrtimer_set_start_info(struct hrtimer *timer)
 static inline void timer_stats_hrtimer_clear_start_info(struct hrtimer *timer)
 {
 	timer->start_site = NULL;
-}
+}*/
 #else
 static inline void timer_stats_account_hrtimer(struct hrtimer *timer)
 {

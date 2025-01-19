@@ -145,8 +145,8 @@ extern int __get_user_bad(void);
  * On error, the variable @x is set to zero.
  */
 #ifdef CONFIG_X86_32
-#define __get_user_8(__ret_gu, __val_gu, ptr)				\
-		__get_user_x(X, __ret_gu, __val_gu, ptr)
+/*#define __get_user_8(__ret_gu, __val_gu, ptr)				\
+		__get_user_x(X, __ret_gu, __val_gu, ptr)*/
 #else
 #define __get_user_8(__ret_gu, __val_gu, ptr)				\
 		__get_user_x(8, __ret_gu, __val_gu, ptr)
@@ -186,7 +186,7 @@ extern int __get_user_bad(void);
 
 
 #ifdef CONFIG_X86_32
-#define __put_user_asm_u64(x, addr, err, errret)			\
+/*#define __put_user_asm_u64(x, addr, err, errret)			\
 	asm volatile("1:	movl %%eax,0(%2)\n"			\
 		     "2:	movl %%edx,4(%2)\n"			\
 		     "3:\n"						\
@@ -209,7 +209,7 @@ extern int __get_user_bad(void);
 
 #define __put_user_x8(x, ptr, __ret_pu)				\
 	asm volatile("call __put_user_8" : "=a" (__ret_pu)	\
-		     : "A" ((typeof(*(ptr)))(x)), "c" (ptr) : "ebx")
+		     : "A" ((typeof(*(ptr)))(x)), "c" (ptr) : "ebx")*/
 #else
 #define __put_user_asm_u64(x, ptr, retval, errret) \
 	__put_user_asm(x, ptr, retval, "q", "", "er", errret)
@@ -319,7 +319,7 @@ do {									\
 } while (0)
 
 #else
-
+/*
 #define __put_user_size(x, ptr, size, retval, errret)			\
 do {									\
 	__typeof__(*(ptr))__pus_tmp = x;				\
@@ -338,12 +338,12 @@ do {									\
 				       sizeof(*(ptr))) != 0))	\
 		__ret_pu = -EFAULT;				\
 	__ret_pu;						\
-})
+})*/
 #endif
 
 #ifdef CONFIG_X86_32
-#define __get_user_asm_u64(x, ptr, retval, errret)	(x) = __get_user_bad()
-#define __get_user_asm_ex_u64(x, ptr)			(x) = __get_user_bad()
+//#define __get_user_asm_u64(x, ptr, retval, errret)	(x) = __get_user_bad()
+//#define __get_user_asm_ex_u64(x, ptr)			(x) = __get_user_bad()
 #else
 #define __get_user_asm_u64(x, ptr, retval, errret) \
 	 __get_user_asm(x, ptr, retval, "q", "", "=r", errret)
@@ -542,7 +542,7 @@ struct __large_struct { unsigned long buf[100]; };
 	__put_user_size_ex((__typeof__(*(ptr)))(x), (ptr), sizeof(*(ptr)))
 
 #else /* !CONFIG_X86_WP_WORKS_OK */
-
+/*
 #define put_user_try		do {		\
 	int __uaccess_err = 0;
 
@@ -553,22 +553,22 @@ struct __large_struct { unsigned long buf[100]; };
 #define put_user_ex(x, ptr)	do {		\
 	__uaccess_err |= __put_user(x, ptr);	\
 } while (0)
-
+*/
 #endif /* CONFIG_X86_WP_WORKS_OK */
 
 /*
  * movsl can be slow when source and dest are not both 8-byte aligned
  */
 #ifdef CONFIG_X86_INTEL_USERCOPY
-extern struct movsl_mask {
+/*extern struct movsl_mask {
 	int mask;
-} ____cacheline_aligned_in_smp movsl_mask;
+} ____cacheline_aligned_in_smp movsl_mask;*/
 #endif
 
 #define ARCH_HAS_NOCACHE_UACCESS 1
 
 #ifdef CONFIG_X86_32
-# include "uaccess_32.h"
+//# include "uaccess_32.h"
 #else
 # define ARCH_HAS_SEARCH_EXTABLE
 # include "uaccess_64.h"

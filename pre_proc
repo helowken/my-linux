@@ -10,10 +10,24 @@ tmpfile=/tmp/xxx
 name=$(basename $infile)
 outfile=/tmp/${name%%.*}_E
 
-touch $infile
-make -j6 V=1 >$tmpfile
+pp_bak() {
+	touch $infile
+	make -j6 V=1 >$tmpfile
+	rs=$(grep $name $tmpfile | grep "gcc ")
+}
 
-rs=$(grep $name $tmpfile)
+pp() {
+	file=$(dirname $infile)/.$(echo $name | sed 's/\.[^.]*$//').o.cmd
+	if [ -f "$file" ];then
+		rs=$(head -n1 $file | awk -F ' := ' '{print $2}')
+	else
+		pp_bak
+	fi
+}
+
+
+pp
 rs="${rs%%-c -o *}"
 rs=$(echo $rs -E -o $outfile $infile)
+#echo $rs
 eval $rs

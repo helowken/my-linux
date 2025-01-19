@@ -50,11 +50,11 @@
 /* Attach to insert probes on any functions which should be ignored*/
 #define __kprobes	__attribute__((__section__(".kprobes.text")))
 #else /* CONFIG_KPROBES */
-typedef int kprobe_opcode_t;
+/*typedef int kprobe_opcode_t;
 struct arch_specific_insn {
 	int dummy;
 };
-#define __kprobes
+#define __kprobes*/
 #endif /* CONFIG_KPROBES */
 
 struct kprobe;
@@ -209,14 +209,14 @@ extern void arch_prepare_kretprobe(struct kretprobe_instance *ri,
 				   struct pt_regs *regs);
 extern int arch_trampoline_kprobe(struct kprobe *p);
 #else /* CONFIG_KRETPROBES */
-static inline void arch_prepare_kretprobe(struct kretprobe *rp,
+/*static inline void arch_prepare_kretprobe(struct kretprobe *rp,
 					struct pt_regs *regs)
 {
 }
 static inline int arch_trampoline_kprobe(struct kprobe *p)
 {
 	return 0;
-}
+}*/
 #endif /* CONFIG_KRETPROBES */
 
 extern struct kretprobe_blackpoint kretprobe_blacklist[];
@@ -232,7 +232,7 @@ static inline void kretprobe_assert(struct kretprobe_instance *ri,
 }
 
 #ifdef CONFIG_KPROBES_SANITY_TEST
-extern int init_test_probes(void);
+//extern int init_test_probes(void);
 #else
 static inline int init_test_probes(void)
 {

@@ -671,7 +671,7 @@ struct signal_struct {
 
 /* Context switch must be unlocked if interrupts are to be enabled */
 #ifdef __ARCH_WANT_INTERRUPTS_ON_CTXSW
-# define __ARCH_WANT_UNLOCKED_CTXSW
+//# define __ARCH_WANT_UNLOCKED_CTXSW
 #endif
 
 /*

@@ -1183,7 +1183,7 @@ static inline void init_hrtick(void)
 #ifdef CONFIG_SMP
 
 #ifndef tsk_is_polling
-#define tsk_is_polling(t) test_tsk_thread_flag(t, TIF_POLLING_NRFLAG)
+//#define tsk_is_polling(t) test_tsk_thread_flag(t, TIF_POLLING_NRFLAG)
 #endif
 
 static void resched_task(struct task_struct *p)
@@ -9626,7 +9626,7 @@ void __init sched_init(void)
 		 * We achieve this by letting init_task_group's tasks sit
 		 * directly in rq->cfs (i.e init_task_group->se[] = NULL).
 		 */
-		init_tg_cfs_entry(&init_task_group, &rq->cfs, NULL, i, 1, NULL);
+		//init_tg_cfs_entry(&init_task_group, &rq->cfs, NULL, i, 1, NULL);
 #elif defined CONFIG_USER_SCHED
 		root_task_group.shares = NICE_0_LOAD;
 		init_tg_cfs_entry(&root_task_group, &rq->cfs, NULL, i, 0, NULL);
@@ -9653,7 +9653,7 @@ void __init sched_init(void)
 #ifdef CONFIG_RT_GROUP_SCHED
 		INIT_LIST_HEAD(&rq->leaf_rt_rq_list);
 #ifdef CONFIG_CGROUP_SCHED
-		init_tg_rt_entry(&init_task_group, &rq->rt, NULL, i, 1, NULL);
+		//init_tg_rt_entry(&init_task_group, &rq->rt, NULL, i, 1, NULL);
 #elif defined CONFIG_USER_SCHED
 		init_tg_rt_entry(&root_task_group, &rq->rt, NULL, i, 0, NULL);
 		init_tg_rt_entry(&init_task_group,
@@ -9687,7 +9687,7 @@ void __init sched_init(void)
 	set_load_weight(&init_task);
 
 #ifdef CONFIG_PREEMPT_NOTIFIERS
-	INIT_HLIST_HEAD(&init_task.preempt_notifiers);
+	//INIT_HLIST_HEAD(&init_task.preempt_notifiers);
 #endif
 
 #ifdef CONFIG_SMP
@@ -9805,9 +9805,9 @@ void normalize_rt_tasks(void)
 
 		p->se.exec_start		= 0;
 #ifdef CONFIG_SCHEDSTATS
-		p->se.wait_start		= 0;
+		/*p->se.wait_start		= 0;
 		p->se.sleep_start		= 0;
-		p->se.block_start		= 0;
+		p->se.block_start		= 0;*/
 #endif
 
 		if (!rt_task(p)) {
@@ -9851,10 +9851,10 @@ void normalize_rt_tasks(void)
  *
  * ONLY VALID WHEN THE WHOLE SYSTEM IS STOPPED!
  */
-struct task_struct *curr_task(int cpu)
+/*struct task_struct *curr_task(int cpu)
 {
 	return cpu_curr(cpu);
-}
+}*/
 
 /**
  * set_curr_task - set the current task for a given cpu.
@@ -9871,11 +9871,11 @@ struct task_struct *curr_task(int cpu)
  *
  * ONLY VALID WHEN THE WHOLE SYSTEM IS STOPPED!
  */
-void set_curr_task(int cpu, struct task_struct *p)
+/*void set_curr_task(int cpu, struct task_struct *p)
 {
 	cpu_curr(cpu) = p;
 }
-
+*/
 #endif
 
 #ifdef CONFIG_FAIR_GROUP_SCHED
@@ -9944,7 +9944,7 @@ static inline void unregister_fair_sched_group(struct task_group *tg, int cpu)
 	list_del_rcu(&tg->cfs_rq[cpu]->leaf_cfs_rq_list);
 }
 #else /* !CONFG_FAIR_GROUP_SCHED */
-static inline void free_fair_sched_group(struct task_group *tg)
+/*static inline void free_fair_sched_group(struct task_group *tg)
 {
 }
 
@@ -9960,7 +9960,7 @@ static inline void register_fair_sched_group(struct task_group *tg, int cpu)
 
 static inline void unregister_fair_sched_group(struct task_group *tg, int cpu)
 {
-}
+}*/
 #endif /* CONFIG_FAIR_GROUP_SCHED */
 
 #ifdef CONFIG_RT_GROUP_SCHED
@@ -10032,7 +10032,7 @@ static inline void unregister_rt_sched_group(struct task_group *tg, int cpu)
 	list_del_rcu(&tg->rt_rq[cpu]->leaf_rt_rq_list);
 }
 #else /* !CONFIG_RT_GROUP_SCHED */
-static inline void free_rt_sched_group(struct task_group *tg)
+/*static inline void free_rt_sched_group(struct task_group *tg)
 {
 }
 
@@ -10048,7 +10048,7 @@ static inline void register_rt_sched_group(struct task_group *tg, int cpu)
 
 static inline void unregister_rt_sched_group(struct task_group *tg, int cpu)
 {
-}
+}*/
 #endif /* CONFIG_RT_GROUP_SCHED */
 
 #ifdef CONFIG_GROUP_SCHED
@@ -10533,8 +10533,8 @@ int sched_rt_handler(struct ctl_table *table, int write,
 }
 
 #ifdef CONFIG_CGROUP_SCHED
-
-/* return corresponding task_group object of a cgroup */
+/*
+* return corresponding task_group object of a cgroup *
 static inline struct task_group *cgroup_tg(struct cgroup *cgrp)
 {
 	return container_of(cgroup_subsys_state(cgrp, cpu_cgroup_subsys_id),
@@ -10547,7 +10547,7 @@ cpu_cgroup_create(struct cgroup_subsys *ss, struct cgroup *cgrp)
 	struct task_group *tg, *parent;
 
 	if (!cgrp->parent) {
-		/* This is early initialization for the top cgroup */
+		* This is early initialization for the top cgroup *
 		return &init_task_group.css;
 	}
 
@@ -10574,7 +10574,7 @@ cpu_cgroup_can_attach_task(struct cgroup *cgrp, struct task_struct *tsk)
 	if (!sched_rt_can_attach(cgroup_tg(cgrp), tsk))
 		return -EINVAL;
 #else
-	/* We don't support RT-tasks being in separate groups */
+	* We don't support RT-tasks being in separate groups *
 	if (tsk->sched_class != &fair_sched_class)
 		return -EINVAL;
 #endif
@@ -10632,7 +10632,7 @@ static u64 cpu_shares_read_u64(struct cgroup *cgrp, struct cftype *cft)
 
 	return (u64) tg->shares;
 }
-#endif /* CONFIG_FAIR_GROUP_SCHED */
+#endif * CONFIG_FAIR_GROUP_SCHED *
 
 #ifdef CONFIG_RT_GROUP_SCHED
 static int cpu_rt_runtime_write(struct cgroup *cgrp, struct cftype *cft,
@@ -10656,7 +10656,7 @@ static u64 cpu_rt_period_read_uint(struct cgroup *cgrp, struct cftype *cft)
 {
 	return sched_group_rt_period(cgroup_tg(cgrp));
 }
-#endif /* CONFIG_RT_GROUP_SCHED */
+#endif * CONFIG_RT_GROUP_SCHED *
 
 static struct cftype cpu_files[] = {
 #ifdef CONFIG_FAIR_GROUP_SCHED
@@ -10695,7 +10695,7 @@ struct cgroup_subsys cpu_cgroup_subsys = {
 	.subsys_id	= cpu_cgroup_subsys_id,
 	.early_init	= 1,
 };
-
+*/
 #endif	/* CONFIG_CGROUP_SCHED */
 
 #ifdef CONFIG_CGROUP_CPUACCT
@@ -10708,9 +10708,9 @@ struct cgroup_subsys cpu_cgroup_subsys = {
  */
 
 /* track cpu usage of a group of tasks and its child groups */
-struct cpuacct {
+/*struct cpuacct {
 	struct cgroup_subsys_state css;
-	/* cpuusage holds pointer to a u64-type object on every cpu */
+	* cpuusage holds pointer to a u64-type object on every cpu *
 	u64 *cpuusage;
 	struct percpu_counter cpustat[CPUACCT_STAT_NSTATS];
 	struct cpuacct *parent;
@@ -10718,21 +10718,21 @@ struct cpuacct {
 
 struct cgroup_subsys cpuacct_subsys;
 
-/* return cpu accounting group corresponding to this container */
+* return cpu accounting group corresponding to this container *
 static inline struct cpuacct *cgroup_ca(struct cgroup *cgrp)
 {
 	return container_of(cgroup_subsys_state(cgrp, cpuacct_subsys_id),
 			    struct cpuacct, css);
 }
 
-/* return cpu accounting group to which this task belongs */
+* return cpu accounting group to which this task belongs *
 static inline struct cpuacct *task_ca(struct task_struct *tsk)
 {
 	return container_of(task_subsys_state(tsk, cpuacct_subsys_id),
 			    struct cpuacct, css);
 }
 
-/* create a new cpu accounting group */
+* create a new cpu accounting group *
 static struct cgroup_subsys_state *cpuacct_create(
 	struct cgroup_subsys *ss, struct cgroup *cgrp)
 {
@@ -10765,7 +10765,7 @@ out:
 	return ERR_PTR(-ENOMEM);
 }
 
-/* destroy an existing cpu accounting group */
+* destroy an existing cpu accounting group *
 static void
 cpuacct_destroy(struct cgroup_subsys *ss, struct cgroup *cgrp)
 {
@@ -10784,12 +10784,12 @@ static u64 cpuacct_cpuusage_read(struct cpuacct *ca, int cpu)
 	u64 data;
 
 #ifndef CONFIG_64BIT
-	/*
+	*
 	 * Take rq->lock to make 64-bit read safe on 32-bit platforms.
 	 */
-	spin_lock_irq(&cpu_rq(cpu)->lock);
+	/*spin_lock_irq(&cpu_rq(cpu)->lock);
 	data = *cpuusage;
-	spin_unlock_irq(&cpu_rq(cpu)->lock);
+	spin_unlock_irq(&cpu_rq(cpu)->lock);*
 #else
 	data = *cpuusage;
 #endif
@@ -10802,18 +10802,18 @@ static void cpuacct_cpuusage_write(struct cpuacct *ca, int cpu, u64 val)
 	u64 *cpuusage = per_cpu_ptr(ca->cpuusage, cpu);
 
 #ifndef CONFIG_64BIT
-	/*
+	*
 	 * Take rq->lock to make 64-bit write safe on 32-bit platforms.
 	 */
-	spin_lock_irq(&cpu_rq(cpu)->lock);
+	/*spin_lock_irq(&cpu_rq(cpu)->lock);
 	*cpuusage = val;
-	spin_unlock_irq(&cpu_rq(cpu)->lock);
+	spin_unlock_irq(&cpu_rq(cpu)->lock);*
 #else
 	*cpuusage = val;
 #endif
 }
 
-/* return total cpu usage (in nanoseconds) of a group */
+* return total cpu usage (in nanoseconds) of a group *
 static u64 cpuusage_read(struct cgroup *cgrp, struct cftype *cft)
 {
 	struct cpuacct *ca = cgroup_ca(cgrp);
@@ -10900,11 +10900,11 @@ static int cpuacct_populate(struct cgroup_subsys *ss, struct cgroup *cgrp)
 	return cgroup_add_files(cgrp, ss, files, ARRAY_SIZE(files));
 }
 
-/*
+*
  * charge this task's execution time to its accounting group.
  *
  * called with rq->lock held.
- */
+ *
 static void cpuacct_charge(struct task_struct *tsk, u64 cputime)
 {
 	struct cpuacct *ca;
@@ -10927,7 +10927,7 @@ static void cpuacct_charge(struct task_struct *tsk, u64 cputime)
 	rcu_read_unlock();
 }
 
-/*
+*
  * When CONFIG_VIRT_CPU_ACCOUNTING is enabled one jiffy can be very large
  * in cputime_t units. As a result, cpuacct_update_stats calls
  * percpu_counter_add with values large enough to always overflow the
@@ -10936,17 +10936,17 @@ static void cpuacct_charge(struct task_struct *tsk, u64 cputime)
  * To fix this we scale percpu_counter_batch by cputime_one_jiffy so we
  * batch the same amount of time with CONFIG_VIRT_CPU_ACCOUNTING disabled
  * and enabled. We cap it at INT_MAX which is the largest allowed batch value.
- */
+ *
 #ifdef CONFIG_SMP
 #define CPUACCT_BATCH	\
 	min_t(long, percpu_counter_batch * cputime_one_jiffy, INT_MAX)
 #else
-#define CPUACCT_BATCH	0
+//#define CPUACCT_BATCH	0
 #endif
 
-/*
+*
  * Charge the system/user time to the task's accounting group.
- */
+ *
 static void cpuacct_update_stats(struct task_struct *tsk,
 		enum cpuacct_stat_index idx, cputime_t val)
 {
@@ -10972,11 +10972,11 @@ struct cgroup_subsys cpuacct_subsys = {
 	.destroy = cpuacct_destroy,
 	.populate = cpuacct_populate,
 	.subsys_id = cpuacct_subsys_id,
-};
+};*/
 #endif	/* CONFIG_CGROUP_CPUACCT */
 
 #ifndef CONFIG_SMP
-
+/*
 int rcu_expedited_torture_stats(char *page)
 {
 	return 0;
@@ -10987,7 +10987,7 @@ void synchronize_sched_expedited(void)
 {
 }
 EXPORT_SYMBOL_GPL(synchronize_sched_expedited);
-
+*/
 #else /* #ifndef CONFIG_SMP */
 
 static DEFINE_PER_CPU(struct migration_req, rcu_migration_req);
