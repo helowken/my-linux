@@ -158,7 +158,7 @@ struct irq_cfg {
 #ifdef CONFIG_SPARSE_IRQ
 static struct irq_cfg irq_cfgx[] = {
 #else
-static struct irq_cfg irq_cfgx[NR_IRQS] = {
+//static struct irq_cfg irq_cfgx[NR_IRQS] = {
 #endif
 	[0]  = { .vector = IRQ0_VECTOR,  },
 	[1]  = { .vector = IRQ1_VECTOR,  },
@@ -366,11 +366,11 @@ void arch_free_chip_data(struct irq_desc *old_desc, struct irq_desc *desc)
 /* end for move_irq_desc */
 
 #else
-static struct irq_cfg *irq_cfg(unsigned int irq)
+/*static struct irq_cfg *irq_cfg(unsigned int irq)
 {
 	return irq < nr_irqs ? irq_cfgx + irq : NULL;
 }
-
+*/
 #endif
 
 struct io_apic {
@@ -879,7 +879,7 @@ static int __init find_isa_irq_apic(int irq, int type)
 /*
  * EISA Edge/Level control register, ELCR
  */
-static int EISA_ELCR(unsigned int irq)
+/*static int EISA_ELCR(unsigned int irq)
 {
 	if (irq < nr_legacy_irqs) {
 		unsigned int port = 0x4d0 + (irq >> 3);
@@ -889,7 +889,7 @@ static int EISA_ELCR(unsigned int irq)
 			"Broken MPtable reports ISA irq %d\n", irq);
 	return 0;
 }
-
+*/
 #endif
 
 /* ISA interrupts are always polarity zero edge triggered,
@@ -976,23 +976,23 @@ static int MPBIOS_trigger(int idx)
 			else
 				trigger = default_PCI_trigger(idx);
 #if defined(CONFIG_EISA) || defined(CONFIG_MCA)
-			switch (mp_bus_id_to_type[bus]) {
-				case MP_BUS_ISA: /* ISA pin */
+			/*switch (mp_bus_id_to_type[bus]) {
+				case MP_BUS_ISA: * ISA pin *
 				{
-					/* set before the switch */
+					* set before the switch *
 					break;
 				}
-				case MP_BUS_EISA: /* EISA pin */
+				case MP_BUS_EISA: * EISA pin *
 				{
 					trigger = default_EISA_trigger(idx);
 					break;
 				}
-				case MP_BUS_PCI: /* PCI pin */
+				case MP_BUS_PCI: * PCI pin *
 				{
-					/* set before the switch */
+					* set before the switch *
 					break;
 				}
-				case MP_BUS_MCA: /* MCA pin */
+				case MP_BUS_MCA: * MCA pin *
 				{
 					trigger = default_MCA_trigger(idx);
 					break;
@@ -1003,7 +1003,7 @@ static int MPBIOS_trigger(int idx)
 					trigger = 1;
 					break;
 				}
-			}
+			}*/
 #endif
 			break;
 		case 1: /* edge */
@@ -1350,7 +1350,7 @@ static void ioapic_register_intr(int irq, struct irq_desc *desc, unsigned long t
 	else
 		desc->status &= ~IRQ_LEVEL;
 
-	if (irq_remapped(irq)) {
+	/*if (irq_remapped(irq)) {
 		desc->status |= IRQ_MOVE_PCNTXT;
 		if (trigger)
 			set_irq_chip_and_handler_name(irq, &ir_ioapic_chip,
@@ -1360,7 +1360,7 @@ static void ioapic_register_intr(int irq, struct irq_desc *desc, unsigned long t
 			set_irq_chip_and_handler_name(irq, &ir_ioapic_chip,
 						      handle_edge_irq, "edge");
 		return;
-	}
+	}*/
 
 	if ((trigger == IOAPIC_AUTO && IO_APIC_irq_trigger(irq)) ||
 	    trigger == IOAPIC_LEVEL)
@@ -1383,7 +1383,7 @@ int setup_ioapic_entry(int apic_id, int irq,
 	memset(entry,0,sizeof(*entry));
 
 	if (intr_remapping_enabled) {
-		struct intel_iommu *iommu = map_ioapic_to_ir(apic_id);
+		/*struct intel_iommu *iommu = map_ioapic_to_ir(apic_id);
 		struct irte irte;
 		struct IR_IO_APIC_route_entry *ir_entry =
 			(struct IR_IO_APIC_route_entry *) entry;
@@ -1400,20 +1400,20 @@ int setup_ioapic_entry(int apic_id, int irq,
 
 		irte.present = 1;
 		irte.dst_mode = apic->irq_dest_mode;
-		/*
+		*
 		 * Trigger mode in the IRTE will always be edge, and the
 		 * actual level or edge trigger will be setup in the IO-APIC
 		 * RTE. This will help simplify level triggered irq migration.
 		 * For more details, see the comments above explainig IO-APIC
 		 * irq migration in the presence of interrupt-remapping.
-		 */
+		 *
 		irte.trigger_mode = 0;
 		irte.dlvry_mode = apic->irq_delivery_mode;
 		irte.vector = vector;
 		irte.dest_id = IRTE_DEST(destination);
 		irte.redir_hint = 1;
 
-		/* Set source-id of interrupt request */
+		* Set source-id of interrupt request *
 		set_ioapic_sid(&irte, apic_id);
 
 		modify_irte(irq, &irte);
@@ -1422,11 +1422,11 @@ int setup_ioapic_entry(int apic_id, int irq,
 		ir_entry->zero = 0;
 		ir_entry->format = 1;
 		ir_entry->index = (index & 0x7fff);
-		/*
+		*
 		 * IO-APIC RTE will be configured with virtual vector.
 		 * irq handler will do the explicit EOI to the io-apic.
-		 */
-		ir_entry->vector = pin;
+		 *
+		ir_entry->vector = pin;*/
 	} else {
 		entry->delivery_mode = apic->irq_delivery_mode;
 		entry->dest_mode = apic->irq_dest_mode;
@@ -2410,7 +2410,7 @@ set_ioapic_affinity_irq(unsigned int irq, const struct cpumask *mask)
  * Real vector that is used for interrupting cpu will be coming from
  * the interrupt-remapping table entry.
  */
-static int
+/*static int
 migrate_ioapic_irq_desc(struct irq_desc *desc, const struct cpumask *mask)
 {
 	struct irq_cfg *cfg;
@@ -2435,9 +2435,9 @@ migrate_ioapic_irq_desc(struct irq_desc *desc, const struct cpumask *mask)
 	irte.vector = cfg->vector;
 	irte.dest_id = IRTE_DEST(dest);
 
-	/*
+	*
 	 * Modified the IRTE and flushes the Interrupt entry cache.
-	 */
+	 *
 	modify_irte(irq, &irte);
 
 	if (cfg->move_in_progress)
@@ -2448,9 +2448,9 @@ migrate_ioapic_irq_desc(struct irq_desc *desc, const struct cpumask *mask)
 	return 0;
 }
 
-/*
+*
  * Migrates the IRQ destination in the process context.
- */
+ *
 static int set_ir_ioapic_affinity_irq_desc(struct irq_desc *desc,
 					    const struct cpumask *mask)
 {
@@ -2462,7 +2462,7 @@ static int set_ir_ioapic_affinity_irq(unsigned int irq,
 	struct irq_desc *desc = irq_to_desc(irq);
 
 	return set_ir_ioapic_affinity_irq_desc(desc, mask);
-}
+}*/
 #else
 static inline int set_ir_ioapic_affinity_irq_desc(struct irq_desc *desc,
 						   const struct cpumask *mask)
@@ -2644,7 +2644,7 @@ static void ack_apic_level(unsigned int irq)
 }
 
 #ifdef CONFIG_INTR_REMAP
-static void __eoi_ioapic_irq(unsigned int irq, struct irq_cfg *cfg)
+/*static void __eoi_ioapic_irq(unsigned int irq, struct irq_cfg *cfg)
 {
 	struct irq_pin_list *entry;
 
@@ -2678,7 +2678,7 @@ static void ir_ack_apic_level(unsigned int irq)
 
 	ack_APIC_irq();
 	eoi_ioapic_irq(desc);
-}
+}*/
 #endif /* CONFIG_INTR_REMAP */
 
 static struct irq_chip ioapic_chip __read_mostly = {
@@ -3370,7 +3370,7 @@ static int set_msi_irq_affinity(unsigned int irq, const struct cpumask *mask)
  * Migrate the MSI irq to another cpumask. This migration is
  * done in the process context using interrupt-remapping hardware.
  */
-static int
+/*static int
 ir_set_msi_irq_affinity(unsigned int irq, const struct cpumask *mask)
 {
 	struct irq_desc *desc = irq_to_desc(irq);
@@ -3388,22 +3388,22 @@ ir_set_msi_irq_affinity(unsigned int irq, const struct cpumask *mask)
 	irte.vector = cfg->vector;
 	irte.dest_id = IRTE_DEST(dest);
 
-	/*
+	*
 	 * atomically update the IRTE with the new destination and vector.
-	 */
+	 *
 	modify_irte(irq, &irte);
 
-	/*
+	*
 	 * After this point, all the interrupts will start arriving
 	 * at the new destination. So, time to cleanup the previous
 	 * vector allocation.
-	 */
+	 *
 	if (cfg->move_in_progress)
 		send_cleanup_vector(cfg);
 
 	return 0;
 }
-
+*/
 #endif
 #endif /* CONFIG_SMP */
 
@@ -3556,7 +3556,7 @@ void arch_teardown_msi_irq(unsigned int irq)
 }
 
 #if defined (CONFIG_DMAR) || defined (CONFIG_INTR_REMAP)
-#ifdef CONFIG_SMP
+/*#ifdef CONFIG_SMP
 static int dmar_msi_set_affinity(unsigned int irq, const struct cpumask *mask)
 {
 	struct irq_desc *desc = irq_to_desc(irq);
@@ -3582,7 +3582,7 @@ static int dmar_msi_set_affinity(unsigned int irq, const struct cpumask *mask)
 	return 0;
 }
 
-#endif /* CONFIG_SMP */
+#endif * CONFIG_SMP *
 
 static struct irq_chip dmar_msi_type = {
 	.name = "DMAR_MSI",
@@ -3607,7 +3607,7 @@ int arch_setup_dmar_msi(unsigned int irq)
 	set_irq_chip_and_handler_name(irq, &dmar_msi_type, handle_edge_irq,
 		"edge");
 	return 0;
-}
+}*/
 #endif
 
 #ifdef CONFIG_HPET_TIMER
@@ -3770,7 +3770,7 @@ int arch_setup_ht_irq(unsigned int irq, struct pci_dev *dev)
  * Re-target the irq to the specified CPU and enable the specified MMR located
  * on the specified blade to allow the sending of MSIs to the specified CPU.
  */
-int arch_enable_uv_irq(char *irq_name, unsigned int irq, int cpu, int mmr_blade,
+/*int arch_enable_uv_irq(char *irq_name, unsigned int irq, int cpu, int mmr_blade,
 		       unsigned long mmr_offset)
 {
 	const struct cpumask *eligible_cpu = cpumask_of(cpu);
@@ -3813,10 +3813,10 @@ int arch_enable_uv_irq(char *irq_name, unsigned int irq, int cpu, int mmr_blade,
 	return irq;
 }
 
-/*
+*
  * Disable the specified MMR located on the specified blade so that MSIs are
  * longer allowed to be sent.
- */
+ *
 void arch_disable_uv_irq(int mmr_blade, unsigned long mmr_offset)
 {
 	unsigned long mmr_value;
@@ -3831,7 +3831,7 @@ void arch_disable_uv_irq(int mmr_blade, unsigned long mmr_offset)
 
 	mmr_pnode = uv_blade_to_pnode(mmr_blade);
 	uv_write_global_mmr64(mmr_pnode, mmr_offset, mmr_value);
-}
+}*/
 #endif /* CONFIG_X86_64 */
 
 int __init io_apic_get_redir_entries (int ioapic)

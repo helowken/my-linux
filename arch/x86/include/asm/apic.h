@@ -489,16 +489,16 @@ static inline unsigned int read_apic_id(void)
 extern void default_setup_apic_routing(void);
 
 #ifdef CONFIG_X86_32
-
+/*
 extern struct apic apic_default;
 
-/*
+*
  * Set up the logical destination ID.
  *
  * Intel recommends to set DFR, LDR and TPR before enabling
  * an APIC.  See e.g. "AP-388 82489DX User's Manual" (Intel
  * document number 292116).  So here it goes...
- */
+ *
 extern void default_init_apic_ldr(void);
 
 static inline int default_apic_id_registered(void)
@@ -512,7 +512,7 @@ static inline int default_phys_pkg_id(int cpuid_apic, int index_msb)
 }
 
 extern int default_apicid_to_node(int logical_apicid);
-
+*/
 #endif
 
 static inline unsigned int
@@ -568,7 +568,7 @@ __default_check_phys_apicid_present(int phys_apicid)
 }
 
 #ifdef CONFIG_X86_32
-static inline int default_cpu_present_to_apicid(int mps_cpu)
+/*static inline int default_cpu_present_to_apicid(int mps_cpu)
 {
 	return __default_cpu_present_to_apicid(mps_cpu);
 }
@@ -577,7 +577,7 @@ static inline int
 default_check_phys_apicid_present(int phys_apicid)
 {
 	return __default_check_phys_apicid_present(phys_apicid);
-}
+}*/
 #else
 extern int default_cpu_present_to_apicid(int mps_cpu);
 extern int default_check_phys_apicid_present(int phys_apicid);
@@ -591,7 +591,7 @@ static inline physid_mask_t default_apicid_to_cpu_present(int phys_apicid)
 #endif /* CONFIG_X86_LOCAL_APIC */
 
 #ifdef CONFIG_X86_32
-extern u8 cpu_2_logical_apicid[NR_CPUS];
+//extern u8 cpu_2_logical_apicid[NR_CPUS];
 #endif
 
 #endif /* _ASM_X86_APIC_H */

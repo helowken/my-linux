@@ -59,24 +59,24 @@ void __lockfunc __release_kernel_lock(void)
  * _raw_spin_trylock() will always succeed.
  */
 #ifdef CONFIG_PREEMPT
-static inline void __lock_kernel(void)
+/*static inline void __lock_kernel(void)
 {
 	preempt_disable();
 	if (unlikely(!_raw_spin_trylock(&kernel_flag))) {
-		/*
+		*
 		 * If preemption was disabled even before this
 		 * was called, there's nothing we can be polite
 		 * about - just spin.
-		 */
+		 *
 		if (preempt_count() > 1) {
 			_raw_spin_lock(&kernel_flag);
 			return;
 		}
 
-		/*
+		*
 		 * Otherwise, let's wait for the kernel lock
 		 * with preemption enabled..
-		 */
+		 *
 		do {
 			preempt_enable();
 			while (spin_is_locked(&kernel_flag))
@@ -85,7 +85,7 @@ static inline void __lock_kernel(void)
 		} while (!_raw_spin_trylock(&kernel_flag));
 	}
 }
-
+*/
 #else
 
 /*

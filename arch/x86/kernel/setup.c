@@ -142,7 +142,7 @@ int default_check_phys_apicid_present(int phys_apicid)
 #ifndef CONFIG_DEBUG_BOOT_PARAMS
 struct boot_params __initdata boot_params;
 #else
-struct boot_params boot_params;
+//struct boot_params boot_params;
 #endif
 
 /*
@@ -172,8 +172,8 @@ static struct resource bss_resource = {
 
 #ifdef CONFIG_X86_32
 /* cpu data as detected by the assembly code in head.S */
-struct cpuinfo_x86 new_cpu_data __cpuinitdata = {0, 0, 0, 0, -1, 1, 0, 0, -1};
-/* common cpu data for all cpus */
+/*struct cpuinfo_x86 new_cpu_data __cpuinitdata = {0, 0, 0, 0, -1, 1, 0, 0, -1};
+* common cpu data for all cpus *
 struct cpuinfo_x86 boot_cpu_data __read_mostly = {0, 0, 0, 0, -1, 1, 0, 0, -1};
 EXPORT_SYMBOL(boot_cpu_data);
 static void set_mca_bus(int x)
@@ -185,7 +185,7 @@ static void set_mca_bus(int x)
 
 unsigned int def_to_bigsmp;
 
-/* for MCA, but anyone else can use it if they want */
+* for MCA, but anyone else can use it if they want *
 unsigned int machine_id;
 unsigned int machine_submodel_id;
 unsigned int BIOS_revision;
@@ -200,7 +200,7 @@ EXPORT_SYMBOL(ist_info);
 #else
 struct ist_info ist_info;
 #endif
-
+*/
 #else
 struct cpuinfo_x86 boot_cpu_data __read_mostly = {
 	.x86_phys_bits = MAX_PHYSMEM_BITS,
@@ -212,7 +212,7 @@ EXPORT_SYMBOL(boot_cpu_data);
 #if !defined(CONFIG_X86_PAE) || defined(CONFIG_X86_64)
 unsigned long mmu_cr4_features;
 #else
-unsigned long mmu_cr4_features = X86_CR4_PAE;
+//unsigned long mmu_cr4_features = X86_CR4_PAE;
 #endif
 
 /* Boot loader ID and version as integers, for the benefit of proc_dointvec */
@@ -236,7 +236,7 @@ unsigned long saved_video_mode;
 
 static char __initdata command_line[COMMAND_LINE_SIZE];
 #ifdef CONFIG_CMDLINE_BOOL
-static char __initdata builtin_cmdline[COMMAND_LINE_SIZE] = CONFIG_CMDLINE;
+//static char __initdata builtin_cmdline[COMMAND_LINE_SIZE] = CONFIG_CMDLINE;
 #endif
 
 #if defined(CONFIG_EDD) || defined(CONFIG_EDD_MODULE)
@@ -524,7 +524,7 @@ static inline unsigned long long get_total_mem(void)
 
 	total = max_low_pfn - min_low_pfn;
 #ifdef CONFIG_HIGHMEM
-	total += highend_pfn - highstart_pfn;
+	//total += highend_pfn - highstart_pfn;
 #endif
 
 	return total << PAGE_SHIFT;
@@ -1071,7 +1071,7 @@ void __init setup_arch(char **cmdline_p)
 }
 
 #ifdef CONFIG_X86_32
-
+/*
 static struct resource video_ram_resource = {
 	.name	= "Video RAM area",
 	.start	= 0xa0000,
@@ -1084,5 +1084,5 @@ void __init i386_reserve_resources(void)
 	request_resource(&iomem_resource, &video_ram_resource);
 	reserve_standard_io_resources();
 }
-
+*/
 #endif /* CONFIG_X86_32 */

@@ -942,7 +942,7 @@ static int __init smp_sanity_check(unsigned max_cpus)
 	preempt_disable();
 
 #if !defined(CONFIG_X86_BIGSMP) && defined(CONFIG_X86_32)
-	if (def_to_bigsmp && nr_cpu_ids > 8) {
+	/*if (def_to_bigsmp && nr_cpu_ids > 8) {
 		unsigned int cpu;
 		unsigned nr;
 
@@ -965,7 +965,7 @@ static int __init smp_sanity_check(unsigned max_cpus)
 		}
 
 		nr_cpu_ids = 8;
-	}
+	}*/
 #endif
 
 	if (!physid_isset(hard_smp_processor_id(), phys_cpu_present_map)) {

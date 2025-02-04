@@ -2042,7 +2042,7 @@ int perf_event_task_disable(void)
 }
 
 #ifndef PERF_EVENT_INDEX_OFFSET
-# define PERF_EVENT_INDEX_OFFSET 0
+//# define PERF_EVENT_INDEX_OFFSET 0
 #endif
 
 static int perf_event_index(struct perf_event *event)
@@ -2188,7 +2188,7 @@ static void perf_mmap_data_free(struct perf_mmap_data *data)
  * Required for architectures that have d-cache aliasing issues.
  */
 
-static struct page *
+/*static struct page *
 perf_mmap_to_page(struct perf_mmap_data *data, unsigned long pgoff)
 {
 	if (pgoff > (1UL << data->data_order))
@@ -2261,7 +2261,7 @@ fail_all_buf:
 fail:
 	return NULL;
 }
-
+*/
 #endif
 
 static int perf_mmap_fault(struct vm_area_struct *vma, struct vm_fault *vmf)
@@ -4134,7 +4134,7 @@ static const struct pmu perf_ops_task_clock = {
 };
 
 #ifdef CONFIG_EVENT_PROFILE
-void perf_tp_event(int event_id, u64 addr, u64 count, void *record,
+/*void perf_tp_event(int event_id, u64 addr, u64 count, void *record,
 			  int entry_size)
 {
 	struct perf_raw_record raw = {
@@ -4167,10 +4167,10 @@ static void tp_perf_event_destroy(struct perf_event *event)
 
 static const struct pmu *tp_perf_event_init(struct perf_event *event)
 {
-	/*
+	*
 	 * Raw tracepoint data is a severe data leak, only allow root to
 	 * have these.
-	 */
+	 *
 	if ((event->attr.sample_type & PERF_SAMPLE_RAW) &&
 			perf_paranoid_tracepoint_raw() &&
 			!capable(CAP_SYS_ADMIN))
@@ -4182,7 +4182,7 @@ static const struct pmu *tp_perf_event_init(struct perf_event *event)
 	event->destroy = tp_perf_event_destroy;
 
 	return &perf_ops_generic;
-}
+}*/
 #else
 static const struct pmu *tp_perf_event_init(struct perf_event *event)
 {
@@ -5029,7 +5029,7 @@ static void perf_event_exit_cpu(int cpu)
 	mutex_unlock(&ctx->mutex);
 }
 #else
-static inline void perf_event_exit_cpu(int cpu) { }
+//static inline void perf_event_exit_cpu(int cpu) { }
 #endif
 
 static int __cpuinit

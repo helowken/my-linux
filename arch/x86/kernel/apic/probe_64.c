@@ -55,7 +55,7 @@ static int apicid_phys_pkg_id(int initial_apic_id, int index_msb)
 void __init default_setup_apic_routing(void)
 {
 #ifdef CONFIG_X86_X2APIC
-	if (x2apic_mode
+	/*if (x2apic_mode
 #ifdef CONFIG_X86_UV
 		       && apic != &apic_x2apic_uv_x
 #endif
@@ -64,7 +64,7 @@ void __init default_setup_apic_routing(void)
 			apic = &apic_x2apic_phys;
 		else
 			apic = &apic_x2apic_cluster;
-	}
+	}*/
 #endif
 
 	if (apic == &apic_flat && num_possible_cpus() > 8)

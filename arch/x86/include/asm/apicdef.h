@@ -19,7 +19,7 @@
 #define		GET_APIC_VERSION(x)	((x) & 0xFFu)
 #define		GET_APIC_MAXLVT(x)	(((x) >> 16) & 0xFFu)
 #ifdef CONFIG_X86_32
-#  define	APIC_INTEGRATED(x)	((x) & 0xF0u)
+//#  define	APIC_INTEGRATED(x)	((x) & 0xF0u)
 #else
 #  define	APIC_INTEGRATED(x)	(1)
 #endif
@@ -137,7 +137,7 @@
 #define X2APIC_ENABLE	(1UL << 10)
 
 #ifdef CONFIG_X86_32
-# define MAX_IO_APICS 64
+//# define MAX_IO_APICS 64
 #else
 # define MAX_IO_APICS 128
 # define MAX_LOCAL_APIC 32768
@@ -414,7 +414,7 @@ struct local_apic {
 #undef u32
 
 #ifdef CONFIG_X86_32
- #define BAD_APICID 0xFFu
+ //#define BAD_APICID 0xFFu
 #else
  #define BAD_APICID 0xFFFFu
 #endif

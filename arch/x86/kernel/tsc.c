@@ -67,10 +67,10 @@ u64 native_sched_clock(void)
 /* We need to define a real function for sched_clock, to override the
    weak default version */
 #ifdef CONFIG_PARAVIRT
-unsigned long long sched_clock(void)
+/*unsigned long long sched_clock(void)
 {
 	return paravirt_sched_clock();
-}
+}*/
 #else
 unsigned long long
 sched_clock(void) __attribute__((alias("native_sched_clock")));
@@ -95,11 +95,11 @@ int __init notsc_setup(char *str)
  * disable flag for tsc. Takes effect by clearing the TSC cpu flag
  * in cpu/common.c
  */
-int __init notsc_setup(char *str)
+/*int __init notsc_setup(char *str)
 {
 	setup_clear_cpu_cap(X86_FEATURE_TSC);
 	return 1;
-}
+}*/
 #endif
 
 __setup("notsc", notsc_setup);
@@ -571,7 +571,7 @@ int recalibrate_cpu_khz(void)
 	} else
 		return -ENODEV;
 #else
-	return -ENODEV;
+	//return -ENODEV;
 #endif
 }
 
@@ -946,7 +946,7 @@ static unsigned long __init calibrate_cpu(void)
 	return pmc_now * tsc_khz / (tsc_now - tsc_start);
 }
 #else
-static inline unsigned long calibrate_cpu(void) { return cpu_khz; }
+//static inline unsigned long calibrate_cpu(void) { return cpu_khz; }
 #endif
 
 void __init tsc_init(void)
