@@ -2539,7 +2539,7 @@ static void irq_complete_move(struct irq_desc **descp)
 		send_cleanup_vector(cfg);
 }
 #else
-static inline void irq_complete_move(struct irq_desc **descp) {}
+//static inline void irq_complete_move(struct irq_desc **descp) {}
 #endif
 
 static void ack_apic_edge(unsigned int irq)

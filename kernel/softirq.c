@@ -48,8 +48,8 @@
  */
 
 #ifndef __ARCH_IRQ_STAT
-irq_cpustat_t irq_stat[NR_CPUS] ____cacheline_aligned;
-EXPORT_SYMBOL(irq_stat);
+//irq_cpustat_t irq_stat[NR_CPUS] ____cacheline_aligned;
+//EXPORT_SYMBOL(irq_stat);
 #endif
 
 static struct softirq_action softirq_vec[NR_SOFTIRQS] __cacheline_aligned_in_smp;
@@ -81,31 +81,31 @@ void wakeup_softirqd(void)
  * where hardirqs are disabled legitimately:
  */
 #ifdef CONFIG_TRACE_IRQFLAGS
-static void __local_bh_disable(unsigned long ip)
+/*static void __local_bh_disable(unsigned long ip)
 {
 	unsigned long flags;
 
 	WARN_ON_ONCE(in_irq());
 
 	raw_local_irq_save(flags);
-	/*
+	*
 	 * The preempt tracer hooks into add_preempt_count and will break
 	 * lockdep because it calls back into lockdep after SOFTIRQ_OFFSET
 	 * is set and before current->softirq_enabled is cleared.
 	 * We must manually increment preempt_count here and manually
 	 * call the trace_preempt_off later.
-	 */
+	 *
 	preempt_count() += SOFTIRQ_OFFSET;
-	/*
+	*
 	 * Were softirqs turned off above:
-	 */
+	 *
 	if (softirq_count() == SOFTIRQ_OFFSET)
 		trace_softirqs_off(ip);
 	raw_local_irq_restore(flags);
 
 	if (preempt_count() == SOFTIRQ_OFFSET)
 		trace_preempt_off(CALLER_ADDR0, get_parent_ip(CALLER_ADDR1));
-}
+}*/
 #else /* !CONFIG_TRACE_IRQFLAGS */
 static inline void __local_bh_disable(unsigned long ip)
 {
@@ -142,7 +142,7 @@ static inline void _local_bh_enable_ip(unsigned long ip)
 {
 	WARN_ON_ONCE(in_irq() || irqs_disabled());
 #ifdef CONFIG_TRACE_IRQFLAGS
-	local_irq_disable();
+	//local_irq_disable();
 #endif
 	/*
 	 * Are softirqs going to be turned on now:
@@ -160,7 +160,7 @@ static inline void _local_bh_enable_ip(unsigned long ip)
 
 	dec_preempt_count();
 #ifdef CONFIG_TRACE_IRQFLAGS
-	local_irq_enable();
+	//local_irq_enable();
 #endif
 	preempt_check_resched();
 }
@@ -249,7 +249,7 @@ restart:
 }
 
 #ifndef __ARCH_HAS_DO_SOFTIRQ
-
+/*
 asmlinkage void do_softirq(void)
 {
 	__u32 pending;
@@ -267,7 +267,7 @@ asmlinkage void do_softirq(void)
 
 	local_irq_restore(flags);
 }
-
+*/
 #endif
 
 /*
@@ -286,7 +286,7 @@ void irq_enter(void)
 }
 
 #ifdef __ARCH_IRQ_EXIT_IRQS_DISABLED
-# define invoke_softirq()	__do_softirq()
+//# define invoke_softirq()	__do_softirq()
 #else
 # define invoke_softirq()	do_softirq()
 #endif
@@ -597,10 +597,10 @@ static int __try_remote_softirq(struct call_single_data *cp, int cpu, int softir
 	return 1;
 }
 #else /* CONFIG_USE_GENERIC_SMP_HELPERS */
-static int __try_remote_softirq(struct call_single_data *cp, int cpu, int softirq)
+/*static int __try_remote_softirq(struct call_single_data *cp, int cpu, int softirq)
 {
 	return 1;
-}
+}*/
 #endif
 
 /**

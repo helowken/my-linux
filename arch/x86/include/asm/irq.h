@@ -20,9 +20,9 @@ static inline int irq_canonicalize(int irq)
 #endif
 
 #ifdef CONFIG_4KSTACKS
-  extern void irq_ctx_init(int cpu);
+/*  extern void irq_ctx_init(int cpu);
   extern void irq_ctx_exit(int cpu);
-# define __ARCH_HAS_DO_SOFTIRQ
+# define __ARCH_HAS_DO_SOFTIRQ*/
 #else
 # define irq_ctx_init(cpu) do { } while (0)
 # define irq_ctx_exit(cpu) do { } while (0)

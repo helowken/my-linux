@@ -28,12 +28,12 @@ static inline u32 acpi_pm_read_early(void)
 extern void pmtimer_wait(unsigned);
 
 #else
-
+/*
 static inline u32 acpi_pm_read_early(void)
 {
 	return 0;
 }
-
+*/
 #endif
 
 #endif
