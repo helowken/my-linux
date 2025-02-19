@@ -13,7 +13,7 @@
 #ifdef CONFIG_MODULES
 #define PERCPU_MODULE_RESERVE		(8 << 10)
 #else
-#define PERCPU_MODULE_RESERVE		0
+//#define PERCPU_MODULE_RESERVE		0
 #endif
 
 #ifndef PERCPU_ENOUGH_ROOM
@@ -53,7 +53,7 @@
 #if BITS_PER_LONG > 32
 #define PERCPU_DYNAMIC_RESERVE		(20 << 10)
 #else
-#define PERCPU_DYNAMIC_RESERVE		(12 << 10)
+//#define PERCPU_DYNAMIC_RESERVE		(12 << 10)
 #endif
 
 extern void *pcpu_base_addr;
@@ -132,12 +132,12 @@ extern int __init pcpu_page_first_chunk(size_t reserved_size,
 extern void *__alloc_reserved_percpu(size_t size, size_t align);
 
 #else /* CONFIG_HAVE_LEGACY_PER_CPU_AREA */
-
+/*
 struct percpu_data {
 	void *ptrs[1];
 };
 
-/* pointer disguising messes up the kmemleak objects tracking */
+* pointer disguising messes up the kmemleak objects tracking *
 #ifndef CONFIG_DEBUG_KMEMLEAK
 #define __percpu_disguise(pdata) (struct percpu_data *)~(unsigned long)(pdata)
 #else
@@ -149,14 +149,14 @@ struct percpu_data {
         struct percpu_data *__p = __percpu_disguise(ptr);		\
         (__typeof__(ptr))__p->ptrs[(cpu)];				\
 })
-
+*/
 #endif /* CONFIG_HAVE_LEGACY_PER_CPU_AREA */
 
 extern void *__alloc_percpu(size_t size, size_t align);
 extern void free_percpu(void *__pdata);
 
 #ifndef CONFIG_HAVE_SETUP_PER_CPU_AREA
-extern void __init setup_per_cpu_areas(void);
+//extern void __init setup_per_cpu_areas(void);
 #endif
 
 #else /* CONFIG_SMP */

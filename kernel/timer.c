@@ -370,7 +370,7 @@ static void internal_add_timer(struct tvec_base *base, struct timer_list *timer)
 }
 
 #ifdef CONFIG_TIMER_STATS
-void __timer_stats_timer_set_start_info(struct timer_list *timer, void *addr)
+/*void __timer_stats_timer_set_start_info(struct timer_list *timer, void *addr)
 {
 	if (timer->start_site)
 		return;
@@ -392,19 +392,19 @@ static void timer_stats_account_timer(struct timer_list *timer)
 	timer_stats_update_stats(timer, timer->start_pid, timer->start_site,
 				 timer->function, timer->start_comm, flag);
 }
-
+*/
 #else
 static void timer_stats_account_timer(struct timer_list *timer) {}
 #endif
 
 #ifdef CONFIG_DEBUG_OBJECTS_TIMERS
-
+/*
 static struct debug_obj_descr timer_debug_descr;
 
-/*
+*
  * fixup_init is called when:
  * - an active object is initialized
- */
+ *
 static int timer_fixup_init(void *addr, enum debug_obj_state state)
 {
 	struct timer_list *timer = addr;
@@ -419,11 +419,11 @@ static int timer_fixup_init(void *addr, enum debug_obj_state state)
 	}
 }
 
-/*
+*
  * fixup_activate is called when:
  * - an active object is activated
  * - an unknown object is activated (might be a statically initialized object)
- */
+ *
 static int timer_fixup_activate(void *addr, enum debug_obj_state state)
 {
 	struct timer_list *timer = addr;
@@ -431,11 +431,11 @@ static int timer_fixup_activate(void *addr, enum debug_obj_state state)
 	switch (state) {
 
 	case ODEBUG_STATE_NOTAVAILABLE:
-		/*
+		*
 		 * This is not really a fixup. The timer was
 		 * statically initialized. We just make sure that it
 		 * is tracked in the object tracker.
-		 */
+		 *
 		if (timer->entry.next == NULL &&
 		    timer->entry.prev == TIMER_ENTRY_STATIC) {
 			debug_object_init(timer, &timer_debug_descr);
@@ -454,10 +454,10 @@ static int timer_fixup_activate(void *addr, enum debug_obj_state state)
 	}
 }
 
-/*
+*
  * fixup_free is called when:
  * - an active object is freed
- */
+ *
 static int timer_fixup_free(void *addr, enum debug_obj_state state)
 {
 	struct timer_list *timer = addr;
@@ -517,7 +517,7 @@ void destroy_timer_on_stack(struct timer_list *timer)
 	debug_object_free(timer, &timer_debug_descr);
 }
 EXPORT_SYMBOL_GPL(destroy_timer_on_stack);
-
+*/
 #else
 static inline void debug_timer_init(struct timer_list *timer) { }
 static inline void debug_timer_activate(struct timer_list *timer) { }
@@ -550,9 +550,9 @@ static void __init_timer(struct timer_list *timer,
 	timer->entry.next = NULL;
 	timer->base = __raw_get_cpu_var(tvec_bases);
 #ifdef CONFIG_TIMER_STATS
-	timer->start_site = NULL;
+	/*timer->start_site = NULL;
 	timer->start_pid = -1;
-	memset(timer->start_comm, 0, TASK_COMM_LEN);
+	memset(timer->start_comm, 0, TASK_COMM_LEN);*/
 #endif
 	lockdep_init_map(&timer->lockdep_map, name, key, 0);
 }
@@ -917,12 +917,12 @@ EXPORT_SYMBOL(try_to_del_timer_sync);
 int del_timer_sync(struct timer_list *timer)
 {
 #ifdef CONFIG_LOCKDEP
-	unsigned long flags;
+	/*unsigned long flags;
 
 	local_irq_save(flags);
 	lock_map_acquire(&timer->lockdep_map);
 	lock_map_release(&timer->lockdep_map);
-	local_irq_restore(flags);
+	local_irq_restore(flags);*/
 #endif
 
 	for (;;) {
@@ -1011,8 +1011,8 @@ static inline void __run_timers(struct tvec_base *base)
 				 * looking into timer->lockdep_map, make a
 				 * copy and use that here.
 				 */
-				struct lockdep_map lockdep_map =
-					timer->lockdep_map;
+				/*struct lockdep_map lockdep_map =
+					timer->lockdep_map;*/
 #endif
 				/*
 				 * Couple the lock chain with the lock chain at
