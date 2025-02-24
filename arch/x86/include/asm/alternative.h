@@ -66,11 +66,11 @@ extern void alternatives_smp_module_add(struct module *mod, char *name,
 extern void alternatives_smp_module_del(struct module *mod);
 extern void alternatives_smp_switch(int smp);
 #else
-static inline void alternatives_smp_module_add(struct module *mod, char *name,
+/*static inline void alternatives_smp_module_add(struct module *mod, char *name,
 					       void *locks, void *locks_end,
 					       void *text, void *text_end) {}
 static inline void alternatives_smp_module_del(struct module *mod) {}
-static inline void alternatives_smp_switch(int smp) {}
+static inline void alternatives_smp_switch(int smp) {}*/
 #endif	/* CONFIG_SMP */
 
 /* alternative assembly primitive: */
