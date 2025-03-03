@@ -209,7 +209,7 @@ int add_uevent_var(struct kobj_uevent_env *env, const char *format, ...)
 int kobject_action_type(const char *buf, size_t count,
 			enum kobject_action *type);
 #else
-static inline int kobject_uevent(struct kobject *kobj,
+/*static inline int kobject_uevent(struct kobject *kobj,
 				 enum kobject_action action)
 { return 0; }
 static inline int kobject_uevent_env(struct kobject *kobj,
@@ -223,7 +223,7 @@ static inline int add_uevent_var(struct kobj_uevent_env *env,
 
 static inline int kobject_action_type(const char *buf, size_t count,
 				      enum kobject_action *type)
-{ return -EINVAL; }
+{ return -EINVAL; }*/
 #endif
 
 #endif /* _KOBJECT_H_ */

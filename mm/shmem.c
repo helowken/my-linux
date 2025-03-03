@@ -1173,11 +1173,11 @@ static struct page *shmem_alloc_page(gfp_t gfp,
 	return alloc_page_vma(gfp, &pvma, 0);
 }
 #else /* !CONFIG_NUMA */
-#ifdef CONFIG_TMPFS
+/*#ifdef CONFIG_TMPFS
 static inline void shmem_show_mpol(struct seq_file *seq, struct mempolicy *p)
 {
 }
-#endif /* CONFIG_TMPFS */
+#endif * CONFIG_TMPFS *
 
 static inline struct page *shmem_swapin(swp_entry_t entry, gfp_t gfp,
 			struct shmem_inode_info *info, unsigned long idx)
@@ -1189,7 +1189,7 @@ static inline struct page *shmem_alloc_page(gfp_t gfp,
 			struct shmem_inode_info *info, unsigned long idx)
 {
 	return alloc_page(gfp);
-}
+}*/
 #endif /* CONFIG_NUMA */
 
 #if !defined(CONFIG_NUMA) || !defined(CONFIG_TMPFS)
@@ -2336,7 +2336,7 @@ int shmem_fill_super(struct super_block *sb, void *data, int silent)
 	}
 	sb->s_export_op = &shmem_export_ops;
 #else
-	sb->s_flags |= MS_NOUSER;
+	//sb->s_flags |= MS_NOUSER;
 #endif
 
 	spin_lock_init(&sbinfo->stat_lock);
@@ -2568,7 +2568,7 @@ out4:
  * their complexity. On systems without swap this code should be
  * effectively equivalent, but much lighter weight.
  */
-
+/*
 #include <linux/ramfs.h>
 
 static struct file_system_type tmpfs_fs_type = {
@@ -2603,7 +2603,7 @@ int shmem_lock(struct file *file, int lock, struct user_struct *user)
 #define shmem_acct_size(flags, size)		0
 #define shmem_unacct_size(flags, size)		do {} while (0)
 #define SHMEM_MAX_BYTES				MAX_LFS_FILESIZE
-
+*/
 #endif /* CONFIG_SHMEM */
 
 /* common code */
@@ -2657,9 +2657,9 @@ struct file *shmem_file_setup(const char *name, loff_t size, unsigned long flags
 		  &shmem_file_operations);
 
 #ifndef CONFIG_MMU
-	error = ramfs_nommu_expand_for_mapping(inode, size);
+	/*error = ramfs_nommu_expand_for_mapping(inode, size);
 	if (error)
-		goto close_file;
+		goto close_file;*/
 #endif
 	ima_counts_get(file);
 	return file;

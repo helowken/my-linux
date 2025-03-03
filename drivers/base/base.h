@@ -100,7 +100,7 @@ extern int buses_init(void);
 extern int classes_init(void);
 extern int firmware_init(void);
 #ifdef CONFIG_SYS_HYPERVISOR
-extern int hypervisor_init(void);
+//extern int hypervisor_init(void);
 #else
 static inline int hypervisor_init(void) { return 0; }
 #endif
@@ -135,13 +135,13 @@ extern struct kset *devices_kset;
 extern void module_add_driver(struct module *mod, struct device_driver *drv);
 extern void module_remove_driver(struct device_driver *drv);
 #else
-static inline void module_add_driver(struct module *mod,
+/*static inline void module_add_driver(struct module *mod,
 				     struct device_driver *drv) { }
-static inline void module_remove_driver(struct device_driver *drv) { }
+static inline void module_remove_driver(struct device_driver *drv) { }*/
 #endif
 
 #ifdef CONFIG_DEVTMPFS
 extern int devtmpfs_init(void);
 #else
-static inline int devtmpfs_init(void) { return 0; }
+//static inline int devtmpfs_init(void) { return 0; }
 #endif

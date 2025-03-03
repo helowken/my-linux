@@ -338,10 +338,10 @@ typedef void (*dr_release_t)(struct device *dev, void *res);
 typedef int (*dr_match_t)(struct device *dev, void *res, void *match_data);
 
 #ifdef CONFIG_DEBUG_DEVRES
-extern void *__devres_alloc(dr_release_t release, size_t size, gfp_t gfp,
+/*extern void *__devres_alloc(dr_release_t release, size_t size, gfp_t gfp,
 			     const char *name);
 #define devres_alloc(release, size, gfp) \
-	__devres_alloc(release, size, gfp, #release)
+	__devres_alloc(release, size, gfp, #release)*/
 #else
 extern void *devres_alloc(dr_release_t release, size_t size, gfp_t gfp);
 #endif
@@ -448,13 +448,13 @@ static inline void set_dev_node(struct device *dev, int node)
 	dev->numa_node = node;
 }
 #else
-static inline int dev_to_node(struct device *dev)
+/*static inline int dev_to_node(struct device *dev)
 {
 	return -1;
 }
 static inline void set_dev_node(struct device *dev, int node)
 {
-}
+}*/
 #endif
 
 static inline unsigned int dev_get_uevent_suppress(const struct device *dev)
@@ -560,9 +560,9 @@ extern int devtmpfs_create_node(struct device *dev);
 extern int devtmpfs_delete_node(struct device *dev);
 extern int devtmpfs_mount(const char *mountpoint);
 #else
-static inline int devtmpfs_create_node(struct device *dev) { return 0; }
+/*static inline int devtmpfs_create_node(struct device *dev) { return 0; }
 static inline int devtmpfs_delete_node(struct device *dev) { return 0; }
-static inline int devtmpfs_mount(const char *mountpoint) { return 0; }
+static inline int devtmpfs_mount(const char *mountpoint) { return 0; }*/
 #endif
 
 /* drivers/base/power/shutdown.c */
@@ -593,19 +593,19 @@ extern const char *dev_driver_string(const struct device *dev);
 	dev_printk(KERN_INFO , dev , format , ## arg)
 
 #if defined(DEBUG)
-#define dev_dbg(dev, format, arg...)		\
+/*#define dev_dbg(dev, format, arg...)		\
 	dev_printk(KERN_DEBUG , dev , format , ## arg)
 #elif defined(CONFIG_DYNAMIC_DEBUG)
 #define dev_dbg(dev, format, ...) do { \
 	dynamic_dev_dbg(dev, format, ##__VA_ARGS__); \
-	} while (0)
+	} while (0)*/
 #else
 #define dev_dbg(dev, format, arg...)		\
 	({ if (0) dev_printk(KERN_DEBUG, dev, format, ##arg); 0; })
 #endif
 
 #ifdef VERBOSE_DEBUG
-#define dev_vdbg	dev_dbg
+//#define dev_vdbg	dev_dbg
 #else
 
 #define dev_vdbg(dev, format, arg...)		\
