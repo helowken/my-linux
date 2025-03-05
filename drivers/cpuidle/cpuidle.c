@@ -37,7 +37,7 @@ static void cpuidle_kick_cpus(void)
 #elif defined(CONFIG_SMP)
 # error "Arch needs cpu_idle_wait() equivalent here"
 #else /* !CONFIG_ARCH_HAS_CPU_IDLE_WAIT && !CONFIG_SMP */
-static void cpuidle_kick_cpus(void) {}
+//static void cpuidle_kick_cpus(void) {}
 #endif
 
 static int __cpuidle_register_device(struct cpuidle_device *dev);
@@ -61,7 +61,7 @@ static void cpuidle_idle_call(void)
 #if defined(CONFIG_ARCH_HAS_DEFAULT_IDLE)
 			default_idle();
 #else
-			local_irq_enable();
+			//local_irq_enable();
 #endif
 		return;
 	}
@@ -257,7 +257,7 @@ static void poll_idle_init(struct cpuidle_device *dev)
 	state->enter = poll_idle;
 }
 #else
-static void poll_idle_init(struct cpuidle_device *dev) {}
+//static void poll_idle_init(struct cpuidle_device *dev) {}
 #endif /* CONFIG_ARCH_HAS_CPU_RELAX */
 
 /**
@@ -376,7 +376,7 @@ static inline void latency_notifier_init(struct notifier_block *n)
 
 #else /* CONFIG_SMP */
 
-#define latency_notifier_init(x) do { } while (0)
+//#define latency_notifier_init(x) do { } while (0)
 
 #endif /* CONFIG_SMP */
 

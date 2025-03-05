@@ -1,3 +1,6 @@
+#TODO remove -O2
+KBUILD_CFLAGS := $(filter-out -O2,$(KBUILD_CFLAGS))
+
 # CPUfreq core
 obj-$(CONFIG_CPU_FREQ)			+= cpufreq.o
 # CPUfreq stats

@@ -261,10 +261,10 @@ MODULE_PARM_DESC(debug_ratelimit, "CPUfreq debugging:"
 					" set to 0 to disable ratelimiting.");
 
 #else /* !CONFIG_CPU_FREQ_DEBUG */
-
+/*
 static inline void cpufreq_debug_enable_ratelimit(void) { return; }
 static inline void cpufreq_debug_disable_ratelimit(void) { return; }
-
+*/
 #endif /* CONFIG_CPU_FREQ_DEBUG */
 
 
@@ -281,7 +281,7 @@ static inline void cpufreq_debug_disable_ratelimit(void) { return; }
  * per-CPU loops_per_jiffy value wherever possible.
  */
 #ifndef CONFIG_SMP
-static unsigned long l_p_j_ref;
+/*static unsigned long l_p_j_ref;
 static unsigned int  l_p_j_ref_freq;
 
 static void adjust_jiffies(unsigned long val, struct cpufreq_freqs *ci)
@@ -303,7 +303,7 @@ static void adjust_jiffies(unsigned long val, struct cpufreq_freqs *ci)
 		dprintk("scaling loops_per_jiffy to %lu "
 			"for frequency %u kHz\n", loops_per_jiffy, ci->new);
 	}
-}
+}*/
 #else
 static inline void adjust_jiffies(unsigned long val, struct cpufreq_freqs *ci)
 {
@@ -1566,7 +1566,7 @@ static int __cpufreq_governor(struct cpufreq_policy *policy,
 #ifdef CONFIG_CPU_FREQ_GOV_PERFORMANCE
 	struct cpufreq_governor *gov = &cpufreq_gov_performance;
 #else
-	struct cpufreq_governor *gov = NULL;
+	//struct cpufreq_governor *gov = NULL;
 #endif
 
 	if (policy->governor->max_transition_latency &&

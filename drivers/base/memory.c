@@ -335,10 +335,10 @@ static int memory_probe_init(void)
 				&class_attr_probe.attr);
 }
 #else
-static inline int memory_probe_init(void)
+/*static inline int memory_probe_init(void)
 {
 	return 0;
-}
+}*/
 #endif
 
 /*

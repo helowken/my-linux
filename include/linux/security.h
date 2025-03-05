@@ -99,7 +99,7 @@ extern int cap_netlink_recv(struct sk_buff *skb, int cap);
 extern unsigned long mmap_min_addr;
 extern unsigned long dac_mmap_min_addr;
 #else
-#define dac_mmap_min_addr	0UL
+//#define dac_mmap_min_addr	0UL
 #endif
 
 /*
@@ -144,7 +144,7 @@ extern int mmap_min_addr_handler(struct ctl_table *table, int write,
 #endif
 
 #ifdef CONFIG_SECURITY
-
+/*
 struct security_mnt_opts {
 	char **mnt_opts;
 	int *mnt_opts_flags;
@@ -171,7 +171,7 @@ static inline void security_free_mnt_opts(struct security_mnt_opts *opts)
 	opts->num_mnt_opts = 0;
 }
 
-/**
+**
  * struct security_operations - main security structure
  *
  * Security module identifier.
@@ -1425,7 +1425,7 @@ static inline void security_free_mnt_opts(struct security_mnt_opts *opts)
  *	@ctx is a pointer in which to place the allocated security context.
  *	@ctxlen points to the place to put the length of @ctx.
  * This is the main security structure.
- */
+ *
 struct security_operations {
 	char name[SECURITY_NAME_MAX + 1];
 
@@ -1675,7 +1675,7 @@ struct security_operations {
 	int (*tun_dev_create)(void);
 	void (*tun_dev_post_create)(struct sock *sk);
 	int (*tun_dev_attach)(struct sock *sk);
-#endif	/* CONFIG_SECURITY_NETWORK */
+#endif	* CONFIG_SECURITY_NETWORK *
 
 #ifdef CONFIG_SECURITY_NETWORK_XFRM
 	int (*xfrm_policy_alloc_security) (struct xfrm_sec_ctx **ctxp,
@@ -1693,9 +1693,9 @@ struct security_operations {
 					  struct xfrm_policy *xp,
 					  struct flowi *fl);
 	int (*xfrm_decode_session) (struct sk_buff *skb, u32 *secid, int ckall);
-#endif	/* CONFIG_SECURITY_NETWORK_XFRM */
+#endif	* CONFIG_SECURITY_NETWORK_XFRM *
 
-	/* key management security hooks */
+	* key management security hooks *
 #ifdef CONFIG_KEYS
 	int (*key_alloc) (struct key *key, const struct cred *cred, unsigned long flags);
 	void (*key_free) (struct key *key);
@@ -1706,7 +1706,7 @@ struct security_operations {
 	int (*key_session_to_parent)(const struct cred *cred,
 				     const struct cred *parent_cred,
 				     struct key *key);
-#endif	/* CONFIG_KEYS */
+#endif	* CONFIG_KEYS *
 
 #ifdef CONFIG_AUDIT
 	int (*audit_rule_init) (u32 field, u32 op, char *rulestr, void **lsmrule);
@@ -1714,15 +1714,15 @@ struct security_operations {
 	int (*audit_rule_match) (u32 secid, u32 field, u32 op, void *lsmrule,
 				 struct audit_context *actx);
 	void (*audit_rule_free) (void *lsmrule);
-#endif /* CONFIG_AUDIT */
+#endif * CONFIG_AUDIT *
 };
 
-/* prototypes */
+* prototypes *
 extern int security_init(void);
 extern int security_module_enable(struct security_operations *ops);
 extern int register_security(struct security_operations *ops);
 
-/* Security operations */
+* Security operations *
 int security_ptrace_access_check(struct task_struct *child, unsigned int mode);
 int security_ptrace_traceme(struct task_struct *parent);
 int security_capget(struct task_struct *target,
@@ -1887,7 +1887,7 @@ void security_release_secctx(char *secdata, u32 seclen);
 
 int security_inode_notifysecctx(struct inode *inode, void *ctx, u32 ctxlen);
 int security_inode_setsecctx(struct dentry *dentry, void *ctx, u32 ctxlen);
-int security_inode_getsecctx(struct inode *inode, void **ctx, u32 *ctxlen);
+int security_inode_getsecctx(struct inode *inode, void **ctx, u32 *ctxlen);*/
 #else /* CONFIG_SECURITY */
 struct security_mnt_opts {
 };
@@ -2660,7 +2660,7 @@ static inline int security_inode_getsecctx(struct inode *inode, void **ctx, u32 
 #endif	/* CONFIG_SECURITY */
 
 #ifdef CONFIG_SECURITY_NETWORK
-
+/*
 int security_unix_stream_connect(struct socket *sock, struct socket *other,
 				 struct sock *newsk);
 int security_unix_may_send(struct socket *sock,  struct socket *other);
@@ -2698,7 +2698,7 @@ void security_inet_conn_established(struct sock *sk,
 int security_tun_dev_create(void);
 void security_tun_dev_post_create(struct sock *sk);
 int security_tun_dev_attach(struct sock *sk);
-
+*/
 #else	/* CONFIG_SECURITY_NETWORK */
 static inline int security_unix_stream_connect(struct socket *sock,
 					       struct socket *other,
@@ -2865,7 +2865,7 @@ static inline int security_tun_dev_attach(struct sock *sk)
 #endif	/* CONFIG_SECURITY_NETWORK */
 
 #ifdef CONFIG_SECURITY_NETWORK_XFRM
-
+/*
 int security_xfrm_policy_alloc(struct xfrm_sec_ctx **ctxp, struct xfrm_user_sec_ctx *sec_ctx);
 int security_xfrm_policy_clone(struct xfrm_sec_ctx *old_ctx, struct xfrm_sec_ctx **new_ctxp);
 void security_xfrm_policy_free(struct xfrm_sec_ctx *ctx);
@@ -2880,7 +2880,7 @@ int security_xfrm_state_pol_flow_match(struct xfrm_state *x,
 				       struct xfrm_policy *xp, struct flowi *fl);
 int security_xfrm_decode_session(struct sk_buff *skb, u32 *secid);
 void security_skb_classify_flow(struct sk_buff *skb, struct flowi *fl);
-
+*/
 #else	/* CONFIG_SECURITY_NETWORK_XFRM */
 
 static inline int security_xfrm_policy_alloc(struct xfrm_sec_ctx **ctxp, struct xfrm_user_sec_ctx *sec_ctx)
@@ -2946,7 +2946,7 @@ static inline void security_skb_classify_flow(struct sk_buff *skb, struct flowi 
 #endif	/* CONFIG_SECURITY_NETWORK_XFRM */
 
 #ifdef CONFIG_SECURITY_PATH
-int security_path_unlink(struct path *dir, struct dentry *dentry);
+/*int security_path_unlink(struct path *dir, struct dentry *dentry);
 int security_path_mkdir(struct path *dir, struct dentry *dentry, int mode);
 int security_path_rmdir(struct path *dir, struct dentry *dentry);
 int security_path_mknod(struct path *dir, struct dentry *dentry, int mode,
@@ -2958,7 +2958,7 @@ int security_path_symlink(struct path *dir, struct dentry *dentry,
 int security_path_link(struct dentry *old_dentry, struct path *new_dir,
 		       struct dentry *new_dentry);
 int security_path_rename(struct path *old_dir, struct dentry *old_dentry,
-			 struct path *new_dir, struct dentry *new_dentry);
+			 struct path *new_dir, struct dentry *new_dentry);*/
 #else	/* CONFIG_SECURITY_PATH */
 static inline int security_path_unlink(struct path *dir, struct dentry *dentry)
 {
@@ -3011,7 +3011,7 @@ static inline int security_path_rename(struct path *old_dir,
 #endif	/* CONFIG_SECURITY_PATH */
 
 #ifdef CONFIG_KEYS
-#ifdef CONFIG_SECURITY
+/*#ifdef CONFIG_SECURITY
 
 int security_key_alloc(struct key *key, const struct cred *cred, unsigned long flags);
 void security_key_free(struct key *key);
@@ -3055,17 +3055,17 @@ static inline int security_key_session_to_parent(const struct cred *cred,
 	return 0;
 }
 
-#endif
+#endif*/
 #endif /* CONFIG_KEYS */
 
 #ifdef CONFIG_AUDIT
 #ifdef CONFIG_SECURITY
-int security_audit_rule_init(u32 field, u32 op, char *rulestr, void **lsmrule);
+/*int security_audit_rule_init(u32 field, u32 op, char *rulestr, void **lsmrule);
 int security_audit_rule_known(struct audit_krule *krule);
 int security_audit_rule_match(u32 secid, u32 field, u32 op, void *lsmrule,
 			      struct audit_context *actx);
 void security_audit_rule_free(void *lsmrule);
-
+*/
 #else
 
 static inline int security_audit_rule_init(u32 field, u32 op, char *rulestr,
@@ -3100,7 +3100,7 @@ extern struct dentry *securityfs_create_dir(const char *name, struct dentry *par
 extern void securityfs_remove(struct dentry *dentry);
 
 #else /* CONFIG_SECURITYFS */
-
+/*
 static inline struct dentry *securityfs_create_dir(const char *name,
 						   struct dentry *parent)
 {
@@ -3118,11 +3118,11 @@ static inline struct dentry *securityfs_create_file(const char *name,
 
 static inline void securityfs_remove(struct dentry *dentry)
 {}
-
+*/
 #endif
 
 #ifdef CONFIG_SECURITY
-
+/*
 static inline char *alloc_secdata(void)
 {
 	return (char *)get_zeroed_page(GFP_KERNEL);
@@ -3132,7 +3132,7 @@ static inline void free_secdata(void *secdata)
 {
 	free_page((unsigned long)secdata);
 }
-
+*/
 #else
 
 static inline char *alloc_secdata(void)

@@ -440,7 +440,7 @@ static void device_remove_attrs(struct bus_type *bus, struct device *dev)
 }
 
 #ifdef CONFIG_SYSFS_DEPRECATED
-static int make_deprecated_bus_links(struct device *dev)
+/*static int make_deprecated_bus_links(struct device *dev)
 {
 	return sysfs_create_link(&dev->kobj,
 				 &dev->bus->p->subsys.kobj, "bus");
@@ -449,7 +449,7 @@ static int make_deprecated_bus_links(struct device *dev)
 static void remove_deprecated_bus_links(struct device *dev)
 {
 	sysfs_remove_link(&dev->kobj, "bus");
-}
+}*/
 #else
 static inline int make_deprecated_bus_links(struct device *dev) { return 0; }
 static inline void remove_deprecated_bus_links(struct device *dev) { }
@@ -623,10 +623,10 @@ static void remove_probe_files(struct bus_type *bus)
 	bus_remove_file(bus, &bus_attr_drivers_probe);
 }
 #else
-static inline int add_bind_files(struct device_driver *drv) { return 0; }
+/*static inline int add_bind_files(struct device_driver *drv) { return 0; }
 static inline void remove_bind_files(struct device_driver *drv) {}
 static inline int add_probe_files(struct bus_type *bus) { return 0; }
-static inline void remove_probe_files(struct bus_type *bus) {}
+static inline void remove_probe_files(struct bus_type *bus) {}*/
 #endif
 
 static ssize_t driver_uevent_store(struct device_driver *drv,

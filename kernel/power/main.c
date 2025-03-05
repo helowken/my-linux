@@ -45,7 +45,7 @@ int pm_notifier_call_chain(unsigned long val)
 }
 
 #ifdef CONFIG_PM_DEBUG
-int pm_test_level = TEST_NONE;
+/*int pm_test_level = TEST_NONE;
 
 static const char * const pm_tests[__TEST_AFTER_LAST] = {
 	[TEST_NONE] = "none",
@@ -71,7 +71,7 @@ static ssize_t pm_test_show(struct kobject *kobj, struct kobj_attribute *attr,
 		}
 
 	if (s != buf)
-		/* convert the last space to a newline */
+		* convert the last space to a newline *
 		*(s-1) = '\n';
 
 	return (s - buf);
@@ -104,7 +104,7 @@ static ssize_t pm_test_store(struct kobject *kobj, struct kobj_attribute *attr,
 	return error ? error : n;
 }
 
-power_attr(pm_test);
+power_attr(pm_test);*/
 #endif /* CONFIG_PM_DEBUG */
 
 #endif /* CONFIG_PM_SLEEP */
@@ -134,7 +134,7 @@ static ssize_t state_show(struct kobject *kobj, struct kobj_attribute *attr,
 	}
 #endif
 #ifdef CONFIG_HIBERNATION
-	s += sprintf(s, "%s\n", "disk");
+	//s += sprintf(s, "%s\n", "disk");
 #else
 	if (s != buf)
 		/* convert the last space to a newline */
@@ -179,7 +179,7 @@ static ssize_t state_store(struct kobject *kobj, struct kobj_attribute *attr,
 power_attr(state);
 
 #ifdef CONFIG_PM_TRACE
-int pm_trace_enabled;
+/*int pm_trace_enabled;
 
 static ssize_t pm_trace_show(struct kobject *kobj, struct kobj_attribute *attr,
 			     char *buf)
@@ -200,7 +200,7 @@ pm_trace_store(struct kobject *kobj, struct kobj_attribute *attr,
 	return -EINVAL;
 }
 
-power_attr(pm_trace);
+power_attr(pm_trace);*/
 #endif /* CONFIG_PM_TRACE */
 
 static struct attribute * g[] = {
@@ -219,14 +219,14 @@ static struct attribute_group attr_group = {
 };
 
 #ifdef CONFIG_PM_RUNTIME
-struct workqueue_struct *pm_wq;
+/*struct workqueue_struct *pm_wq;
 
 static int __init pm_start_workqueue(void)
 {
 	pm_wq = create_freezeable_workqueue("pm");
 
 	return pm_wq ? 0 : -ENOMEM;
-}
+}*/
 #else
 static inline int pm_start_workqueue(void) { return 0; }
 #endif

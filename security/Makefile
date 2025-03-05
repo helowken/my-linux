@@ -2,6 +2,9 @@
 # Makefile for the kernel security code
 #
 
+#TODO remove -O2
+KBUILD_CFLAGS := $(filter-out -O2,$(KBUILD_CFLAGS))
+
 obj-$(CONFIG_KEYS)			+= keys/
 subdir-$(CONFIG_SECURITY_SELINUX)	+= selinux
 subdir-$(CONFIG_SECURITY_SMACK)		+= smack

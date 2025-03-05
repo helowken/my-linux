@@ -36,7 +36,7 @@
 int cpufreq_register_notifier(struct notifier_block *nb, unsigned int list);
 int cpufreq_unregister_notifier(struct notifier_block *nb, unsigned int list);
 #else		/* CONFIG_CPU_FREQ */
-static inline int cpufreq_register_notifier(struct notifier_block *nb,
+/*static inline int cpufreq_register_notifier(struct notifier_block *nb,
 						unsigned int list)
 {
 	return 0;
@@ -45,7 +45,7 @@ static inline int cpufreq_unregister_notifier(struct notifier_block *nb,
 						unsigned int list)
 {
 	return 0;
-}
+}*/
 #endif		/* CONFIG_CPU_FREQ */
 
 /* if (cpufreq_driver->target) exists, the ->governor decides what frequency
@@ -143,11 +143,11 @@ struct cpufreq_freqs {
 static inline unsigned long cpufreq_scale(unsigned long old, u_int div, u_int mult)
 {
 #if BITS_PER_LONG == 32
-
+/*
 	u64 result = ((u64) old) * ((u64) mult);
 	do_div(result, div);
 	return (unsigned long) result;
-
+*/
 #elif BITS_PER_LONG == 64
 
 	unsigned long result = old * ((u64) mult);
@@ -295,20 +295,20 @@ int cpufreq_update_policy(unsigned int cpu);
 /* query the current CPU frequency (in kHz). If zero, cpufreq couldn't detect it */
 unsigned int cpufreq_get(unsigned int cpu);
 #else
-static inline unsigned int cpufreq_get(unsigned int cpu)
+/*static inline unsigned int cpufreq_get(unsigned int cpu)
 {
 	return 0;
-}
+}*/
 #endif
 
 /* query the last known CPU freq (in kHz). If zero, cpufreq couldn't detect it */
 #ifdef CONFIG_CPU_FREQ
 unsigned int cpufreq_quick_get(unsigned int cpu);
 #else
-static inline unsigned int cpufreq_quick_get(unsigned int cpu)
+/*static inline unsigned int cpufreq_quick_get(unsigned int cpu)
 {
 	return 0;
-}
+}*/
 #endif
 
 
@@ -325,19 +325,19 @@ static inline unsigned int cpufreq_quick_get(unsigned int cpu)
 extern struct cpufreq_governor cpufreq_gov_performance;
 #endif
 #ifdef CONFIG_CPU_FREQ_DEFAULT_GOV_PERFORMANCE
-#define CPUFREQ_DEFAULT_GOVERNOR	(&cpufreq_gov_performance)
+//#define CPUFREQ_DEFAULT_GOVERNOR	(&cpufreq_gov_performance)
 #elif defined(CONFIG_CPU_FREQ_DEFAULT_GOV_POWERSAVE)
-extern struct cpufreq_governor cpufreq_gov_powersave;
-#define CPUFREQ_DEFAULT_GOVERNOR	(&cpufreq_gov_powersave)
+//extern struct cpufreq_governor cpufreq_gov_powersave;
+//#define CPUFREQ_DEFAULT_GOVERNOR	(&cpufreq_gov_powersave)
 #elif defined(CONFIG_CPU_FREQ_DEFAULT_GOV_USERSPACE)
 extern struct cpufreq_governor cpufreq_gov_userspace;
 #define CPUFREQ_DEFAULT_GOVERNOR	(&cpufreq_gov_userspace)
 #elif defined(CONFIG_CPU_FREQ_DEFAULT_GOV_ONDEMAND)
-extern struct cpufreq_governor cpufreq_gov_ondemand;
-#define CPUFREQ_DEFAULT_GOVERNOR	(&cpufreq_gov_ondemand)
+//extern struct cpufreq_governor cpufreq_gov_ondemand;
+//#define CPUFREQ_DEFAULT_GOVERNOR	(&cpufreq_gov_ondemand)
 #elif defined(CONFIG_CPU_FREQ_DEFAULT_GOV_CONSERVATIVE)
-extern struct cpufreq_governor cpufreq_gov_conservative;
-#define CPUFREQ_DEFAULT_GOVERNOR	(&cpufreq_gov_conservative)
+//extern struct cpufreq_governor cpufreq_gov_conservative;
+//#define CPUFREQ_DEFAULT_GOVERNOR	(&cpufreq_gov_conservative)
 #endif
 
 
@@ -395,7 +395,7 @@ extern void cpufreq_debug_printk(unsigned int type, const char *prefix,
 
 #else
 
-#define cpufreq_debug_printk(msg...) do { } while(0)
+//#define cpufreq_debug_printk(msg...) do { } while(0)
 
 #endif /* CONFIG_CPU_FREQ_DEBUG */
 

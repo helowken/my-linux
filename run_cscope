@@ -30,6 +30,7 @@ find $LNX                                                                \
 					  ! -path "$LNX/fs/proc*" -prune -o		\
     -path "$LNX/firmware/*" -prune -o       \
     -path "$LNX/net/*" ! -path "$LNX/net/core*"        \
+					   ! -path "$LNX/net/netfilter*" \
 					   ! -path "$LNX/net/netlink*" -prune -o       \
     -path "$LNX/samples/*" -prune -o       \
     -path "$LNX/sound/*" -prune -o       \
@@ -40,6 +41,8 @@ find $LNX                                                                \
 	                       ! -path "$LNX/drivers/video*" \
 	                       ! -path "$LNX/drivers/pci*" \
 	                       ! -path "$LNX/drivers/base*" \
+	                       ! -path "$LNX/drivers/cpufreq*" \
+	                       ! -path "$LNX/drivers/cpuidle*" \
 	                       ! -path "$LNX/drivers/char*" \
 	                       ! -path "$LNX/drivers/clocksource*" \
 	                       ! -path "$LNX/drivers/gpio*" \

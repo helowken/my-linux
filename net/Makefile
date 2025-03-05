@@ -5,6 +5,9 @@
 # Rewritten to use lists instead of if-statements.
 #
 
+#TODO remove -O2
+KBUILD_CFLAGS := $(filter-out -O2,$(KBUILD_CFLAGS))
+
 obj-y	:= nonet.o
 
 obj-$(CONFIG_NET)		:= socket.o core/

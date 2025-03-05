@@ -284,10 +284,10 @@ static __init int netfilter_log_sysctl_init(void)
 	return 0;
 }
 #else
-static __init int netfilter_log_sysctl_init(void)
+/*static __init int netfilter_log_sysctl_init(void)
 {
 	return 0;
-}
+}*/
 #endif /* CONFIG_SYSCTL */
 
 int __init netfilter_log_init(void)
