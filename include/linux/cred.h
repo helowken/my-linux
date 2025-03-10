@@ -172,7 +172,7 @@ extern void __init cred_init(void);
  * check for validity of credentials
  */
 #ifdef CONFIG_DEBUG_CREDENTIALS
-extern void __invalid_creds(const struct cred *, const char *, unsigned);
+/*extern void __invalid_creds(const struct cred *, const char *, unsigned);
 extern void __validate_process_creds(struct task_struct *,
 				     const char *, unsigned);
 
@@ -195,7 +195,7 @@ do {								\
 	__validate_process_creds(current, __FILE__, __LINE__);	\
 } while(0)
 
-extern void validate_creds_for_do_exit(struct task_struct *);
+extern void validate_creds_for_do_exit(struct task_struct *);*/
 #else
 static inline void validate_creds(const struct cred *cred)
 {

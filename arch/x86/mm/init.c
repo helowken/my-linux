@@ -353,9 +353,9 @@ void free_init_pages(char *what, unsigned long begin, unsigned long end)
 	 * create a kernel page fault:
 	 */
 #ifdef CONFIG_DEBUG_PAGEALLOC
-	printk(KERN_INFO "debug: unmapping init memory %08lx..%08lx\n",
+	/*printk(KERN_INFO "debug: unmapping init memory %08lx..%08lx\n",
 		begin, PAGE_ALIGN(end));
-	set_memory_np(begin, (end - begin) >> PAGE_SHIFT);
+	set_memory_np(begin, (end - begin) >> PAGE_SHIFT);*/
 #else
 	/*
 	 * We just marked the kernel text read only above, now that

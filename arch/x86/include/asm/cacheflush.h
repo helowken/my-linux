@@ -92,8 +92,8 @@ static inline void set_page_memtype(struct page *pg, unsigned long memtype)
 	}
 }
 #else
-static inline unsigned long get_page_memtype(struct page *pg) { return -1; }
-static inline void set_page_memtype(struct page *pg, unsigned long memtype) { }
+//static inline unsigned long get_page_memtype(struct page *pg) { return -1; }
+//static inline void set_page_memtype(struct page *pg, unsigned long memtype) { }
 #endif
 
 /*
@@ -179,17 +179,17 @@ extern const int rodata_test_data;
 void set_kernel_text_rw(void);
 void set_kernel_text_ro(void);
 #else
-static inline void set_kernel_text_rw(void) { }
-static inline void set_kernel_text_ro(void) { }
+//static inline void set_kernel_text_rw(void) { }
+//static inline void set_kernel_text_ro(void) { }
 #endif
 
 #ifdef CONFIG_DEBUG_RODATA_TEST
 int rodata_test(void);
 #else
-static inline int rodata_test(void)
+/*static inline int rodata_test(void)
 {
 	return 0;
-}
+}*/
 #endif
 
 #endif /* _ASM_X86_CACHEFLUSH_H */

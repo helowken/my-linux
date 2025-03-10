@@ -91,11 +91,11 @@ extern void prio_tree_init(void);
 extern void radix_tree_init(void);
 extern void free_initmem(void);
 #ifndef CONFIG_DEBUG_RODATA
-static inline void mark_rodata_ro(void) { }
+//static inline void mark_rodata_ro(void) { }
 #endif
 
 #ifdef CONFIG_TC
-extern void tc_init(void);
+//extern void tc_init(void);
 #endif
 
 enum system_states system_state __read_mostly;
@@ -160,7 +160,7 @@ static int __init maxcpus(char *str)
 
 early_param("maxcpus", maxcpus);
 #else
-const unsigned int setup_max_cpus = NR_CPUS;
+//const unsigned int setup_max_cpus = NR_CPUS;
 #endif
 
 /*
@@ -306,7 +306,7 @@ static int __init unknown_bootoption(char *param, char *val)
 }
 
 #ifdef CONFIG_DEBUG_PAGEALLOC
-int __read_mostly debug_pagealloc_enabled = 0;
+//int __read_mostly debug_pagealloc_enabled = 0;
 #endif
 
 static int __init init_setup(char *str)

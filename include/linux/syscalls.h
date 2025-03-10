@@ -99,7 +99,7 @@ struct perf_event_attr;
 #define __SC_TEST6(t6, a6, ...)	__SC_TEST(t6); __SC_TEST5(__VA_ARGS__)
 
 #ifdef CONFIG_EVENT_PROFILE
-#define TRACE_SYS_ENTER_PROFILE(sname)					       \
+/*#define TRACE_SYS_ENTER_PROFILE(sname)					       \
 static int prof_sysenter_enable_##sname(void)				       \
 {									       \
 	return reg_prof_syscall_enter("sys"#sname);			       \
@@ -129,7 +129,7 @@ static void prof_sysexit_disable_##sname(void)				       \
 #define TRACE_SYS_EXIT_PROFILE_INIT(sname)				       \
 	.profile_count = ATOMIC_INIT(-1),				       \
 	.profile_enable = prof_sysexit_enable_##sname,			       \
-	.profile_disable = prof_sysexit_disable_##sname,
+	.profile_disable = prof_sysexit_disable_##sname,*/
 #else
 #define TRACE_SYS_ENTER_PROFILE(sname)
 #define TRACE_SYS_ENTER_PROFILE_INIT(sname)
@@ -138,7 +138,7 @@ static void prof_sysexit_disable_##sname(void)				       \
 #endif
 
 #ifdef CONFIG_FTRACE_SYSCALLS
-#define __SC_STR_ADECL1(t, a)		#a
+/*#define __SC_STR_ADECL1(t, a)		#a
 #define __SC_STR_ADECL2(t, a, ...)	#a, __SC_STR_ADECL1(__VA_ARGS__)
 #define __SC_STR_ADECL3(t, a, ...)	#a, __SC_STR_ADECL2(__VA_ARGS__)
 #define __SC_STR_ADECL4(t, a, ...)	#a, __SC_STR_ADECL3(__VA_ARGS__)
@@ -253,7 +253,7 @@ static void prof_sysexit_disable_##sname(void)				       \
 		.enter_event	= &event_enter__##sname,	\
 		.exit_event	= &event_exit__##sname,		\
 	};							\
-	asmlinkage long sys_##sname(void)
+	asmlinkage long sys_##sname(void)*/
 #else
 #define SYSCALL_DEFINE0(name)	   asmlinkage long sys_##name(void)
 #endif
@@ -266,13 +266,13 @@ static void prof_sysexit_disable_##sname(void)				       \
 #define SYSCALL_DEFINE6(name, ...) SYSCALL_DEFINEx(6, _##name, __VA_ARGS__)
 
 #ifdef CONFIG_PPC64
-#define SYSCALL_ALIAS(alias, name)					\
+/*#define SYSCALL_ALIAS(alias, name)					\
 	asm ("\t.globl " #alias "\n\t.set " #alias ", " #name "\n"	\
-	     "\t.globl ." #alias "\n\t.set ." #alias ", ." #name)
+	     "\t.globl ." #alias "\n\t.set ." #alias ", ." #name)*/
 #else
 #if defined(CONFIG_ALPHA) || defined(CONFIG_MIPS)
-#define SYSCALL_ALIAS(alias, name)					\
-	asm ( #alias " = " #name "\n\t.globl " #alias)
+/*#define SYSCALL_ALIAS(alias, name)					\
+	asm ( #alias " = " #name "\n\t.globl " #alias)*/
 #else
 #define SYSCALL_ALIAS(alias, name)					\
 	asm ("\t.globl " #alias "\n\t.set " #alias ", " #name)
@@ -280,7 +280,7 @@ static void prof_sysexit_disable_##sname(void)				       \
 #endif
 
 #ifdef CONFIG_FTRACE_SYSCALLS
-#define SYSCALL_DEFINEx(x, sname, ...)				\
+/*#define SYSCALL_DEFINEx(x, sname, ...)				\
 	static const char *types_##sname[] = {			\
 		__SC_STR_TDECL##x(__VA_ARGS__)			\
 	};							\
@@ -288,14 +288,14 @@ static void prof_sysexit_disable_##sname(void)				       \
 		__SC_STR_ADECL##x(__VA_ARGS__)			\
 	};							\
 	SYSCALL_METADATA(sname, x);				\
-	__SYSCALL_DEFINEx(x, sname, __VA_ARGS__)
+	__SYSCALL_DEFINEx(x, sname, __VA_ARGS__)*/
 #else
 #define SYSCALL_DEFINEx(x, sname, ...)				\
 	__SYSCALL_DEFINEx(x, sname, __VA_ARGS__)
 #endif
 
 #ifdef CONFIG_HAVE_SYSCALL_WRAPPERS
-
+/*
 #define SYSCALL_DEFINE(name) static inline long SYSC_##name
 
 #define __SYSCALL_DEFINEx(x, name, ...)					\
@@ -308,7 +308,7 @@ static void prof_sysexit_disable_##sname(void)				       \
 	}								\
 	SYSCALL_ALIAS(sys##name, SyS##name);				\
 	static inline long SYSC##name(__SC_DECL##x(__VA_ARGS__))
-
+*/
 #else /* CONFIG_HAVE_SYSCALL_WRAPPERS */
 
 #define SYSCALL_DEFINE(name) asmlinkage long sys_##name
@@ -484,13 +484,13 @@ asmlinkage long sys_newlstat(char __user *filename,
 asmlinkage long sys_newfstat(unsigned int fd, struct stat __user *statbuf);
 asmlinkage long sys_ustat(unsigned dev, struct ustat __user *ubuf);
 #if BITS_PER_LONG == 32
-asmlinkage long sys_stat64(char __user *filename,
+/*asmlinkage long sys_stat64(char __user *filename,
 				struct stat64 __user *statbuf);
 asmlinkage long sys_fstat64(unsigned long fd, struct stat64 __user *statbuf);
 asmlinkage long sys_lstat64(char __user *filename,
 				struct stat64 __user *statbuf);
 asmlinkage long sys_truncate64(const char __user *path, loff_t length);
-asmlinkage long sys_ftruncate64(unsigned int fd, loff_t length);
+asmlinkage long sys_ftruncate64(unsigned int fd, loff_t length);*/
 #endif
 
 asmlinkage long sys_setxattr(const char __user *path, const char __user *name,
@@ -553,8 +553,8 @@ asmlinkage long sys_fchmod(unsigned int fd, mode_t mode);
 
 asmlinkage long sys_fcntl(unsigned int fd, unsigned int cmd, unsigned long arg);
 #if BITS_PER_LONG == 32
-asmlinkage long sys_fcntl64(unsigned int fd,
-				unsigned int cmd, unsigned long arg);
+/*asmlinkage long sys_fcntl64(unsigned int fd,
+				unsigned int cmd, unsigned long arg);*/
 #endif
 asmlinkage long sys_pipe(int __user *fildes);
 asmlinkage long sys_pipe2(int __user *fildes, int flags);
