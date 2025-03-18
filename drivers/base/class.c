@@ -177,8 +177,8 @@ int __class_register(struct class *cls, struct lock_class_key *key)
 
 #if defined(CONFIG_SYSFS_DEPRECATED) && defined(CONFIG_BLOCK)
 	/* let the block class directory show up in the root of sysfs */
-	if (cls != &block_class)
-		cp->class_subsys.kobj.kset = class_kset;
+	/*if (cls != &block_class)
+		cp->class_subsys.kobj.kset = class_kset;*/
 #else
 	cp->class_subsys.kobj.kset = class_kset;
 #endif
@@ -266,7 +266,7 @@ void class_destroy(struct class *cls)
 }
 
 #ifdef CONFIG_SYSFS_DEPRECATED
-char *make_class_name(const char *name, struct kobject *kobj)
+/*char *make_class_name(const char *name, struct kobject *kobj)
 {
 	char *class_name;
 	int size;
@@ -281,7 +281,7 @@ char *make_class_name(const char *name, struct kobject *kobj)
 	strcat(class_name, ":");
 	strcat(class_name, kobject_name(kobj));
 	return class_name;
-}
+}*/
 #endif
 
 /**

@@ -75,10 +75,10 @@ static ssize_t node_read_meminfo(struct sys_device * dev,
 		       "Node %d Unevictable:    %8lu kB\n"
 		       "Node %d Mlocked:        %8lu kB\n"
 #ifdef CONFIG_HIGHMEM
-		       "Node %d HighTotal:      %8lu kB\n"
+		       /*"Node %d HighTotal:      %8lu kB\n"
 		       "Node %d HighFree:       %8lu kB\n"
 		       "Node %d LowTotal:       %8lu kB\n"
-		       "Node %d LowFree:        %8lu kB\n"
+		       "Node %d LowFree:        %8lu kB\n"*/
 #endif
 		       "Node %d Dirty:          %8lu kB\n"
 		       "Node %d Writeback:      %8lu kB\n"
@@ -108,10 +108,10 @@ static ssize_t node_read_meminfo(struct sys_device * dev,
 		       nid, K(node_page_state(nid, NR_UNEVICTABLE)),
 		       nid, K(node_page_state(nid, NR_MLOCK)),
 #ifdef CONFIG_HIGHMEM
-		       nid, K(i.totalhigh),
+		       /*nid, K(i.totalhigh),
 		       nid, K(i.freehigh),
 		       nid, K(i.totalram - i.totalhigh),
-		       nid, K(i.freeram - i.freehigh),
+		       nid, K(i.freeram - i.freehigh),*/
 #endif
 		       nid, K(node_page_state(nid, NR_FILE_DIRTY)),
 		       nid, K(node_page_state(nid, NR_WRITEBACK)),
@@ -346,7 +346,7 @@ static int link_mem_sections(int nid)
 	return err;
 }
 #else
-static int link_mem_sections(int nid) { return 0; }
+//static int link_mem_sections(int nid) { return 0; }
 #endif /* CONFIG_MEMORY_HOTPLUG_SPARSE */
 
 int register_one_node(int nid)
@@ -426,14 +426,14 @@ static SYSDEV_CLASS_ATTR(has_normal_memory, 0444, print_nodes_has_normal_memory,
 static SYSDEV_CLASS_ATTR(has_cpu, 0444, print_nodes_has_cpu, NULL);
 
 #ifdef CONFIG_HIGHMEM
-static ssize_t print_nodes_has_high_memory(struct sysdev_class *class,
+/*static ssize_t print_nodes_has_high_memory(struct sysdev_class *class,
 						 char *buf)
 {
 	return print_nodes_state(N_HIGH_MEMORY, buf);
 }
 
 static SYSDEV_CLASS_ATTR(has_high_memory, 0444, print_nodes_has_high_memory,
-									 NULL);
+									 NULL);*/
 #endif
 
 struct sysdev_class_attribute *node_state_attr[] = {
@@ -441,7 +441,7 @@ struct sysdev_class_attribute *node_state_attr[] = {
 	&attr_online,
 	&attr_has_normal_memory,
 #ifdef CONFIG_HIGHMEM
-	&attr_has_high_memory,
+	//&attr_has_high_memory,
 #endif
 	&attr_has_cpu,
 };

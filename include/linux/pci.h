@@ -386,7 +386,7 @@ static inline bool pci_dev_msi_enabled(struct pci_dev *pci_dev)
 	return pci_dev->msi_enabled || pci_dev->msix_enabled;
 }
 #else
-static inline bool pci_dev_msi_enabled(struct pci_dev *pci_dev) { return false; }
+//static inline bool pci_dev_msi_enabled(struct pci_dev *pci_dev) { return false; }
 #endif
 
 /*
@@ -846,7 +846,7 @@ struct msix_entry {
 
 
 #ifndef CONFIG_PCI_MSI
-static inline int pci_enable_msi_block(struct pci_dev *dev, unsigned int nvec)
+/*static inline int pci_enable_msi_block(struct pci_dev *dev, unsigned int nvec)
 {
 	return -1;
 }
@@ -879,7 +879,7 @@ static inline void pci_restore_msi_state(struct pci_dev *dev)
 static inline int pci_msi_enabled(void)
 {
 	return 0;
-}
+}*/
 #else
 extern int pci_enable_msi_block(struct pci_dev *dev, unsigned int nvec);
 extern void pci_msi_shutdown(struct pci_dev *dev);
@@ -895,20 +895,20 @@ extern int pci_msi_enabled(void);
 #endif
 
 #ifndef CONFIG_PCIEASPM
-static inline int pcie_aspm_enabled(void)
+/*static inline int pcie_aspm_enabled(void)
 {
 	return 0;
-}
+}*/
 #else
 extern int pcie_aspm_enabled(void);
 #endif
 
 #ifndef CONFIG_PCIE_ECRC
-static inline void pcie_set_ecrc_checking(struct pci_dev *dev)
+/*static inline void pcie_set_ecrc_checking(struct pci_dev *dev)
 {
 	return;
 }
-static inline void pcie_ecrc_get_policy(char *str) {};
+static inline void pcie_ecrc_get_policy(char *str) {};*/
 #else
 extern void pcie_set_ecrc_checking(struct pci_dev *dev);
 extern void pcie_ecrc_get_policy(char *str);
@@ -933,7 +933,7 @@ extern void pci_unblock_user_cfg_access(struct pci_dev *dev);
 #ifdef CONFIG_PCI_DOMAINS
 extern int pci_domains_supported;
 #else
-enum { pci_domains_supported = 0 };
+/*enum { pci_domains_supported = 0 };
 static inline int pci_domain_nr(struct pci_bus *bus)
 {
 	return 0;
@@ -942,7 +942,7 @@ static inline int pci_domain_nr(struct pci_bus *bus)
 static inline int pci_proc_domain(struct pci_bus *bus)
 {
 	return 0;
-}
+}*/
 #endif /* CONFIG_PCI_DOMAINS */
 
 /* some architectures require additional setup to direct VGA traffic */
@@ -956,7 +956,7 @@ extern void pci_register_set_vga_state(arch_set_vga_state_t func);
  *  If the system does not have PCI, clearly these return errors.  Define
  *  these as simple inline functions to avoid hair in drivers.
  */
-
+/*
 #define _PCI_NOP(o, s, t) \
 	static inline int pci_##o##_config_##s(struct pci_dev *dev, \
 						int where, t val) \
@@ -1069,7 +1069,7 @@ static inline int pci_find_ext_capability(struct pci_dev *dev, int cap)
 	return 0;
 }
 
-/* Power management related routines */
+* Power management related routines *
 static inline int pci_save_state(struct pci_dev *dev)
 {
 	return 0;
@@ -1123,7 +1123,7 @@ static inline struct pci_dev *pci_get_slot(struct pci_bus *bus,
 static inline struct pci_dev *pci_get_bus_and_slot(unsigned int bus,
 						unsigned int devfn)
 { return NULL; }
-
+*/
 #endif /* CONFIG_PCI */
 
 /* Include architecture-dependent settings and functions */
@@ -1264,8 +1264,8 @@ int pcibios_set_pcie_reset_state(struct pci_dev *dev,
 				 enum pcie_reset_state state);
 
 #ifdef CONFIG_PCI_MMCONFIG
-extern void __init pci_mmcfg_early_init(void);
-extern void __init pci_mmcfg_late_init(void);
+//extern void __init pci_mmcfg_early_init(void);
+//extern void __init pci_mmcfg_late_init(void);
 #else
 static inline void pci_mmcfg_early_init(void) { }
 static inline void pci_mmcfg_late_init(void) { }
@@ -1280,7 +1280,7 @@ extern int pci_enable_sriov(struct pci_dev *dev, int nr_virtfn);
 extern void pci_disable_sriov(struct pci_dev *dev);
 extern irqreturn_t pci_sriov_migration(struct pci_dev *dev);
 #else
-static inline int pci_enable_sriov(struct pci_dev *dev, int nr_virtfn)
+/*static inline int pci_enable_sriov(struct pci_dev *dev, int nr_virtfn)
 {
 	return -ENODEV;
 }
@@ -1290,7 +1290,7 @@ static inline void pci_disable_sriov(struct pci_dev *dev)
 static inline irqreturn_t pci_sriov_migration(struct pci_dev *dev)
 {
 	return IRQ_NONE;
-}
+}*/
 #endif
 
 #if defined(CONFIG_HOTPLUG_PCI) || defined(CONFIG_HOTPLUG_PCI_MODULE)

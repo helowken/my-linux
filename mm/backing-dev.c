@@ -137,7 +137,7 @@ static void bdi_debug_unregister(struct backing_dev_info *bdi)
 	debugfs_remove(bdi->debug_dir);
 }
 #else
-static inline void bdi_debug_init(void)
+/*static inline void bdi_debug_init(void)
 {
 }
 static inline void bdi_debug_register(struct backing_dev_info *bdi,
@@ -146,7 +146,7 @@ static inline void bdi_debug_register(struct backing_dev_info *bdi,
 }
 static inline void bdi_debug_unregister(struct backing_dev_info *bdi)
 {
-}
+}*/
 #endif
 
 static ssize_t read_ahead_kb_store(struct device *dev,

@@ -73,9 +73,9 @@ void unregister_cpu(struct cpu *cpu)
 	return;
 }
 #else /* ... !CONFIG_HOTPLUG_CPU */
-static inline void register_cpu_control(struct cpu *cpu)
+/*static inline void register_cpu_control(struct cpu *cpu)
 {
-}
+}*/
 #endif /* CONFIG_HOTPLUG_CPU */
 
 #ifdef CONFIG_KEXEC

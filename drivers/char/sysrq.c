@@ -100,7 +100,7 @@ static struct sysrq_key_op sysrq_SAK_op = {
 	.enable_mask	= SYSRQ_ENABLE_KEYBOARD,
 };
 #else
-#define sysrq_SAK_op (*(struct sysrq_key_op *)0)
+//#define sysrq_SAK_op (*(struct sysrq_key_op *)0)
 #endif
 
 #ifdef CONFIG_VT
@@ -118,7 +118,7 @@ static struct sysrq_key_op sysrq_unraw_op = {
 	.enable_mask	= SYSRQ_ENABLE_KEYBOARD,
 };
 #else
-#define sysrq_unraw_op (*(struct sysrq_key_op *)0)
+//#define sysrq_unraw_op (*(struct sysrq_key_op *)0)
 #endif /* CONFIG_VT */
 
 static void sysrq_handle_crash(int key, struct tty_struct *tty)
@@ -183,7 +183,7 @@ static struct sysrq_key_op sysrq_mountro_op = {
 };
 
 #ifdef CONFIG_LOCKDEP
-static void sysrq_handle_showlocks(int key, struct tty_struct *tty)
+/*static void sysrq_handle_showlocks(int key, struct tty_struct *tty)
 {
 	debug_show_all_locks();
 }
@@ -192,7 +192,7 @@ static struct sysrq_key_op sysrq_showlocks_op = {
 	.handler	= sysrq_handle_showlocks,
 	.help_msg	= "show-all-locks(D)",
 	.action_msg	= "Show Locks Held",
-};
+};*/
 #else
 #define sysrq_showlocks_op (*(struct sysrq_key_op *)0)
 #endif
@@ -284,7 +284,7 @@ static struct sysrq_key_op sysrq_showstate_blocked_op = {
 };
 
 #ifdef CONFIG_TRACING
-#include <linux/ftrace.h>
+/*#include <linux/ftrace.h>
 
 static void sysrq_ftrace_dump(int key, struct tty_struct *tty)
 {
@@ -295,7 +295,7 @@ static struct sysrq_key_op sysrq_ftrace_dump_op = {
 	.help_msg	= "dump-ftrace-buffer(Z)",
 	.action_msg	= "Dump ftrace buffer",
 	.enable_mask	= SYSRQ_ENABLE_DUMP,
-};
+};*/
 #else
 #define sysrq_ftrace_dump_op (*(struct sysrq_key_op *)0)
 #endif
@@ -423,13 +423,13 @@ static struct sysrq_key_op *sysrq_key_table[36] = {
 #ifdef CONFIG_BLOCK
 	&sysrq_thaw_op,			/* j */
 #else
-	NULL,				/* j */
+	//NULL,				/* j */
 #endif
 	&sysrq_SAK_op,			/* k */
 #ifdef CONFIG_SMP
 	&sysrq_showallcpus_op,		/* l */
 #else
-	NULL,				/* l */
+	//NULL,				/* l */
 #endif
 	&sysrq_showmem_op,		/* m */
 	&sysrq_unrt_op,			/* n */

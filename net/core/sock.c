@@ -596,9 +596,9 @@ set_rcvbuf:
 			sock_reset_flag(sk, SOCK_LINGER);
 		else {
 #if (BITS_PER_LONG == 32)
-			if ((unsigned int)ling.l_linger >= MAX_SCHEDULE_TIMEOUT/HZ)
+			/*if ((unsigned int)ling.l_linger >= MAX_SCHEDULE_TIMEOUT/HZ)
 				sk->sk_lingertime = MAX_SCHEDULE_TIMEOUT;
-			else
+			else*/
 #endif
 				sk->sk_lingertime = (unsigned int)ling.l_linger * HZ;
 			sock_set_flag(sk, SOCK_LINGER);
@@ -936,15 +936,15 @@ static inline void sock_lock_init(struct sock *sk)
 static void sock_copy(struct sock *nsk, const struct sock *osk)
 {
 #ifdef CONFIG_SECURITY_NETWORK
-	void *sptr = nsk->sk_security;
+	//void *sptr = nsk->sk_security;
 #endif
 	BUILD_BUG_ON(offsetof(struct sock, sk_copy_start) !=
 		     sizeof(osk->sk_node) + sizeof(osk->sk_refcnt));
 	memcpy(&nsk->sk_copy_start, &osk->sk_copy_start,
 	       osk->sk_prot->obj_size - offsetof(struct sock, sk_copy_start));
 #ifdef CONFIG_SECURITY_NETWORK
-	nsk->sk_security = sptr;
-	security_sk_clone(osk, nsk);
+	//nsk->sk_security = sptr;
+	//security_sk_clone(osk, nsk);
 #endif
 }
 
@@ -1124,7 +1124,7 @@ struct sock *sk_clone(const struct sock *sk, const gfp_t priority)
 		skb_queue_head_init(&newsk->sk_receive_queue);
 		skb_queue_head_init(&newsk->sk_write_queue);
 #ifdef CONFIG_NET_DMA
-		skb_queue_head_init(&newsk->sk_async_wait_queue);
+		//skb_queue_head_init(&newsk->sk_async_wait_queue);
 #endif
 
 		rwlock_init(&newsk->sk_dst_lock);
@@ -1839,7 +1839,7 @@ void sock_init_data(struct socket *sock, struct sock *sk)
 	skb_queue_head_init(&sk->sk_write_queue);
 	skb_queue_head_init(&sk->sk_error_queue);
 #ifdef CONFIG_NET_DMA
-	skb_queue_head_init(&sk->sk_async_wait_queue);
+	//skb_queue_head_init(&sk->sk_async_wait_queue);
 #endif
 
 	sk->sk_send_head	=	NULL;
@@ -2142,7 +2142,7 @@ static __init int net_inuse_init(void)
 
 core_initcall(net_inuse_init);
 #else
-static DEFINE_PER_CPU(struct prot_inuse, prot_inuse);
+/*static DEFINE_PER_CPU(struct prot_inuse, prot_inuse);
 
 void sock_prot_inuse_add(struct net *net, struct proto *prot, int val)
 {
@@ -2160,7 +2160,7 @@ int sock_prot_inuse_get(struct net *net, struct proto *prot)
 
 	return res >= 0 ? res : 0;
 }
-EXPORT_SYMBOL_GPL(sock_prot_inuse_get);
+EXPORT_SYMBOL_GPL(sock_prot_inuse_get);*/
 #endif
 
 static void assign_proto_idx(struct proto *prot)
@@ -2181,13 +2181,13 @@ static void release_proto_idx(struct proto *prot)
 		clear_bit(prot->inuse_idx, proto_inuse_idx);
 }
 #else
-static inline void assign_proto_idx(struct proto *prot)
+/*static inline void assign_proto_idx(struct proto *prot)
 {
 }
 
 static inline void release_proto_idx(struct proto *prot)
 {
-}
+}*/
 #endif
 
 int proto_register(struct proto *prot, int alloc_slab)

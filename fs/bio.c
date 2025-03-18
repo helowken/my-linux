@@ -1648,10 +1648,10 @@ static void __init biovec_init_slabs(void)
 		struct biovec_slab *bvs = bvec_slabs + i;
 
 #ifndef CONFIG_BLK_DEV_INTEGRITY
-		if (bvs->nr_vecs <= BIO_INLINE_VECS) {
+		/*if (bvs->nr_vecs <= BIO_INLINE_VECS) {
 			bvs->slab = NULL;
 			continue;
-		}
+		}*/
 #endif
 
 		size = bvs->nr_vecs * sizeof(struct bio_vec);

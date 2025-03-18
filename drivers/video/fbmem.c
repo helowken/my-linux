@@ -492,7 +492,7 @@ static int fb_show_logo_line(struct fb_info *info, int rotate,
 
 
 #ifdef CONFIG_FB_LOGO_EXTRA
-
+/*
 #define FB_LOGO_EX_NUM_MAX 10
 static struct logo_data_extra {
 	const struct linux_logo *logo;
@@ -515,7 +515,7 @@ static int fb_prepare_extra_logos(struct fb_info *info, unsigned int height,
 {
 	unsigned int i;
 
-	/* FIXME: logo_ex supports only truecolor fb. */
+	* FIXME: logo_ex supports only truecolor fb. *
 	if (info->fix.visual != FB_VISUAL_TRUECOLOR)
 		fb_logo_ex_num = 0;
 
@@ -544,7 +544,7 @@ static int fb_show_extra_logos(struct fb_info *info, int y, int rotate)
 
 	return y;
 }
-
+*/
 #else /* !CONFIG_FB_LOGO_EXTRA */
 
 static inline int fb_prepare_extra_logos(struct fb_info *info,
@@ -641,8 +641,8 @@ int fb_show_logo(struct fb_info *info, int rotate)
 	return y;
 }
 #else
-int fb_prepare_logo(struct fb_info *info, int rotate) { return 0; }
-int fb_show_logo(struct fb_info *info, int rotate) { return 0; }
+//int fb_prepare_logo(struct fb_info *info, int rotate) { return 0; }
+//int fb_show_logo(struct fb_info *info, int rotate) { return 0; }
 #endif /* CONFIG_LOGO */
 
 static void *fb_seq_start(struct seq_file *m, loff_t *pos)
@@ -1398,8 +1398,8 @@ __releases(&info->lock)
 			module_put(info->fbops->owner);
 	}
 #ifdef CONFIG_FB_DEFERRED_IO
-	if (info->fbdefio)
-		fb_deferred_io_open(info, inode, file);
+	/*if (info->fbdefio)
+		fb_deferred_io_open(info, inode, file);*/
 #endif
 out:
 	mutex_unlock(&info->lock);

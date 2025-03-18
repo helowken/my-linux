@@ -58,7 +58,7 @@ int unregister_sysrq_key(int key, struct sysrq_key_op *op);
 struct sysrq_key_op *__sysrq_get_key_op(int key);
 
 #else
-
+/*
 static inline int sysrq_on(void)
 {
 	return 0;
@@ -73,7 +73,7 @@ static inline void handle_sysrq(int key, struct tty_struct *tty)
 
 #define register_sysrq_key(ig,nore) __reterr()
 #define unregister_sysrq_key(ig,nore) __reterr()
-
+*/
 #endif
 
 #endif /* _LINUX_SYSRQ_H */
