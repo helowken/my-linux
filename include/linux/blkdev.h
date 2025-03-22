@@ -471,7 +471,7 @@ static inline int queue_is_locked(struct request_queue *q)
 	spinlock_t *lock = q->queue_lock;
 	return lock && spin_is_locked(lock);
 #else
-	return 1;
+	//return 1;
 #endif
 }
 
@@ -695,7 +695,7 @@ extern unsigned long blk_max_low_pfn, blk_max_pfn;
  */
 
 #if BITS_PER_LONG == 32
-#define BLK_BOUNCE_HIGH		((u64)blk_max_low_pfn << PAGE_SHIFT)
+//#define BLK_BOUNCE_HIGH		((u64)blk_max_low_pfn << PAGE_SHIFT)
 #else
 #define BLK_BOUNCE_HIGH		-1ULL
 #endif
@@ -712,13 +712,13 @@ extern unsigned long blk_max_low_pfn, blk_max_pfn;
 extern int init_emergency_isa_pool(void);
 extern void blk_queue_bounce(struct request_queue *q, struct bio **bio);
 #else
-static inline int init_emergency_isa_pool(void)
+/*static inline int init_emergency_isa_pool(void)
 {
 	return 0;
 }
 static inline void blk_queue_bounce(struct request_queue *q, struct bio **bio)
 {
-}
+}*/
 #endif /* CONFIG_MMU */
 
 struct rq_map_data {
@@ -1249,7 +1249,7 @@ static inline int blk_integrity_rq(struct request *rq)
 }
 
 #else /* CONFIG_BLK_DEV_INTEGRITY */
-
+/*
 #define blk_integrity_rq(rq)			(0)
 #define blk_rq_count_integrity_sg(a)		(0)
 #define blk_rq_map_integrity_sg(a, b)		(0)
@@ -1258,7 +1258,7 @@ static inline int blk_integrity_rq(struct request *rq)
 #define blk_integrity_compare(a, b)		(0)
 #define blk_integrity_register(a, b)		(0)
 #define blk_integrity_unregister(a)		do { } while (0);
-
+*/
 #endif /* CONFIG_BLK_DEV_INTEGRITY */
 
 struct block_device_operations {
@@ -1283,13 +1283,13 @@ extern int __blkdev_driver_ioctl(struct block_device *, fmode_t, unsigned int,
 /*
  * stubs for when the block layer is configured out
  */
-#define buffer_heads_over_limit 0
+/*#define buffer_heads_over_limit 0
 
 static inline long nr_blockdev_pages(void)
 {
 	return 0;
 }
-
+*/
 #endif /* CONFIG_BLOCK */
 
 #endif

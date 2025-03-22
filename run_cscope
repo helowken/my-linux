@@ -31,6 +31,8 @@ find $LNX                                                                \
     -path "$LNX/firmware/*" -prune -o       \
     -path "$LNX/net/*" ! -path "$LNX/net/core*"        \
 					   ! -path "$LNX/net/netfilter*" \
+					   ! -path "$LNX/net/sched*" \
+					   ! -path "$LNX/net/wireless*" \
 					   ! -path "$LNX/net/netlink*" -prune -o       \
     -path "$LNX/samples/*" -prune -o       \
     -path "$LNX/sound/*" -prune -o       \
@@ -38,8 +40,18 @@ find $LNX                                                                \
     -path "$LNX/tools/*" -prune -o       \
     -path "$LNX/usr/*" -prune -o       \
     -path "$LNX/drivers/*" ! -path "$LNX/drivers/firmware*" \
+	                       ! -path "$LNX/drivers/rtc*" \
+	                       ! -path "$LNX/drivers/power*" \
+	                       ! -path "$LNX/drivers/md*" \
+	                       ! -path "$LNX/drivers/hwmon*" \
+	                       ! -path "$LNX/drivers/thermal*" \
+	                       ! -path "$LNX/drivers/scsi*" \
+	                       ! -path "$LNX/drivers/ata*" \
+	                       ! -path "$LNX/drivers/pcmcia*" \
+	                       ! -path "$LNX/drivers/input*" \
 	                       ! -path "$LNX/drivers/video*" \
 	                       ! -path "$LNX/drivers/pci*" \
+	                       ! -path "$LNX/drivers/pnp*" \
 	                       ! -path "$LNX/drivers/base*" \
 	                       ! -path "$LNX/drivers/cpufreq*" \
 	                       ! -path "$LNX/drivers/cpuidle*" \
@@ -53,9 +65,13 @@ find $LNX                                                                \
     -path "$LNX/**/bak/*" -prune -o                                      \
     -name "*.[chxsS]" -print > $files
 
+
 find $LNX/fs -maxdepth 1 -name "*.[chxsS]" -print >> $files
 find $LNX/net -maxdepth 1 -name "*.[chxsS]" -print >> $files
 find $LNX/security -maxdepth 1 -name "*.[chxsS]" -print >> $files
+find $LNX/drivers/gpu/vga -maxdepth 1 -name "*.[chxsS]" -print >> $files
+find $LNX/drivers/net/phy -maxdepth 1 -name "*.[chxsS]" -print >> $files
+find $LNX/drivers/input/serio -maxdepth 1 -name "*.[chxsS]" -print >> $files
 
 
 echo "Building cscope database..."

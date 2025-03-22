@@ -51,7 +51,7 @@ static int rtc_dev_open(struct inode *inode, struct file *file)
  * Routine to poll RTC seconds field for change as often as possible,
  * after first RTC_UIE use timer to reduce polling
  */
-static void rtc_uie_task(struct work_struct *work)
+/*static void rtc_uie_task(struct work_struct *work)
 {
 	struct rtc_device *rtc =
 		container_of(work, struct rtc_device, uie_task);
@@ -143,7 +143,7 @@ int rtc_dev_update_irq_enable_emul(struct rtc_device *rtc, unsigned int enabled)
 		return clear_uie(rtc);
 }
 EXPORT_SYMBOL(rtc_dev_update_irq_enable_emul);
-
+*/
 #endif /* CONFIG_RTC_INTF_DEV_UIE_EMUL */
 
 static ssize_t
@@ -494,8 +494,8 @@ void rtc_dev_prepare(struct rtc_device *rtc)
 	rtc->dev.devt = MKDEV(MAJOR(rtc_devt), rtc->id);
 
 #ifdef CONFIG_RTC_INTF_DEV_UIE_EMUL
-	INIT_WORK(&rtc->uie_task, rtc_uie_task);
-	setup_timer(&rtc->uie_timer, rtc_uie_timer, (unsigned long)rtc);
+	//INIT_WORK(&rtc->uie_task, rtc_uie_task);
+	//setup_timer(&rtc->uie_timer, rtc_uie_timer, (unsigned long)rtc);
 #endif
 
 	cdev_init(&rtc->char_dev, &rtc_dev_fops);

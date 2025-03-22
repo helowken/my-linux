@@ -505,7 +505,7 @@ static void __exit interrupt_stats_exit(void)
                               FS Interface (/proc)
    -------------------------------------------------------------------------- */
 #ifdef CONFIG_ACPI_PROCFS
-#define ACPI_SYSTEM_FILE_INFO		"info"
+/*#define ACPI_SYSTEM_FILE_INFO		"info"
 #define ACPI_SYSTEM_FILE_EVENT		"event"
 #define ACPI_SYSTEM_FILE_DSDT		"dsdt"
 #define ACPI_SYSTEM_FILE_FADT		"fadt"
@@ -585,19 +585,19 @@ static int acpi_system_procfs_init(void)
 	struct proc_dir_entry *entry;
 	int error = 0;
 
-	/* 'info' [R] */
+	* 'info' [R] *
 	entry = proc_create(ACPI_SYSTEM_FILE_INFO, S_IRUGO, acpi_root_dir,
 			    &acpi_system_info_ops);
 	if (!entry)
 		goto Error;
 
-	/* 'dsdt' [R] */
+	* 'dsdt' [R] *
 	entry = proc_create(ACPI_SYSTEM_FILE_DSDT, S_IRUSR, acpi_root_dir,
 			    &acpi_system_dsdt_ops);
 	if (!entry)
 		goto Error;
 
-	/* 'fadt' [R] */
+	* 'fadt' [R] *
 	entry = proc_create(ACPI_SYSTEM_FILE_FADT, S_IRUSR, acpi_root_dir,
 			    &acpi_system_fadt_ops);
 	if (!entry)
@@ -613,7 +613,7 @@ static int acpi_system_procfs_init(void)
 
 	error = -EFAULT;
 	goto Done;
-}
+}*/
 #else
 static int acpi_system_procfs_init(void)
 {

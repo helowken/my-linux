@@ -25,7 +25,7 @@ int acpi_scan_init(void);
 int acpi_system_init(void);
 
 #ifdef CONFIG_ACPI_DEBUG
-int acpi_debug_init(void);
+//int acpi_debug_init(void);
 #else
 static inline int acpi_debug_init(void) { return 0; }
 #endif
@@ -59,5 +59,5 @@ extern int acpi_sleep_init(void);
 #ifdef CONFIG_ACPI_SLEEP
 int acpi_sleep_proc_init(void);
 #else
-static inline int acpi_sleep_proc_init(void) { return 0; }
+//static inline int acpi_sleep_proc_init(void) { return 0; }
 #endif

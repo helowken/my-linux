@@ -784,14 +784,14 @@ static int input_bits_to_string(char *buf, int buf_size,
 }
 
 #else /* !CONFIG_COMPAT */
-
+/*
 static int input_bits_to_string(char *buf, int buf_size,
 				unsigned long bits, bool skip_empty)
 {
 	return bits || !skip_empty ?
 		snprintf(buf, buf_size, "%lx", bits) : 0;
 }
-
+*/
 #endif
 
 #ifdef CONFIG_PROC_FS
@@ -1041,9 +1041,9 @@ static void input_proc_exit(void)
 }
 
 #else /* !CONFIG_PROC_FS */
-static inline void input_wakeup_procfs_readers(void) { }
+/*static inline void input_wakeup_procfs_readers(void) { }
 static inline int input_proc_init(void) { return 0; }
-static inline void input_proc_exit(void) { }
+static inline void input_proc_exit(void) { }*/
 #endif
 
 #define INPUT_DEV_STRING_ATTR_SHOW(name)				\

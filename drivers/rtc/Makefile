@@ -2,6 +2,9 @@
 # Makefile for RTC class/drivers.
 #
 
+#TODO remove -O2
+KBUILD_CFLAGS := $(filter-out -O2,$(KBUILD_CFLAGS))
+
 ifeq ($(CONFIG_RTC_DEBUG),y)
 	EXTRA_CFLAGS		+= -DDEBUG
 endif

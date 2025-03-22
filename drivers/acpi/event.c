@@ -21,7 +21,7 @@ ACPI_MODULE_NAME("event");
 
 #ifdef CONFIG_ACPI_PROC_EVENT
 /* Global vars for handling event proc entry */
-static DEFINE_SPINLOCK(acpi_system_event_lock);
+/*static DEFINE_SPINLOCK(acpi_system_event_lock);
 int event_is_open = 0;
 extern struct list_head acpi_bus_event_list;
 extern wait_queue_head_t acpi_bus_event_queue;
@@ -109,7 +109,7 @@ static const struct file_operations acpi_system_event_ops = {
 	.read = acpi_system_read_event,
 	.release = acpi_system_close_event,
 	.poll = acpi_system_poll_event,
-};
+};*/
 #endif	/* CONFIG_ACPI_PROC_EVENT */
 
 /* ACPI notifier chain */
@@ -260,7 +260,7 @@ static int acpi_event_genetlink_init(void)
 }
 
 #else
-int acpi_bus_generate_netlink_event(const char *device_class,
+/*int acpi_bus_generate_netlink_event(const char *device_class,
 				      const char *bus_id,
 				      u8 type, int data)
 {
@@ -272,13 +272,13 @@ EXPORT_SYMBOL(acpi_bus_generate_netlink_event);
 static int acpi_event_genetlink_init(void)
 {
 	return -ENODEV;
-}
+}*/
 #endif
 
 static int __init acpi_event_init(void)
 {
 #ifdef CONFIG_ACPI_PROC_EVENT
-	struct proc_dir_entry *entry;
+	//struct proc_dir_entry *entry;
 #endif
 	int error = 0;
 
@@ -293,10 +293,10 @@ static int __init acpi_event_init(void)
 
 #ifdef CONFIG_ACPI_PROC_EVENT
 	/* 'event' [R] */
-	entry = proc_create("event", S_IRUSR, acpi_root_dir,
+	/*entry = proc_create("event", S_IRUSR, acpi_root_dir,
 			    &acpi_system_event_ops);
 	if (!entry)
-		return -ENODEV;
+		return -ENODEV;*/
 #endif
 
 	return 0;

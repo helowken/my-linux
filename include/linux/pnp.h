@@ -25,11 +25,11 @@ struct pnp_dev;
 struct resource *pnp_get_resource(struct pnp_dev *dev, unsigned long type,
 				unsigned int num);
 #else
-static inline struct resource *pnp_get_resource(struct pnp_dev *dev,
+/*static inline struct resource *pnp_get_resource(struct pnp_dev *dev,
 			unsigned long type, unsigned int num)
 {
 	return NULL;
-}
+}*/
 #endif
 
 static inline int pnp_resource_valid(struct resource *res)
@@ -320,16 +320,16 @@ struct pnp_fixup {
 				 ((dev)->capabilities & PNP_CONFIGURABLE))
 
 #ifdef CONFIG_ISAPNP
-extern struct pnp_protocol isapnp_protocol;
-#define pnp_device_is_isapnp(dev) ((dev)->protocol == (&isapnp_protocol))
+//extern struct pnp_protocol isapnp_protocol;
+//#define pnp_device_is_isapnp(dev) ((dev)->protocol == (&isapnp_protocol))
 #else
 #define pnp_device_is_isapnp(dev) 0
 #endif
 extern struct mutex pnp_res_mutex;
 
 #ifdef CONFIG_PNPBIOS
-extern struct pnp_protocol pnpbios_protocol;
-#define pnp_device_is_pnpbios(dev) ((dev)->protocol == (&pnpbios_protocol))
+//extern struct pnp_protocol pnpbios_protocol;
+//#define pnp_device_is_pnpbios(dev) ((dev)->protocol == (&pnpbios_protocol))
 #else
 #define pnp_device_is_pnpbios(dev) 0
 #endif
@@ -456,20 +456,20 @@ int pnp_register_driver(struct pnp_driver *drv);
 void pnp_unregister_driver(struct pnp_driver *drv);
 
 #else
-
-/* device management */
+/*
+* device management *
 static inline int pnp_device_attach(struct pnp_dev *pnp_dev) { return -ENODEV; }
 static inline void pnp_device_detach(struct pnp_dev *pnp_dev) { }
 
 #define pnp_platform_devices 0
 
-/* multidevice card support */
+* multidevice card support *
 static inline struct pnp_dev *pnp_request_card_device(struct pnp_card_link *clink, const char *id, struct pnp_dev *from) { return NULL; }
 static inline void pnp_release_card_device(struct pnp_dev *dev) { }
 static inline int pnp_register_card_driver(struct pnp_card_driver *drv) { return -ENODEV; }
 static inline void pnp_unregister_card_driver(struct pnp_card_driver *drv) { }
 
-/* resource management */
+* resource management *
 static inline int pnp_possible_config(struct pnp_dev *dev, int type,
 				      resource_size_t base,
 				      resource_size_t size) { return 0; }
@@ -480,12 +480,12 @@ static inline int pnp_activate_dev(struct pnp_dev *dev) { return -ENODEV; }
 static inline int pnp_disable_dev(struct pnp_dev *dev) { return -ENODEV; }
 static inline int pnp_range_reserved(resource_size_t start, resource_size_t end) { return 0;}
 
-/* protocol helpers */
+* protocol helpers *
 static inline int pnp_is_active(struct pnp_dev *dev) { return 0; }
 static inline int compare_pnp_id(struct pnp_id *pos, const char *id) { return -ENODEV; }
 static inline int pnp_register_driver(struct pnp_driver *drv) { return -ENODEV; }
 static inline void pnp_unregister_driver(struct pnp_driver *drv) { }
-
+*/
 #endif /* CONFIG_PNP */
 
 #endif /* _LINUX_PNP_H */

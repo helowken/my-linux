@@ -144,13 +144,13 @@ DECLARE_PCI_FIXUP_EARLY(PCI_VENDOR_ID_SERVERWORKS, PCI_DEVICE_ID_SERVERWORKS_LE,
 #endif
 
 #ifndef CONFIG_X86_64
-#include <asm/mach_timer.h>
+/*#include <asm/mach_timer.h>
 #define PMTMR_EXPECTED_RATE \
   ((CALIBRATE_LATCH * (PMTMR_TICKS_PER_SEC >> 10)) / (CLOCK_TICK_RATE>>10))
-/*
+*
  * Some boards have the PMTMR running way too fast. We check
  * the PMTMR rate against PIT channel 2 to catch these cases.
- */
+ *
 static int verify_pmtmr_rate(void)
 {
 	cycle_t value1, value2;
@@ -162,7 +162,7 @@ static int verify_pmtmr_rate(void)
 	value2 = clocksource_acpi_pm.read(&clocksource_acpi_pm);
 	delta = (value2 - value1) & ACPI_PM_MASK;
 
-	/* Check that the PMTMR delta is within 5% of what we expect */
+	* Check that the PMTMR delta is within 5% of what we expect *
 	if (delta < (PMTMR_EXPECTED_RATE * 19) / 20 ||
 	    delta > (PMTMR_EXPECTED_RATE * 21) / 20) {
 		printk(KERN_INFO "PM-Timer running at invalid rate: %lu%% "
@@ -172,7 +172,7 @@ static int verify_pmtmr_rate(void)
 	}
 
 	return 0;
-}
+}*/
 #else
 #define verify_pmtmr_rate() (0)
 #endif

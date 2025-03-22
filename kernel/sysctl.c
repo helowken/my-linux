@@ -86,10 +86,10 @@ extern int compat_log;
 extern int latencytop_enabled;
 extern int sysctl_nr_open_min, sysctl_nr_open_max;
 #ifndef CONFIG_MMU
-extern int sysctl_nr_trim_pages;
+//extern int sysctl_nr_trim_pages;
 #endif
 #ifdef CONFIG_RCU_TORTURE_TEST
-extern int rcutorture_runnable;
+//extern int rcutorture_runnable;
 #endif /* #ifdef CONFIG_RCU_TORTURE_TEST */
 #ifdef CONFIG_BLOCK
 extern int blk_iopoll_enabled;
@@ -97,8 +97,8 @@ extern int blk_iopoll_enabled;
 
 /* Constants used for minimum and  maximum */
 #ifdef CONFIG_DETECT_SOFTLOCKUP
-static int sixty = 60;
-static int neg_one = -1;
+//static int sixty = 60;
+//static int neg_one = -1;
 #endif
 
 static int zero;
@@ -125,15 +125,15 @@ extern char modprobe_path[];
 extern int modules_disabled;
 #endif
 #ifdef CONFIG_CHR_DEV_SG
-extern int sg_big_buff;
+//extern int sg_big_buff;
 #endif
 
 #ifdef CONFIG_SPARC
-#include <asm/system.h>
+//#include <asm/system.h>
 #endif
 
 #ifdef CONFIG_SPARC64
-extern int sysctl_tsb_ratio;
+//extern int sysctl_tsb_ratio;
 #endif
 
 #ifdef __hppa__
@@ -142,11 +142,11 @@ extern int unaligned_enabled;
 #endif
 
 #ifdef CONFIG_S390
-#ifdef CONFIG_MATHEMU
+/*#ifdef CONFIG_MATHEMU
 extern int sysctl_ieee_emulation_warnings;
 #endif
 extern int sysctl_userprocess_debug;
-extern int spin_retry;
+extern int spin_retry;*/
 #endif
 
 #ifdef CONFIG_BSD_PROCESS_ACCT
@@ -154,8 +154,8 @@ extern int acct_parm[];
 #endif
 
 #ifdef CONFIG_IA64
-extern int no_unaligned_warning;
-extern int unaligned_dump_stack;
+//extern int no_unaligned_warning;
+//extern int unaligned_dump_stack;
 #endif
 
 #ifdef CONFIG_RT_MUTEXES
@@ -244,10 +244,10 @@ static struct ctl_table root_table[] = {
 };
 
 #ifdef CONFIG_SCHED_DEBUG
-static int min_sched_granularity_ns = 100000;		/* 100 usecs */
-static int max_sched_granularity_ns = NSEC_PER_SEC;	/* 1 second */
-static int min_wakeup_granularity_ns;			/* 0 usecs */
-static int max_wakeup_granularity_ns = NSEC_PER_SEC;	/* 1 second */
+//static int min_sched_granularity_ns = 100000;		/* 100 usecs */
+//static int max_sched_granularity_ns = NSEC_PER_SEC;	/* 1 second */
+//static int min_wakeup_granularity_ns;			/* 0 usecs */
+//static int max_wakeup_granularity_ns = NSEC_PER_SEC;	/* 1 second */
 #endif
 
 static struct ctl_table kern_table[] = {
@@ -260,7 +260,7 @@ static struct ctl_table kern_table[] = {
 		.proc_handler	= &proc_dointvec,
 	},
 #ifdef CONFIG_SCHED_DEBUG
-	{
+	/*{
 		.ctl_name	= CTL_UNNUMBERED,
 		.procname	= "sched_min_granularity_ns",
 		.data		= &sysctl_sched_min_granularity,
@@ -353,7 +353,7 @@ static struct ctl_table kern_table[] = {
 		.strategy	= &sysctl_intvec,
 		.extra1		= &zero,
 		.extra2		= &one,
-	},
+	},*/
 #endif
 	{
 		.ctl_name	= CTL_UNNUMBERED,
@@ -380,24 +380,24 @@ static struct ctl_table kern_table[] = {
 		.proc_handler	= &proc_dointvec,
 	},
 #ifdef CONFIG_PROVE_LOCKING
-	{
+	/*{
 		.ctl_name	= CTL_UNNUMBERED,
 		.procname	= "prove_locking",
 		.data		= &prove_locking,
 		.maxlen		= sizeof(int),
 		.mode		= 0644,
 		.proc_handler	= &proc_dointvec,
-	},
+	},*/
 #endif
 #ifdef CONFIG_LOCK_STAT
-	{
+	/*{
 		.ctl_name	= CTL_UNNUMBERED,
 		.procname	= "lock_stat",
 		.data		= &lock_stat,
 		.maxlen		= sizeof(int),
 		.mode		= 0644,
 		.proc_handler	= &proc_dointvec,
-	},
+	},*/
 #endif
 	{
 		.ctl_name	= KERN_PANIC,
@@ -441,13 +441,13 @@ static struct ctl_table kern_table[] = {
 	},
 #endif
 #ifdef CONFIG_LATENCYTOP
-	{
+	/*{
 		.procname	= "latencytop",
 		.data		= &latencytop_enabled,
 		.maxlen		= sizeof(int),
 		.mode		= 0644,
 		.proc_handler	= &proc_dointvec,
-	},
+	},*/
 #endif
 #ifdef CONFIG_BLK_DEV_INITRD
 	{
@@ -468,7 +468,7 @@ static struct ctl_table kern_table[] = {
 		.proc_handler	= &proc_dointvec,
 	},
 #ifdef CONFIG_SPARC
-	{
+	/*{
 		.ctl_name	= KERN_SPARC_REBOOT,
 		.procname	= "reboot-cmd",
 		.data		= reboot_command,
@@ -492,17 +492,17 @@ static struct ctl_table kern_table[] = {
 		.maxlen		= sizeof (int),
 		.mode		= 0644,
 		.proc_handler	= &proc_dointvec,
-	},
+	},*/
 #endif
 #ifdef CONFIG_SPARC64
-	{
+	/*{
 		.ctl_name	= CTL_UNNUMBERED,
 		.procname	= "tsb-ratio",
 		.data		= &sysctl_tsb_ratio,
 		.maxlen		= sizeof (int),
 		.mode		= 0644,
 		.proc_handler	= &proc_dointvec,
-	},
+	},*/
 #endif
 #ifdef __hppa__
 	{
@@ -1931,10 +1931,10 @@ static __init int sysctl_init(void)
 {
 	sysctl_set_parent(NULL, root_table);
 #ifdef CONFIG_SYSCTL_SYSCALL_CHECK
-	{
+	/*{
 		int err;
 		err = sysctl_check_table(current->nsproxy, root_table);
-	}
+	}*/
 #endif
 	return 0;
 }
@@ -2112,10 +2112,10 @@ struct ctl_table_header *__register_sysctl_paths(
 	sysctl_set_parent(NULL, header->ctl_table);
 	header->count = 1;
 #ifdef CONFIG_SYSCTL_SYSCALL_CHECK
-	if (sysctl_check_table(namespaces, header->ctl_table)) {
+	/*if (sysctl_check_table(namespaces, header->ctl_table)) {
 		kfree(header);
 		return NULL;
-	}
+	}*/
 #endif
 	spin_lock(&sysctl_lock);
 	header->set = lookup_header_set(root, namespaces);
@@ -2903,7 +2903,7 @@ static int proc_do_cad_pid(struct ctl_table *table, int write,
 }
 
 #else /* CONFIG_PROC_FS */
-
+/*
 int proc_dostring(struct ctl_table *table, int write,
 		  void __user *buffer, size_t *lenp, loff_t *ppos)
 {
@@ -2953,7 +2953,7 @@ int proc_doulongvec_ms_jiffies_minmax(struct ctl_table *table, int write,
     return -ENOSYS;
 }
 
-
+*/
 #endif /* CONFIG_PROC_FS */
 
 
@@ -3150,7 +3150,7 @@ int sysctl_ms_jiffies(struct ctl_table *table,
 
 #else /* CONFIG_SYSCTL_SYSCALL */
 
-
+/*
 SYSCALL_DEFINE1(sysctl, struct __sysctl_args __user *, args)
 {
 	struct __sysctl_args tmp;
@@ -3161,7 +3161,7 @@ SYSCALL_DEFINE1(sysctl, struct __sysctl_args __user *, args)
 
 	error = deprecated_sysctl_warning(&tmp);
 
-	/* If no error reading the parameters then just -ENOSYS ... */
+	* If no error reading the parameters then just -ENOSYS ... *
 	if (!error)
 		error = -ENOSYS;
 
@@ -3202,7 +3202,7 @@ int sysctl_ms_jiffies(struct ctl_table *table,
 {
 	return -ENOSYS;
 }
-
+*/
 #endif /* CONFIG_SYSCTL_SYSCALL */
 
 static int deprecated_sysctl_warning(struct __sysctl_args *args)
