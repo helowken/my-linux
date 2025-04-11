@@ -23,7 +23,7 @@
 #include "internal.h"
 
 #ifdef CONFIG_CRYPTO_FIPS
-static struct ctl_table crypto_sysctl_table[] = {
+/*static struct ctl_table crypto_sysctl_table[] = {
 	{
 		.ctl_name       = CTL_UNNUMBERED,
 		.procname       = "fips_enabled",
@@ -60,7 +60,7 @@ static void crypto_proc_fips_exit(void)
 {
 	if (crypto_sysctls)
 		unregister_sysctl_table(crypto_sysctls);
-}
+}*/
 #else
 #define crypto_proc_fips_init()
 #define crypto_proc_fips_exit()

@@ -428,10 +428,10 @@ static struct _cache_attr cache_disable_1 = __ATTR(cache_disable_1, 0644,
 		show_cache_disable_1, store_cache_disable_1);
 
 #else	/* CONFIG_CPU_SUP_AMD */
-static void __cpuinit
+/*static void __cpuinit
 amd_check_l3_disable(int index, struct _cpuid4_info_regs *this_leaf)
 {
-};
+};*/
 #endif /* CONFIG_CPU_SUP_AMD */
 
 static int
@@ -703,13 +703,13 @@ static void __cpuinit cache_remove_shared_cpu_map(unsigned int cpu, int index)
 	}
 }
 #else
-static void __cpuinit cache_shared_cpu_map_setup(unsigned int cpu, int index)
+/*static void __cpuinit cache_shared_cpu_map_setup(unsigned int cpu, int index)
 {
 }
 
 static void __cpuinit cache_remove_shared_cpu_map(unsigned int cpu, int index)
 {
-}
+}*/
 #endif
 
 static void __cpuinit free_cache_attributes(unsigned int cpu)

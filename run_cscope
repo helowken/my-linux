@@ -26,13 +26,21 @@ find $LNX                                                                \
 					  ! -path "$LNX/fs/notify*"	 \
 					  ! -path "$LNX/fs/autofs*"	 \
 					  ! -path "$LNX/fs/fuse*"	 \
+					  ! -path "$LNX/fs/quota*"	 \
+					  ! -path "$LNX/fs/devpts*"	 \
+					  ! -path "$LNX/fs/hugetlbfs*"	 \
+					  ! -path "$LNX/fs/isofs*"	 \
+					  ! -path "$LNX/fs/nls*"	 \
 					  ! -path "$LNX/fs/partition*"	 \
 					  ! -path "$LNX/fs/proc*" -prune -o		\
     -path "$LNX/firmware/*" -prune -o       \
     -path "$LNX/net/*" ! -path "$LNX/net/core*"        \
 					   ! -path "$LNX/net/netfilter*" \
 					   ! -path "$LNX/net/sched*" \
+					   ! -path "$LNX/net/ipv4*" \
+					   ! -path "$LNX/net/unix*" \
 					   ! -path "$LNX/net/wireless*" \
+					   ! -path "$LNX/net/packet*" \
 					   ! -path "$LNX/net/netlink*" -prune -o       \
     -path "$LNX/samples/*" -prune -o       \
     -path "$LNX/sound/*" -prune -o       \
@@ -56,6 +64,9 @@ find $LNX                                                                \
 	                       ! -path "$LNX/drivers/cpufreq*" \
 	                       ! -path "$LNX/drivers/cpuidle*" \
 	                       ! -path "$LNX/drivers/char*" \
+	                       ! -path "$LNX/drivers/block*" \
+	                       ! -path "$LNX/drivers/misc*" \
+	                       ! -path "$LNX/drivers/serial*" \
 	                       ! -path "$LNX/drivers/clocksource*" \
 	                       ! -path "$LNX/drivers/gpio*" \
 	                       ! -path "$LNX/drivers/acpi*" -prune -o    \
@@ -81,7 +92,7 @@ time cscope -q -k -b -i cscope.files
 # use ctags --list-kinds to see details of --c-kinds and --c++-kinds
 # --regex-c is for "extern ..." and the kinds of it is "r" which is not included in c/c++ kinds
 #xargs -a $files 
-ctags -I __THROW -I __THROWNL -I __attribute_pure__ -I __nonnull \
+ctags -I __THROW -I __THROWNL -I __attribute_pure__ -I __nonnull -I __init \
 	-I __attribute__ -I __wur -I __weak_alias -I __read_mostly \
 	-I EXPORT_SYMBOL+ -I EXPORT_SYMBOL_GPL+ \
 	--file-scope=yes \

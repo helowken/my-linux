@@ -135,7 +135,7 @@ extern int cpuidle_enable_device(struct cpuidle_device *dev);
 extern void cpuidle_disable_device(struct cpuidle_device *dev);
 
 #else
-
+/*
 static inline int cpuidle_register_driver(struct cpuidle_driver *drv)
 {return 0;}
 static inline void cpuidle_unregister_driver(struct cpuidle_driver *drv) { }
@@ -148,7 +148,7 @@ static inline void cpuidle_resume_and_unlock(void) { }
 static inline int cpuidle_enable_device(struct cpuidle_device *dev)
 {return 0;}
 static inline void cpuidle_disable_device(struct cpuidle_device *dev) { }
-
+*/
 #endif
 
 /******************************
@@ -175,17 +175,17 @@ extern int cpuidle_register_governor(struct cpuidle_governor *gov);
 extern void cpuidle_unregister_governor(struct cpuidle_governor *gov);
 
 #else
-
+/*
 static inline int cpuidle_register_governor(struct cpuidle_governor *gov)
 {return 0;}
 static inline void cpuidle_unregister_governor(struct cpuidle_governor *gov) { }
-
+*/
 #endif
 
 #ifdef CONFIG_ARCH_HAS_CPU_RELAX
 #define CPUIDLE_DRIVER_STATE_START	1
 #else
-#define CPUIDLE_DRIVER_STATE_START	0
+//#define CPUIDLE_DRIVER_STATE_START	0
 #endif
 
 #endif /* _LINUX_CPUIDLE_H */

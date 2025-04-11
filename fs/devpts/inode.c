@@ -220,10 +220,10 @@ static void update_ptmx_mode(struct pts_fs_info *fsi)
 	}
 }
 #else
-static inline void update_ptmx_mode(struct pts_fs_info *fsi)
+/*static inline void update_ptmx_mode(struct pts_fs_info *fsi)
 {
        return;
-}
+}*/
 #endif
 
 static int devpts_remount(struct super_block *sb, int *flags, char *data)

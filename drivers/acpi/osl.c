@@ -62,17 +62,17 @@ struct acpi_os_dpc {
 };
 
 #ifdef CONFIG_ACPI_CUSTOM_DSDT
-#include CONFIG_ACPI_CUSTOM_DSDT_FILE
+//#include CONFIG_ACPI_CUSTOM_DSDT_FILE
 #endif
 
 #ifdef ENABLE_DEBUGGER
-#include <linux/kdb.h>
+/*#include <linux/kdb.h>
 
-/* stuff for debugger support */
+* stuff for debugger support *
 int acpi_in_debugger;
 EXPORT_SYMBOL(acpi_in_debugger);
 
-extern char line_buf[80];
+extern char line_buf[80];*/
 #endif				/*ENABLE_DEBUGGER */
 
 static unsigned int acpi_irq_irq;
@@ -256,11 +256,11 @@ void acpi_os_vprintf(const char *fmt, va_list args)
 	vsprintf(buffer, fmt, args);
 
 #ifdef ENABLE_DEBUGGER
-	if (acpi_in_debugger) {
+	/*if (acpi_in_debugger) {
 		kdb_printf("%s", buffer);
 	} else {
 		printk(KERN_CONT "%s", buffer);
-	}
+	}*/
 #else
 	printk(KERN_CONT "%s", buffer);
 #endif
@@ -319,7 +319,7 @@ void __init early_acpi_os_unmap_memory(void __iomem *virt, acpi_size size)
 }
 
 #ifdef ACPI_FUTURE_USAGE
-acpi_status
+/*acpi_status
 acpi_os_get_physical_address(void *virt, acpi_physical_address * phys)
 {
 	if (!phys || !virt)
@@ -328,7 +328,7 @@ acpi_os_get_physical_address(void *virt, acpi_physical_address * phys)
 	*phys = virt_to_phys(virt);
 
 	return AE_OK;
-}
+}*/
 #endif
 
 #define ACPI_MAX_OVERRIDE_LEN 100
@@ -362,8 +362,8 @@ acpi_os_table_override(struct acpi_table_header * existing_table,
 	*new_table = NULL;
 
 #ifdef CONFIG_ACPI_CUSTOM_DSDT
-	if (strncmp(existing_table->signature, "DSDT", 4) == 0)
-		*new_table = (struct acpi_table_header *)AmlCode;
+	/*if (strncmp(existing_table->signature, "DSDT", 4) == 0)
+		*new_table = (struct acpi_table_header *)AmlCode;*/
 #endif
 	if (*new_table != NULL) {
 		printk(KERN_WARNING PREFIX "Override [%4.4s-%8.8s], "
@@ -916,7 +916,7 @@ acpi_status acpi_os_signal_semaphore(acpi_handle handle, u32 units)
 }
 
 #ifdef ACPI_FUTURE_USAGE
-u32 acpi_os_get_line(char *buffer)
+/*u32 acpi_os_get_line(char *buffer)
 {
 
 #ifdef ENABLE_DEBUGGER
@@ -925,14 +925,14 @@ u32 acpi_os_get_line(char *buffer)
 
 		kdb_read(buffer, sizeof(line_buf));
 
-		/* remove the CR kdb includes */
+		* remove the CR kdb includes *
 		chars = strlen(buffer) - 1;
 		buffer[chars] = '\0';
 	}
 #endif
 
 	return 0;
-}
+}*/
 #endif				/*  ACPI_FUTURE_USAGE  */
 
 acpi_status acpi_os_signal(u32 function, void *info)

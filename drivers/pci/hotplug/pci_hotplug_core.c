@@ -91,8 +91,8 @@ static char *pci_bus_speed_strings[] = {
 };
 
 #ifdef CONFIG_HOTPLUG_PCI_CPCI
-extern int cpci_hotplug_init(int debug);
-extern void cpci_hotplug_exit(void);
+/*extern int cpci_hotplug_init(int debug);
+extern void cpci_hotplug_exit(void);*/
 #else
 static inline int cpci_hotplug_init(int debug) { return 0; }
 static inline void cpci_hotplug_exit(void) { }

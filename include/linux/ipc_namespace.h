@@ -65,7 +65,7 @@ extern spinlock_t mq_lock;
 #if defined(CONFIG_POSIX_MQUEUE) || defined(CONFIG_SYSVIPC)
 #define INIT_IPC_NS(ns)		.ns		= &init_ipc_ns,
 #else
-#define INIT_IPC_NS(ns)
+//#define INIT_IPC_NS(ns)
 #endif
 
 #ifdef CONFIG_SYSVIPC
@@ -74,12 +74,12 @@ extern int cond_register_ipcns_notifier(struct ipc_namespace *);
 extern void unregister_ipcns_notifier(struct ipc_namespace *);
 extern int ipcns_notify(unsigned long);
 #else /* CONFIG_SYSVIPC */
-static inline int register_ipcns_notifier(struct ipc_namespace *ns)
+/*static inline int register_ipcns_notifier(struct ipc_namespace *ns)
 { return 0; }
 static inline int cond_register_ipcns_notifier(struct ipc_namespace *ns)
 { return 0; }
 static inline void unregister_ipcns_notifier(struct ipc_namespace *ns) { }
-static inline int ipcns_notify(unsigned long l) { return 0; }
+static inline int ipcns_notify(unsigned long l) { return 0; }*/
 #endif /* CONFIG_SYSVIPC */
 
 #ifdef CONFIG_POSIX_MQUEUE
@@ -90,7 +90,7 @@ extern int mq_init_ns(struct ipc_namespace *ns);
 #define HARD_MSGMAX    (131072/sizeof(void *))
 #define DFLT_MSGSIZEMAX 8192   /* max message size */
 #else
-static inline int mq_init_ns(struct ipc_namespace *ns) { return 0; }
+//static inline int mq_init_ns(struct ipc_namespace *ns) { return 0; }
 #endif
 
 #if defined(CONFIG_IPC_NS)
@@ -105,7 +105,7 @@ static inline struct ipc_namespace *get_ipc_ns(struct ipc_namespace *ns)
 
 extern void put_ipc_ns(struct ipc_namespace *ns);
 #else
-static inline struct ipc_namespace *copy_ipcs(unsigned long flags,
+/*static inline struct ipc_namespace *copy_ipcs(unsigned long flags,
 		struct ipc_namespace *ns)
 {
 	if (flags & CLONE_NEWIPC)
@@ -121,7 +121,7 @@ static inline struct ipc_namespace *get_ipc_ns(struct ipc_namespace *ns)
 
 static inline void put_ipc_ns(struct ipc_namespace *ns)
 {
-}
+}*/
 #endif
 
 #ifdef CONFIG_POSIX_MQUEUE_SYSCTL
@@ -130,11 +130,11 @@ struct ctl_table_header;
 extern struct ctl_table_header *mq_register_sysctl_table(void);
 
 #else /* CONFIG_POSIX_MQUEUE_SYSCTL */
-
+/*
 static inline struct ctl_table_header *mq_register_sysctl_table(void)
 {
 	return NULL;
 }
-
+*/
 #endif /* CONFIG_POSIX_MQUEUE_SYSCTL */
 #endif

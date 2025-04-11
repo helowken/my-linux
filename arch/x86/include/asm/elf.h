@@ -17,7 +17,7 @@ typedef elf_greg_t elf_gregset_t[ELF_NGREG];
 typedef struct user_i387_struct elf_fpregset_t;
 
 #ifdef __i386__
-
+/*
 typedef struct user_fxsr_struct elf_fpxregset_t;
 
 #define R_386_NONE	0
@@ -33,13 +33,13 @@ typedef struct user_fxsr_struct elf_fpxregset_t;
 #define R_386_GOTPC	10
 #define R_386_NUM	11
 
-/*
+*
  * These are used to set parameters in the core dumps.
- */
+ *
 #define ELF_CLASS	ELFCLASS32
 #define ELF_DATA	ELFDATA2LSB
 #define ELF_ARCH	EM_386
-
+*/
 #else
 
 /* x86-64 relocation types */
@@ -86,11 +86,11 @@ extern unsigned int vdso_enabled;
 #include <asm/system.h>
 
 #ifdef CONFIG_X86_32
-#include <asm/desc.h>
+/*#include <asm/desc.h>
 
 #define elf_check_arch(x)	elf_check_arch_ia32(x)
 
-/* SVR4/i386 ABI (pages 3-31, 3-32) says that when the program starts %edx
+* SVR4/i386 ABI (pages 3-31, 3-32) says that when the program starts %edx
    contains a pointer to a function which might be registered using `atexit'.
    This provides a mean for the dynamic linker to call DT_FINI functions for
    shared libraries that have been loaded before the code runs.
@@ -99,7 +99,7 @@ extern unsigned int vdso_enabled;
 
    We might as well make sure everything else is cleared too (except for %esp),
    just to make things more deterministic.
- */
+ *
 #define ELF_PLAT_INIT(_r, load_addr)		\
 	do {					\
 	_r->bx = 0; _r->cx = 0; _r->dx = 0;	\
@@ -107,10 +107,10 @@ extern unsigned int vdso_enabled;
 	_r->ax = 0;				\
 } while (0)
 
-/*
+*
  * regs is struct pt_regs, pr_reg is elf_gregset_t (which is
  * now struct_user_regs, they are different)
- */
+ *
 
 #define ELF_CORE_COPY_REGS_COMMON(pr_reg, regs)	\
 do {						\
@@ -146,7 +146,7 @@ do {						\
 
 #define ELF_PLATFORM	(utsname()->machine)
 #define set_personality_64bit()	do { } while (0)
-
+*/
 #else /* CONFIG_X86_32 */
 
 /*
@@ -292,13 +292,13 @@ do {									\
 } while (0)
 
 #ifdef CONFIG_X86_32
-
+/*
 #define STACK_RND_MASK (0x7ff)
 
 #define VDSO_HIGH_BASE		(__fix_to_virt(FIX_VDSO))
 
 #define ARCH_DLINFO		ARCH_DLINFO_IA32(vdso_enabled)
-
+*/
 /* update AT_VECTOR_SIZE_ARCH if the number of NEW_AUX_ENT entries changes */
 
 #else /* CONFIG_X86_32 */

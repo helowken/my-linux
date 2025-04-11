@@ -83,7 +83,7 @@ MODULE_LICENSE("GPL");
 static int acpi_processor_add(struct acpi_device *device);
 static int acpi_processor_remove(struct acpi_device *device, int type);
 #ifdef CONFIG_ACPI_PROCFS
-static int acpi_processor_info_open_fs(struct inode *inode, struct file *file);
+//static int acpi_processor_info_open_fs(struct inode *inode, struct file *file);
 #endif
 static void acpi_processor_notify(struct acpi_device *device, u32 event);
 static acpi_status acpi_processor_hotadd_init(acpi_handle handle, int *p_cpu);
@@ -113,13 +113,13 @@ static struct acpi_driver acpi_processor_driver = {
 #define INSTALL_NOTIFY_HANDLER		1
 #define UNINSTALL_NOTIFY_HANDLER	2
 #ifdef CONFIG_ACPI_PROCFS
-static const struct file_operations acpi_processor_info_fops = {
+/*static const struct file_operations acpi_processor_info_fops = {
 	.owner = THIS_MODULE,
 	.open = acpi_processor_info_open_fs,
 	.read = seq_read,
 	.llseek = seq_lseek,
 	.release = single_release,
-};
+};*/
 #endif
 
 DEFINE_PER_CPU(struct acpi_processor *, processors);
@@ -314,7 +314,7 @@ static int acpi_processor_set_pdc(struct acpi_processor *pr)
    -------------------------------------------------------------------------- */
 
 #ifdef CONFIG_ACPI_PROCFS
-static struct proc_dir_entry *acpi_processor_dir = NULL;
+/*static struct proc_dir_entry *acpi_processor_dir = NULL;
 
 static int acpi_processor_info_seq_show(struct seq_file *seq, void *offset)
 {
@@ -359,7 +359,7 @@ static int acpi_processor_add_fs(struct acpi_device *device)
 			return -ENODEV;
 	}
 
-	/* 'info' [R] */
+	* 'info' [R] *
 	entry = proc_create_data(ACPI_PROCESSOR_FILE_INFO,
 				 S_IRUGO, acpi_device_dir(device),
 				 &acpi_processor_info_fops,
@@ -367,7 +367,7 @@ static int acpi_processor_add_fs(struct acpi_device *device)
 	if (!entry)
 		return -EIO;
 
-	/* 'throttling' [R/W] */
+	* 'throttling' [R/W] *
 	entry = proc_create_data(ACPI_PROCESSOR_FILE_THROTTLING,
 				 S_IFREG | S_IRUGO | S_IWUSR,
 				 acpi_device_dir(device),
@@ -376,7 +376,7 @@ static int acpi_processor_add_fs(struct acpi_device *device)
 	if (!entry)
 		return -EIO;
 
-	/* 'limit' [R/W] */
+	* 'limit' [R/W] *
 	entry = proc_create_data(ACPI_PROCESSOR_FILE_LIMIT,
 				 S_IFREG | S_IRUGO | S_IWUSR,
 				 acpi_device_dir(device),
@@ -401,7 +401,7 @@ static int acpi_processor_remove_fs(struct acpi_device *device)
 	}
 
 	return 0;
-}
+}*/
 #else
 static inline int acpi_processor_add_fs(struct acpi_device *device)
 {
@@ -416,7 +416,7 @@ static inline int acpi_processor_remove_fs(struct acpi_device *device)
 /* Use the acpiid in MADT to map cpus in case of SMP */
 
 #ifndef CONFIG_SMP
-static int get_cpu_id(acpi_handle handle, int type, u32 acpi_id) { return -1; }
+//static int get_cpu_id(acpi_handle handle, int type, u32 acpi_id) { return -1; }
 #else
 
 static struct acpi_table_madt *madt;
@@ -1078,14 +1078,14 @@ static int acpi_processor_handle_eject(struct acpi_processor *pr)
 	return (0);
 }
 #else
-static acpi_status acpi_processor_hotadd_init(acpi_handle handle, int *p_cpu)
+/*static acpi_status acpi_processor_hotadd_init(acpi_handle handle, int *p_cpu)
 {
 	return AE_ERROR;
 }
 static int acpi_processor_handle_eject(struct acpi_processor *pr)
 {
 	return (-EINVAL);
-}
+}*/
 #endif
 
 static
@@ -1135,9 +1135,9 @@ static int __init acpi_processor_init(void)
 		madt = NULL;
 #endif
 #ifdef CONFIG_ACPI_PROCFS
-	acpi_processor_dir = proc_mkdir(ACPI_PROCESSOR_CLASS, acpi_root_dir);
+	/*acpi_processor_dir = proc_mkdir(ACPI_PROCESSOR_CLASS, acpi_root_dir);
 	if (!acpi_processor_dir)
-		return -ENOMEM;
+		return -ENOMEM;*/
 #endif
 	/*
 	 * Check whether the system is DMI table. If yes, OSPM
@@ -1167,7 +1167,7 @@ out_cpuidle:
 
 out_proc:
 #ifdef CONFIG_ACPI_PROCFS
-	remove_proc_entry(ACPI_PROCESSOR_CLASS, acpi_root_dir);
+	//remove_proc_entry(ACPI_PROCESSOR_CLASS, acpi_root_dir);
 #endif
 
 	return result;
@@ -1189,7 +1189,7 @@ static void __exit acpi_processor_exit(void)
 	cpuidle_unregister_driver(&acpi_idle_driver);
 
 #ifdef CONFIG_ACPI_PROCFS
-	remove_proc_entry(ACPI_PROCESSOR_CLASS, acpi_root_dir);
+	//remove_proc_entry(ACPI_PROCESSOR_CLASS, acpi_root_dir);
 #endif
 
 	return;

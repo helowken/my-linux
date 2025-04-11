@@ -264,7 +264,7 @@ done:
 
 /* Traditional BSD devices */
 #ifdef CONFIG_LEGACY_PTYS
-
+/*
 static int pty_install(struct tty_driver *driver, struct tty_struct *tty)
 {
 	struct tty_struct *o_tty;
@@ -275,14 +275,14 @@ static int pty_install(struct tty_driver *driver, struct tty_struct *tty)
 	if (!o_tty)
 		return -ENOMEM;
 	if (!try_module_get(driver->other->owner)) {
-		/* This cannot in fact currently happen */
+		* This cannot in fact currently happen *
 		free_tty_struct(o_tty);
 		return -ENOMEM;
 	}
 	initialize_tty_struct(o_tty, driver->other, idx);
 
-	/* We always use new tty termios data so we can do this
-	   the easy way .. */
+	* We always use new tty termios data so we can do this
+	   the easy way .. *
 	retval = tty_init_termios(tty);
 	if (retval)
 		goto free_mem_out;
@@ -293,14 +293,14 @@ static int pty_install(struct tty_driver *driver, struct tty_struct *tty)
 		goto free_mem_out;
 	}
 
-	/*
+	*
 	 * Everything allocated ... set up the o_tty structure.
-	 */
+	 *
 	driver->other->ttys[idx] = o_tty;
 	tty_driver_kref_get(driver->other);
 	if (driver->subtype == PTY_TYPE_MASTER)
 		o_tty->count++;
-	/* Establish the links in both directions */
+	* Establish the links in both directions *
 	tty->link   = o_tty;
 	o_tty->link = tty;
 
@@ -318,7 +318,7 @@ static int pty_bsd_ioctl(struct tty_struct *tty, struct file *file,
 			 unsigned int cmd, unsigned long arg)
 {
 	switch (cmd) {
-	case TIOCSPTLCK: /* Set PT Lock (disallow slave open) */
+	case TIOCSPTLCK: * Set PT Lock (disallow slave open) *
 		return pty_set_lock(tty, (int __user *) arg);
 	}
 	return -ENOIOCTLCMD;
@@ -327,10 +327,10 @@ static int pty_bsd_ioctl(struct tty_struct *tty, struct file *file,
 static int legacy_count = CONFIG_LEGACY_PTY_COUNT;
 module_param(legacy_count, int, 0);
 
-/*
+*
  * The master side of a pty can do TIOCSPTLCK and thus
  * has pty_bsd_ioctl.
- */
+ *
 static const struct tty_operations master_pty_ops_bsd = {
 	.install = pty_install,
 	.open = pty_open,
@@ -411,7 +411,7 @@ static void __init legacy_pty_init(void)
 		panic("Couldn't register pty driver");
 	if (tty_register_driver(pty_slave_driver))
 		panic("Couldn't register pty slave driver");
-}
+}*/
 #else
 static inline void legacy_pty_init(void) { }
 #endif
@@ -747,7 +747,7 @@ static void __init unix98_pty_init(void)
 }
 
 #else
-static inline void unix98_pty_init(void) { }
+//static inline void unix98_pty_init(void) { }
 #endif
 
 static int __init pty_init(void)

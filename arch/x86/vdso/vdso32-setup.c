@@ -33,7 +33,7 @@ enum {
 };
 
 #ifdef CONFIG_COMPAT_VDSO
-#define VDSO_DEFAULT	VDSO_COMPAT
+//#define VDSO_DEFAULT	VDSO_COMPAT
 #else
 #define VDSO_DEFAULT	VDSO_ENABLED
 #endif
@@ -71,9 +71,9 @@ static int __init vdso_setup(char *s)
 __setup("vdso32=", vdso_setup);
 
 #ifdef CONFIG_X86_32
-__setup_param("vdso=", vdso32_setup, vdso_setup, 0);
+/*__setup_param("vdso=", vdso32_setup, vdso_setup, 0);
 
-EXPORT_SYMBOL_GPL(vdso_enabled);
+EXPORT_SYMBOL_GPL(vdso_enabled);*/
 #endif
 
 static __init void reloc_symtab(Elf32_Ehdr *ehdr,
@@ -219,7 +219,7 @@ static inline void map_compat_vdso(int map)
 }
 
 #else  /* CONFIG_X86_32 */
-
+/*
 #define vdso32_sysenter()	(boot_cpu_has(X86_FEATURE_SEP))
 #define vdso32_syscall()	(0)
 
@@ -250,12 +250,12 @@ static int __init gate_vma_init(void)
 	gate_vma.vm_end = FIXADDR_USER_END;
 	gate_vma.vm_flags = VM_READ | VM_MAYREAD | VM_EXEC | VM_MAYEXEC;
 	gate_vma.vm_page_prot = __P101;
-	/*
+	*
 	 * Make sure the vDSO gets into every core dump.
 	 * Dumping its contents makes post-mortem fully interpretable later
 	 * without matching up the same kernel and hardware config to see
 	 * what PC values meant.
-	 */
+	 *
 	gate_vma.vm_flags |= VM_ALWAYSDUMP;
 	return 0;
 }
@@ -274,10 +274,10 @@ static void map_compat_vdso(int map)
 	__set_fixmap(FIX_VDSO, page_to_pfn(vdso32_pages[0]) << PAGE_SHIFT,
 		     map ? PAGE_READONLY_EXEC : PAGE_NONE);
 
-	/* flush stray tlbs */
+	* flush stray tlbs *
 	flush_tlb_all();
 }
-
+*/
 #endif	/* CONFIG_X86_64 */
 
 int __init sysenter_setup(void)
@@ -289,7 +289,7 @@ int __init sysenter_setup(void)
 	vdso32_pages[0] = virt_to_page(syscall_page);
 
 #ifdef CONFIG_X86_32
-	gate_vma_init();
+	//gate_vma_init();
 #endif
 
 	if (vdso32_syscall()) {
@@ -410,7 +410,7 @@ __initcall(ia32_binfmt_init);
 #endif
 
 #else  /* CONFIG_X86_32 */
-
+/*
 const char *arch_vma_name(struct vm_area_struct *vma)
 {
 	if (vma->vm_mm && vma->vm_start == (long)vma->vm_mm->context.vdso)
@@ -422,7 +422,7 @@ struct vm_area_struct *get_gate_vma(struct task_struct *tsk)
 {
 	struct mm_struct *mm = tsk->mm;
 
-	/* Check to see if this task was created in compat vdso mode */
+	* Check to see if this task was created in compat vdso mode *
 	if (mm && mm->context.vdso == (void *)VDSO_HIGH_BASE)
 		return &gate_vma;
 	return NULL;
@@ -439,5 +439,5 @@ int in_gate_area_no_task(unsigned long addr)
 {
 	return 0;
 }
-
+*/
 #endif	/* CONFIG_X86_64 */

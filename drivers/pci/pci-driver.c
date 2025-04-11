@@ -215,7 +215,7 @@ static void pci_remove_removeid_file(struct pci_driver *drv)
 	driver_remove_file(&drv->driver, &driver_attr_remove_id);
 }
 #else /* !CONFIG_HOTPLUG */
-static inline int pci_create_newid_file(struct pci_driver *drv)
+/*static inline int pci_create_newid_file(struct pci_driver *drv)
 {
 	return 0;
 }
@@ -224,7 +224,7 @@ static inline int pci_create_removeid_file(struct pci_driver *drv)
 {
 	return 0;
 }
-static inline void pci_remove_removeid_file(struct pci_driver *drv) {}
+static inline void pci_remove_removeid_file(struct pci_driver *drv) {}*/
 #endif
 
 /**
@@ -721,16 +721,16 @@ static int pci_pm_resume(struct device *dev)
 }
 
 #else /* !CONFIG_SUSPEND */
-
+/*
 #define pci_pm_suspend		NULL
 #define pci_pm_suspend_noirq	NULL
 #define pci_pm_resume		NULL
 #define pci_pm_resume_noirq	NULL
-
+*/
 #endif /* !CONFIG_SUSPEND */
 
 #ifdef CONFIG_HIBERNATION
-
+/*
 static int pci_pm_freeze(struct device *dev)
 {
 	struct pci_dev *pci_dev = to_pci_dev(dev);
@@ -896,10 +896,10 @@ static int pci_pm_restore(struct device *dev)
 	const struct dev_pm_ops *pm = dev->driver ? dev->driver->pm : NULL;
 	int error = 0;
 
-	/*
+	*
 	 * This is necessary for the hibernation error path in which restore is
 	 * called without restoring the standard config registers of the device.
-	 */
+	 *
 	if (pci_dev->state_saved)
 		pci_restore_standard_config(pci_dev);
 
@@ -917,7 +917,7 @@ static int pci_pm_restore(struct device *dev)
 
 	return error;
 }
-
+*/
 #else /* !CONFIG_HIBERNATION */
 
 #define pci_pm_freeze		NULL
@@ -952,7 +952,7 @@ const struct dev_pm_ops pci_dev_pm_ops = {
 
 #else /* !CONFIG_PM_SLEEP */
 
-#define PCI_PM_OPS_PTR	NULL
+//#define PCI_PM_OPS_PTR	NULL
 
 #endif /* !CONFIG_PM_SLEEP */
 
@@ -1102,10 +1102,10 @@ void pci_dev_put(struct pci_dev *dev)
 }
 
 #ifndef CONFIG_HOTPLUG
-int pci_uevent(struct device *dev, struct kobj_uevent_env *env)
+/*int pci_uevent(struct device *dev, struct kobj_uevent_env *env)
 {
 	return -ENODEV;
-}
+}*/
 #endif
 
 struct bus_type pci_bus_type = {

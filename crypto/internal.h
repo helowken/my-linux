@@ -54,10 +54,10 @@ extern struct blocking_notifier_head crypto_chain;
 void __init crypto_init_proc(void);
 void __exit crypto_exit_proc(void);
 #else
-static inline void crypto_init_proc(void)
+/*static inline void crypto_init_proc(void)
 { }
 static inline void crypto_exit_proc(void)
-{ }
+{ }*/
 #endif
 
 static inline unsigned int crypto_cipher_ctxsize(struct crypto_alg *alg)

@@ -76,7 +76,7 @@ int con_copy_unimap(struct vc_data *dst_vc, struct vc_data *src_vc);
 #define vc_translate(vc, c) ((vc)->vc_translate[(c) |			\
 					((vc)->vc_toggle_meta ? 0x80 : 0)])
 #else
-#define con_set_trans_old(arg) (0)
+/*#define con_set_trans_old(arg) (0)
 #define con_get_trans_old(arg) (-EINVAL)
 #define con_set_trans_new(arg) (0)
 #define con_get_trans_new(arg) (-EINVAL)
@@ -88,7 +88,7 @@ int con_copy_unimap(struct vc_data *dst_vc, struct vc_data *src_vc);
 #define con_free_unimap(vc) do { ; } while (0)
 #define con_protect_unimap(vc, rdonly) do { ; } while (0)
 
-#define vc_translate(vc, c) (c)
+#define vc_translate(vc, c) (c)*/
 #endif
 
 /* vt.c */

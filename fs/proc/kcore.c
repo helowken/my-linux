@@ -135,7 +135,7 @@ static void __kcore_update_ram(struct list_head *list)
  * because memory hole is not as big as !HIGHMEM case.
  * (HIGHMEM is special because part of memory is _invisible_ from the kernel.)
  */
-static int kcore_update_ram(void)
+/*static int kcore_update_ram(void)
 {
 	LIST_HEAD(head);
 	struct kcore_list *ent;
@@ -151,7 +151,7 @@ static int kcore_update_ram(void)
 	__kcore_update_ram(&head);
 	return ret;
 }
-
+*/
 #else /* !CONFIG_HIGHMEM */
 
 #ifdef CONFIG_SPARSEMEM_VMEMMAP
@@ -188,11 +188,11 @@ int get_sparsemem_vmemmap_info(struct kcore_list *ent, struct list_head *head)
 
 }
 #else
-int get_sparsemem_vmemmap_info(struct kcore_list *ent, struct list_head *head)
+/*int get_sparsemem_vmemmap_info(struct kcore_list *ent, struct list_head *head)
 {
 	return 1;
 }
-
+*/
 #endif
 
 static int
@@ -589,9 +589,9 @@ static void __init proc_kcore_text_init(void)
 	kclist_add(&kcore_text, _stext, _end - _stext, KCORE_TEXT);
 }
 #else
-static void __init proc_kcore_text_init(void)
+/*static void __init proc_kcore_text_init(void)
 {
-}
+}*/
 #endif
 
 #if defined(CONFIG_MODULES) && defined(MODULES_VADDR)

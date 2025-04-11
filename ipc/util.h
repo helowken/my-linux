@@ -25,8 +25,8 @@ struct ipc_namespace;
 extern void mq_clear_sbinfo(struct ipc_namespace *ns);
 extern void mq_put_mnt(struct ipc_namespace *ns);
 #else
-static inline void mq_clear_sbinfo(struct ipc_namespace *ns) { }
-static inline void mq_put_mnt(struct ipc_namespace *ns) { }
+//static inline void mq_clear_sbinfo(struct ipc_namespace *ns) { }
+//static inline void mq_put_mnt(struct ipc_namespace *ns) { }
 #endif
 
 #ifdef CONFIG_SYSVIPC
@@ -38,13 +38,13 @@ void sem_exit_ns(struct ipc_namespace *ns);
 void msg_exit_ns(struct ipc_namespace *ns);
 void shm_exit_ns(struct ipc_namespace *ns);
 #else
-static inline void sem_init_ns(struct ipc_namespace *ns) { }
+/*static inline void sem_init_ns(struct ipc_namespace *ns) { }
 static inline void msg_init_ns(struct ipc_namespace *ns) { }
 static inline void shm_init_ns(struct ipc_namespace *ns) { }
 
 static inline void sem_exit_ns(struct ipc_namespace *ns) { }
 static inline void msg_exit_ns(struct ipc_namespace *ns) { }
-static inline void shm_exit_ns(struct ipc_namespace *ns) { }
+static inline void shm_exit_ns(struct ipc_namespace *ns) { }*/
 #endif
 
 /*
@@ -84,7 +84,7 @@ void ipc_init_ids(struct ipc_ids *);
 void __init ipc_init_proc_interface(const char *path, const char *header,
 		int ids, int (*show)(struct seq_file *, void *));
 #else
-#define ipc_init_proc_interface(path, header, ids, show) do {} while (0)
+//#define ipc_init_proc_interface(path, header, ids, show) do {} while (0)
 #endif
 
 #define IPC_SEM_IDS	0
