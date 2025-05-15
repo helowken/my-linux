@@ -133,10 +133,10 @@ static inline int page_cache_get_speculative(struct page *page)
 	VM_BUG_ON(in_interrupt());
 
 #if !defined(CONFIG_SMP) && defined(CONFIG_TREE_RCU)
-# ifdef CONFIG_PREEMPT
+/*# ifdef CONFIG_PREEMPT
 	VM_BUG_ON(!in_atomic());
 # endif
-	/*
+	*
 	 * Preempt must be disabled here - we rely on rcu_read_lock doing
 	 * this for us.
 	 *
@@ -144,10 +144,10 @@ static inline int page_cache_get_speculative(struct page *page)
 	 * found a page in the radix tree here, we have pinned its refcount by
 	 * disabling preempt, and hence no need for the "speculative get" that
 	 * SMP requires.
-	 */
+	 *
 	VM_BUG_ON(page_count(page) == 0);
 	atomic_inc(&page->_count);
-
+*/
 #else
 	if (unlikely(!get_page_unless_zero(page))) {
 		/*
@@ -171,12 +171,12 @@ static inline int page_cache_add_speculative(struct page *page, int count)
 	VM_BUG_ON(in_interrupt());
 
 #if !defined(CONFIG_SMP) && defined(CONFIG_TREE_RCU)
-# ifdef CONFIG_PREEMPT
+/*# ifdef CONFIG_PREEMPT
 	VM_BUG_ON(!in_atomic());
 # endif
 	VM_BUG_ON(page_count(page) == 0);
 	atomic_add(count, &page->_count);
-
+*/
 #else
 	if (unlikely(!atomic_add_unless(&page->_count, count, 0)))
 		return 0;
@@ -202,10 +202,10 @@ static inline void page_unfreeze_refs(struct page *page, int count)
 #ifdef CONFIG_NUMA
 extern struct page *__page_cache_alloc(gfp_t gfp);
 #else
-static inline struct page *__page_cache_alloc(gfp_t gfp)
+/*static inline struct page *__page_cache_alloc(gfp_t gfp)
 {
 	return alloc_pages(gfp, 0);
-}
+}*/
 #endif
 
 static inline struct page *page_cache_alloc(struct address_space *x)

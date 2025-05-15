@@ -36,10 +36,10 @@ struct mm_struct;
  * codes.
  * (Of course, if memcg does memory allocation in future, GFP_KERNEL is sane.)
  */
-
+/*
 extern int mem_cgroup_newpage_charge(struct page *page, struct mm_struct *mm,
 				gfp_t gfp_mask);
-/* for swap handling */
+* for swap handling *
 extern int mem_cgroup_try_charge_swapin(struct mm_struct *mm,
 		struct page *page, gfp_t mask, struct mem_cgroup **ptr);
 extern void mem_cgroup_commit_charge_swapin(struct page *page,
@@ -85,9 +85,9 @@ mem_cgroup_prepare_migration(struct page *page, struct mem_cgroup **ptr);
 extern void mem_cgroup_end_migration(struct mem_cgroup *mem,
 	struct page *oldpage, struct page *newpage);
 
-/*
+*
  * For memory reclaim.
- */
+ *
 extern int mem_cgroup_get_reclaim_priority(struct mem_cgroup *mem);
 extern void mem_cgroup_note_reclaim_priority(struct mem_cgroup *mem,
 							int priority);
@@ -120,7 +120,7 @@ extern bool mem_cgroup_oom_called(struct task_struct *task);
 void mem_cgroup_update_mapped_file_stat(struct page *page, int val);
 unsigned long mem_cgroup_soft_limit_reclaim(struct zone *zone, int order,
 						gfp_t gfp_mask, int nid,
-						int zid);
+						int zid);*/
 #else /* CONFIG_CGROUP_MEM_RES_CTLR */
 struct mem_cgroup;
 

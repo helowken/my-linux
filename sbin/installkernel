@@ -81,7 +81,8 @@ ln -fs ${RELATIVE_PATH}$INSTALL_PATH/System.map-$KERNEL_VERSION $LINK_PATH/Syste
 pkg_dir=$(pwd)/sbin
 
 if [ -n "$cfgLoader" -a -x $pkg_dir/new-kernel-pkg ]; then
-	if [ -x /sbin/dracut ]; then
+	#if [ -x /sbin/dracut ]; then
+	if [ -x $(pwd)/sbin/dracut ]; then
 		$pkg_dir/new-kernel-pkg --mkinitrd --dracut --host-only --depmod --install $KERNEL_VERSION
 	else
 		$pkg_dir/new-kernel-pkg --mkinitrd --depmod --install $KERNEL_VERSION

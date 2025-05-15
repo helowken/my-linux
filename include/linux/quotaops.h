@@ -275,7 +275,7 @@ static inline int vfs_dq_off(struct super_block *sb, int remount)
 }
 
 #else
-
+/*
 static inline int sb_has_quota_usage_enabled(struct super_block *sb, int type)
 {
 	return 0;
@@ -296,7 +296,7 @@ static inline int sb_any_quota_suspended(struct super_block *sb)
 	return 0;
 }
 
-/* Does kernel know about any quota information for given sb + type? */
+* Does kernel know about any quota information for given sb + type? *
 static inline int sb_has_quota_loaded(struct super_block *sb, int type)
 {
 	return 0;
@@ -317,9 +317,9 @@ static inline int sb_any_quota_active(struct super_block *sb)
 	return 0;
 }
 
-/*
+*
  * NO-OP when quota not configured.
- */
+ *
 #define sb_dquot_ops				(NULL)
 #define sb_quotactl_ops				(NULL)
 
@@ -415,7 +415,7 @@ static inline void vfs_dq_free_space(struct inode *inode, qsize_t nr)
 	vfs_dq_free_space_nodirty(inode, nr);
 	mark_inode_dirty(inode);
 }	
-
+*/
 #endif /* CONFIG_QUOTA */
 
 static inline int vfs_dq_prealloc_block_nodirty(struct inode *inode, qsize_t nr)
